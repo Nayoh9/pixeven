@@ -5,31 +5,26 @@
 
     // **Dotenv config**
 
-    // Chemin vers le fichier .env
     $dotenvPath = __DIR__ . '/../../.env';
-
-    // Charger les variables d'environnement depuis le fichier .env
     $dotenv = Dotenv\Dotenv::createImmutable(dirname($dotenvPath));
     $loaded = $dotenv->load();
 
-    // var_dump($loaded);
-
-    $cloudinary_api_key = getenv('CLOUDINARY_API_KEY');
-    $cloudinary_api_secret = getenv('CLOUDINARY_API_SECRET');
-    $cloudinary_cloud_name = getenv('CLOUDINARY_CLOUD_NAME');
-
-    var_dump(getenv('CLOUDINARY_API_KEY'));
-    die();
-
+    $cloudinary_api_key = $_ENV['CLOUDINARY_API_KEY'];
+    $cloudinary_api_secret = $_ENV['CLOUDINARY_API_SECRET'];
+    $cloudinary_cloud_name = $_ENV['CLOUDINARY_CLOUD_NAME'];
 
     // **Dotenv config**
 
 
     // **DB connexion** //
 
-    $user = 'root';
-    $pass = 'y';
-    $host = "localhost";
+    $db_user = $_ENV["DB_USER"];
+    $db_pass = $_ENV["DB_PASS"];
+    $db_host = $_ENV["DB_HOST"];
+
+    $user = $db_user;
+    $pass = $db_pass;
+    $host = $db_host;
     try {
         $db = new PDO("mysql:host=$host;dbname=pixeven", $user, $pass);
     } catch (PDOException $e) {
@@ -44,6 +39,6 @@
     // Use the Configuration class 
     use Cloudinary\Configuration\Configuration;
     // Configure an instance of your Cloudinary cloud
-    Configuration::instance('cloudinary://397588225888239:e_Y8joQRZWZVUiV3sXNiaLQZ_Pw@dwkwlok28?secure=true');
+    Configuration::instance("cloudinary://$cloudinary_api_key:" . "$cloudinary_api_secret@" . "$cloudinary_cloud_name" . "?secure=true");
 
     // **Cloudinary config**

@@ -25,22 +25,19 @@
             'folder' => "pixeven/project_img"
         ];
 
-
         $result = $upload->upload($tmpFilePath, $options);
-
-        var_dump($result);
-        die();
 
         echo "<pre/>";
         echo (json_encode($result, JSON_PRETTY_PRINT));
         echo "<pre/>";
     } catch (\Throwable $e) {
-        var_dump($e);
-        die();
-        header("location: create_project.php?error=$error");
+        $error = "image_format_not_allowed";
     }
 
-
-
+    if (!empty($error)) {
+        header("location: create_project.php?error=$error");
+    } else {
+        header("location: index.php");
+    }
 
     ?>

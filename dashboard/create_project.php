@@ -9,7 +9,6 @@
         var_dump($error_db);
         die();
     }
-
     ?>
 
     <div class="row d-flex justify-content-center">

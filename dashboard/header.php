@@ -18,3 +18,16 @@
             <header class="row">
                 <h1 class="col-md-12 text-center"><?= $page_title ?></h1>
             </header>
+
+            <?php
+            if (!empty($_GET["error"])) {
+                $error = htmlspecialchars(parse_error($_GET["error"]));
+            ?>
+                <div class="col-md-12 text-center d-flex justify-content-center mt-2">
+                    <div class="col-md-4 alert alert-danger">
+                        <p class="m-0"><?php echo $error; ?></p>
+                    </div>
+                </div>
+
+
+            <?php } ?>
