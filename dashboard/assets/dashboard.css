@@ -1,3 +1,24 @@
+/* CSS VARS  */
+
+/* CSS VARS  */
+
 header {
-  margin-bottom: 100px;
+  margin-bottom: 30px;
 }
+
+/* CREATE_PROJECT */
+.categories_list {
+  height: 100px;
+}
+
+.new_project_form div {
+  margin-bottom: 20px;
+}
+/* CREATE_PROJECT */
+
+/* CONSULT PROJECT */
+.consult_projects_picture {
+  height: 200px;
+}
+
+/* CREATE_PROJECT */

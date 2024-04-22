@@ -1,13 +1,45 @@
     <?php
     include "includes/functions.php";
     $error = false;
+    $ok_check_project = "index.php";
+    $not_ok_check_project = "create_project.php";
 
-    if ($_FILES["project_img"]["error"] !== UPLOAD_ERR_OK) {
-        $error = "An_error_occured_while_uploading_image";
-        header("location: create_project.php?error=$error");
+
+    if (empty($_POST["project_title"])) {
+        $error = "no_project_title";
+    };
+
+    if (empty($_POST["project_description"])) {
+        $error = "no_project_description";
     }
 
-    use Cloudinary\Api\Upload\UploadApi;
+    if (empty($_POST["project_categories"])) {
+        $error = "no_categories_selected";
+    }
+
+    if ($_FILES["project_img"]["error"] !== 0) {
+        switch ($_FILES["project_img"]["error"]) {
+            case 2:
+            case 1:
+                $error = "file_too_big";
+                break;
+
+            case 4:
+                $error = "no_file_downloaded";
+                break;
+
+            default:
+                $error = "someting_went_wrong_during_the_file_upload";
+                break;
+        }
+    }
+
+    if (!empty($error)) {
+        header("location: $not_ok_check_project?error=$error");
+        exit();
+    }
+
+    use Cloudinary\Api\Upload\UploadApi;;
 
     $image_uid = uniqid("img");
 
@@ -27,17 +59,53 @@
 
         $result = $upload->upload($tmpFilePath, $options);
 
-        echo "<pre/>";
-        echo (json_encode($result, JSON_PRETTY_PRINT));
-        echo "<pre/>";
+        // echo "<pre/>";
+        // echo (json_encode($result, JSON_PRETTY_PRINT));
+        // echo "<pre/>";
     } catch (\Throwable $e) {
+        // var_dump($e->getMessage());
         $error = "image_format_not_allowed";
     }
 
-    if (!empty($error)) {
-        header("location: create_project.php?error=$error");
+    $title = htmlspecialchars($_POST["project_title"]);
+    $picture = $result["secure_url"];
+    $description = htmlspecialchars($_POST["project_description"]);
+    $categories = implode(",", $_POST["project_categories"]);
+    $slug = "project" . "-" . "$title";
+
+    if (empty($error)) {
+        try {
+            $create_project = $db->prepare("INSERT INTO projects (
+                title,
+                picture, 
+                description,
+                categories,
+                slug
+                ) VALUES (
+                :title,
+                :picture,
+                :description,
+                :categories,
+                :slug 
+            )");
+
+            $create_project->execute([
+                'title' => $title,
+                'picture' => $picture,
+                'description' => $description,
+                'categories' => $categories,
+                'slug' => $slug
+            ]);
+        } catch (PDOException $e) {
+            echo $error_db;
+            // var_dump($e);
+            die();
+        }
+
+        header("location: $ok_check_project");
+        exit();
     } else {
-        header("location: index.php");
+        header("location: $not_ok_check_project?error=$error");
     }
 
     ?>
