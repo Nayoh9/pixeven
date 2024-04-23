@@ -41,7 +41,7 @@
 
     use Cloudinary\Api\Upload\UploadApi;;
 
-    $image_uid = uniqid("img");
+    $picture_uid = uniqid("img_");
 
     try {
         // Chemin temporaire du fichier uploadé
@@ -50,7 +50,7 @@
 
         // Options
         $options = [
-            'public_id' => $image_uid,
+            'public_id' => $picture_uid,
             'use_filename' => true,
             'overwrite' => false,
             'allowed_formats' => ['jpg', 'jpeg', 'png'],
@@ -78,27 +78,30 @@
             $create_project = $db->prepare("INSERT INTO projects (
                 title,
                 picture, 
+                picture_uid,
                 description,
                 categories,
                 slug
                 ) VALUES (
                 :title,
                 :picture,
+                :picture_uid,
                 :description,
                 :categories,
-                :slug 
+                :slug
             )");
 
             $create_project->execute([
                 'title' => $title,
                 'picture' => $picture,
+                'picture_uid' => $picture_uid,
                 'description' => $description,
                 'categories' => $categories,
                 'slug' => $slug
             ]);
         } catch (PDOException $e) {
-            echo $error_db;
-            // var_dump($e);
+            // echo $error_db;
+            var_dump($e);
             die();
         }
 

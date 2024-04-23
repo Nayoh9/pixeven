@@ -9,7 +9,6 @@
     <title><?= $page_title ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/dashboard.css">
-    <link rel="stylesheet" href="assets/reset.css">
 </head>
 
 <body>
@@ -17,6 +16,14 @@
         <div class="wrapper">
             <header class="row">
                 <h1 class="col-md-12 text-center"><?= $page_title ?></h1>
+                <div class="col-md-12 d-flex justify-content-center">
+                    <ul class="col-auto list-group flex-row">
+                        <li class="col-auto"> <a href="create_project.php">Ajouter un projet</a></li>
+                        <li class="col-auto">Ajouter une catégorie</li>
+                        <li class="col-auto"> <a href="consult_project.php">Consulter mes projets</a></li>
+                        <li class="col-auto">Consulter mes categories</li>
+                    </ul>
+                </div>
             </header>
 
             <?php

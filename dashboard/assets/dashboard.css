@@ -2,11 +2,27 @@
 
 /* CSS VARS  */
 
-header {
-  margin-bottom: 30px;
+a {
+  color: black;
+  text-decoration: none;
 }
 
+/* HEADER */
+
+header {
+  margin-bottom: 20px;
+}
+
+header ul li {
+  list-style-type: none;
+  margin: 0 10px;
+  padding: 5px;
+}
+
+/* HEADER */
+
 /* CREATE_PROJECT */
+
 .categories_list {
   height: 100px;
 }
@@ -14,11 +30,30 @@ header {
 .new_project_form div {
   margin-bottom: 20px;
 }
+
 /* CREATE_PROJECT */
 
-/* CONSULT PROJECT */
+/* CONSULT_PROJECT */
+
 .consult_projects_picture {
   height: 200px;
 }
 
 /* CREATE_PROJECT */
+
+/* PROJECT */
+
+.project form input {
+  margin-bottom: 20px;
+}
+
+.project form button {
+  margin-bottom: 20px;
+}
+
+.project_picture {
+  max-height: 500px;
+  max-width: 500px;
+}
+
+/* PROJECT */

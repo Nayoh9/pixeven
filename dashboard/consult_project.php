@@ -21,21 +21,21 @@ try {
     );
     $result_get_projects = $get_projects->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    // Gestion des erreurs de requête
-    echo "Erreur de requête : " . $e->getMessage();
+    echo $error_db;
     die();
 }
 
 ?>
 
-<div class="row ">
+<div class="row consult_project">
     <?php foreach ($result_get_projects as $project) { ?>
         <div class="col-md-4 text-center ">
-            <p><?= $project["id"] ?></p>
-            <p><?= htmlspecialchars($project["title"]); ?></p>
-            <img src="<?= $project["picture"] ?>" alt="photo d'un projet créer" class="consult_projects_picture">
-            <p>Catégories :</p>
-            <p><?= htmlspecialchars($project["GROUP_CONCAT(categories.name)"]);  ?></p>
+            <a href="http://localhost/pixeven/dashboard/project.php?id=<?= $project["id"]; ?>">
+                <p><?= htmlspecialchars($project["title"]); ?></p>
+                <img src="<?= $project["picture"] ?>" alt="photo d'un projet créer" class="consult_projects_picture">
+                <p>Catégories :</p>
+                <p><?= htmlspecialchars($project["GROUP_CONCAT(categories.name)"]);  ?></p>
+            </a>
         </div>
     <?php } ?>
 </div>
