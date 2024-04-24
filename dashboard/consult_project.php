@@ -24,20 +24,21 @@ try {
     echo $error_db;
     die();
 }
-
 ?>
 
 <div class="row consult_project">
-    <?php foreach ($result_get_projects as $project) { ?>
-        <div class="col-md-4 text-center ">
-            <a href="http://localhost/pixeven/dashboard/project.php?id=<?= $project["id"]; ?>">
-                <p><?= htmlspecialchars($project["title"]); ?></p>
-                <img src="<?= $project["picture"] ?>" alt="photo d'un projet créer" class="consult_projects_picture">
-                <p>Catégories :</p>
-                <p><?= htmlspecialchars($project["GROUP_CONCAT(categories.name)"]);  ?></p>
-            </a>
-        </div>
-    <?php } ?>
+    <?php foreach ($result_get_projects as $project) {
+        if ($project["deleted"] === 0) { ?>
+            <div class="col-md-4 text-center ">
+                <a href="http://localhost/pixeven/dashboard/modify_project.php?id=<?= $project["id"]; ?>">
+                    <p><?= htmlspecialchars($project["title"]); ?></p>
+                    <img src="<?= $project["picture"] ?>" alt="photo d'un projet créer" class="consult_projects_picture">
+                    <p>Catégories :</p>
+                    <p><?= htmlspecialchars($project["GROUP_CONCAT(categories.name)"]);  ?></p>
+                </a>
+            </div>
+    <?php }
+    } ?>
 </div>
 
 <?php include "footer.php" ?>

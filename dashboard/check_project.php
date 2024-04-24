@@ -73,6 +73,7 @@
     $categories = implode(",", $_POST["project_categories"]);
     $slug = "project" . "-" . "$title";
 
+
     if (empty($error)) {
         try {
             $create_project = $db->prepare("INSERT INTO projects (
@@ -101,8 +102,9 @@
             ]);
         } catch (PDOException $e) {
             // echo $error_db;
-            var_dump($e);
-            die();
+            // var_dump($e);
+            header("location: $not_ok_check_project?error=$error_db");
+            exit();
         }
 
         header("location: $ok_check_project");

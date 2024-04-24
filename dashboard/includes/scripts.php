@@ -44,3 +44,40 @@
 </script>
 
 <!-- ** TYNE MCE SCRIPT ** -->
+
+
+<!-- **HANDLE MODAL SCRIPT** -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const delete_button = document.getElementById("delete_button");
+        const modify_button = document.getElementById("modify_button");
+        const modify_project_form = document.getElementById("modify_project_form");
+
+        const project_name = document.getElementById("project_data_container").getAttribute("data-title");
+
+        const modal_header = document.getElementById("modal-header");
+        const modal_body = document.getElementById("modal-body");
+        const modal_save = document.getElementById("modal-save")
+
+        modify_button.addEventListener("click", () => {
+            modal_header.innerHTML = ` Modification de "${project_name}"`;
+            modal_body.innerHTML = "Êtes-vous sûr de vouloir modifier votre projet ?";
+            modal_save.innerHTML = "Sauvegarder les changements";
+
+            modify_project_form.setAttribute("action", "check_modified_project.php");
+            modal_save.setAttribute("class", "btn btn-primary");
+        });
+
+        delete_button.addEventListener("click", () => {
+            modal_header.innerHTML = `Suppression de "${project_name}"`;
+            modal_body.innerHTML = "Êtes-vous sûr de vouloir supprimer votre projet ?";
+            modal_save.innerHTML = "Supprimer le projet"
+
+            modify_project_form.setAttribute("action", "check_deleted_project.php");
+            modal_save.setAttribute("class", "btn btn-danger")
+        })
+    })
+</script>
+
+<!-- **HANDLE MODAL SCRIPT** -->

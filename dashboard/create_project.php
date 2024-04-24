@@ -11,7 +11,6 @@
     }
     ?>
 
-
     <div class="row d-flex justify-content-center">
         <form method="POST" action="check_project.php" class="new_project_form col-md-6" enctype="multipart/form-data">
 
