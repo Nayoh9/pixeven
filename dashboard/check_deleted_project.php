@@ -1,15 +1,19 @@
     <?php
     include 'includes/functions.php';
 
-    $ok_deleted_project = "consult_project.php";
-    $not_ok_deleted_project = "consult_project.php";
+    $ok_deleted_project = "consult_projects.php";
+    $not_ok_deleted_project = "consult_projects.php";
 
     $error = false;
 
+    if (empty($_POST["project_values"])) {
+        $error = "cant_find_var";
+        header("location:$not_ok_deleted_project?error=$error");
+        die();
+    }
 
     $_POST["project_values"] = explode(",", $_POST["project_values"]);
-    $id = $_POST["project_values"][0];
-
+    $id = htmlspecialchars($_POST["project_values"]);
 
     try {
         $deleted_project = $db->query(
@@ -26,6 +30,8 @@
 
     if (empty($error)) {
         header("location: $ok_deleted_project");
+        die();
     } else {
         header("location: $not_ok_deleted_project?error=$error");
+        die();
     }

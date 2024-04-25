@@ -3,6 +3,20 @@
 
     $error_db = "error_no_results_found";
 
+    // Redirection forms
+    $deleted_target;
+    $modified_target;
+
+    if ($page_title === "Mon projet") {
+
+        $deleted_target = "check_deleted_project.php";
+        $modified_target = "check_modified_project.php";
+    } else if ($page_title === "Ma catégorie") {
+
+        $deleted_target = "check_deleted_category.php";
+        $modified_target = "check_modified_category.php";
+    }
+
     // **Dotenv config**
 
     $dotenvPath = __DIR__ . '/../../.env';
@@ -14,12 +28,12 @@
     $cloudinary_api_secret = $_ENV['CLOUDINARY_API_SECRET'];
     $cloudinary_cloud_name = $_ENV['CLOUDINARY_CLOUD_NAME'];
 
-    // PDO en vars
+    // PDO env vars
     $db_user = $_ENV["DB_USER"];
     $db_pass = $_ENV["DB_PASS"];
     $db_host = $_ENV["DB_HOST"];
 
-    // Tiny mce en vars
+    // Tiny mce env vars
     $tiny_mce_key = $_ENV["TINY_MCE_KEY"];
 
     // **Dotenv config**

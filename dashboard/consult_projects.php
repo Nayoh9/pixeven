@@ -26,7 +26,7 @@ try {
 }
 ?>
 
-<div class="row consult_project">
+<div class="row">
     <?php foreach ($result_get_projects as $project) {
         if ($project["deleted"] === 0) { ?>
             <div class="col-md-4 text-center ">

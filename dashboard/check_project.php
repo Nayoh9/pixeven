@@ -1,5 +1,6 @@
     <?php
     include "includes/functions.php";
+
     $error = false;
     $ok_check_project = "index.php";
     $not_ok_check_project = "create_project.php";
@@ -44,11 +45,9 @@
     $picture_uid = uniqid("img_");
 
     try {
-        // Chemin temporaire du fichier uploadé
         $tmpFilePath = $_FILES["project_img"]["tmp_name"];
         $upload = new UploadApi();
 
-        // Options
         $options = [
             'public_id' => $picture_uid,
             'use_filename' => true,
@@ -111,6 +110,7 @@
         exit();
     } else {
         header("location: $not_ok_check_project?error=$error");
+        die();
     }
 
     ?>

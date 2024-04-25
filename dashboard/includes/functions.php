@@ -44,6 +44,18 @@ function parse_error($error_code)
             return $error_code = "Aucun résultat trouvé";
             break;
 
+        case 'invalid_category_id':
+            return $error_code = "Catégorie introuvable";
+            break;
+
+        case 'cant_find_var':
+            return $error_code = "Valeurs introuvables";
+            break;
+
+        case 'no_category_name':
+            return $error_code = "Veuillez entrer un nom pour la catégorie";
+            break;
+
         default:
             return $error_code = "Erreur inconnue";
             break;

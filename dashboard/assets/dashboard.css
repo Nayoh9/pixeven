@@ -19,11 +19,9 @@ header ul li {
   padding: 5px;
 }
 
-/* HEADER */
-
 /* CREATE_PROJECT */
 
-.categories_list {
+.project_categories_list {
   height: 100px;
 }
 
@@ -31,15 +29,11 @@ header ul li {
   margin-bottom: 20px;
 }
 
-/* CREATE_PROJECT */
-
 /* CONSULT_PROJECT */
 
 .consult_projects_picture {
   height: 200px;
 }
-
-/* CREATE_PROJECT */
 
 /* PROJECT */
 
@@ -52,8 +46,11 @@ header ul li {
 }
 
 .project_picture {
-  max-height: 290px;
   max-width: 350px;
 }
 
-/* PROJECT */
+/* CONSULT_CATEGORIES */
+
+.consult_categories_categories_list {
+  margin-left: 30px;
+}

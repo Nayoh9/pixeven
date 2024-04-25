@@ -1,8 +1,10 @@
     <?php
     include "includes/functions.php";
+
     $error = false;
     $ok_check_modified_project = "index.php";
-    $not_ok_check_modified_project = "consult_project.php";
+    $not_ok_check_modified_project = "consult_projects.php";
+
 
     if (empty($_POST["project_title"])) {
         $error = "no_project_title";
@@ -14,6 +16,15 @@
 
     if (empty($_POST["project_categories"])) {
         $error = "no_categories_selected";
+    }
+
+    if (empty($_POST["project_values"])) {
+        $error = "cant_find_var";
+    }
+
+    if (!empty($error)) {
+        header("location:$not_ok_check_modified_project?error=$error");
+        die();
     }
 
     $_POST["project_values"] = explode(",", $_POST["project_values"]);
@@ -69,7 +80,6 @@
         header("location: $not_ok_check_modified_project?error=$error");
         exit();
     } else {
-
         $title = htmlspecialchars($_POST["project_title"]);
         $description = htmlspecialchars($_POST["project_description"]);
         $categories = implode(",", $_POST["project_categories"]);

@@ -17,11 +17,11 @@
             <header class="row">
                 <h1 class="col-md-12 text-center"><?= $page_title ?></h1>
                 <div class="col-md-12 d-flex justify-content-center">
-                    <ul class="col-auto list-group flex-row">
+                    <ul class="col-auto list-group flex-row flex-wrap ">
                         <li class="col-auto"> <a href="create_project.php">Ajouter un projet</a></li>
                         <li class="col-auto">Ajouter une catégorie</li>
-                        <li class="col-auto"> <a href="consult_project.php">Consulter mes projets</a></li>
-                        <li class="col-auto">Consulter mes categories</li>
+                        <li class="col-auto"> <a href="consult_projects.php">Consulter mes projets</a></li>
+                        <li class="col-auto"><a href="consult_categories.php">Consulter mes categories</a></li>
                     </ul>
                 </div>
             </header>
