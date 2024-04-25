@@ -52,7 +52,7 @@ function parse_error($error_code)
             return $error_code = "Valeurs introuvables";
             break;
 
-        case 'no_category_name':
+        case 'invalid_category_name':
             return $error_code = "Veuillez entrer un nom pour la catégorie";
             break;
 
