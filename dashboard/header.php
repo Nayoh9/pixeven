@@ -22,9 +22,12 @@
                         <li class="col-auto"><a href="create_category.php">Ajouter une catégorie</a></li>
                         <li class="col-auto"> <a href="consult_projects.php">Consulter mes projets</a></li>
                         <li class="col-auto"><a href="consult_categories.php">Consulter mes categories</a></li>
+                        <li class="col-auto"><a href="settings.php">Mes paramètres</a></li>
                     </ul>
                 </div>
             </header>
+
+
 
             <?php
             if (!empty($_GET["error"])) {
