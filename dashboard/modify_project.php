@@ -57,9 +57,12 @@
             </div>
 
             <div class="text-center">
-                <div id="preview">
-                    <img id="preview_child" class="project_picture" src="<?= $result_get_project["picture"]; ?>" alt="Photo d'un projet">
-                </div>
+                <label for="file_to_upload">
+                    <div id="preview">
+                        <img id="preview_child" class="form_img" src="<?= $result_get_project["picture"]; ?>" alt="Photo d'un projet">
+                    </div>
+                </label>
+
                 <input class="col-md-6 mt-2 form-control" name="project_img" type="file" id="file_to_upload" accept="image/png, image/jpeg, image/jpg">
             </div>
 
@@ -77,7 +80,7 @@
             </select>
 
             <div class="text-center mb-3 ">
-                <textarea type="" class="col-md-12" name="project_description" id="project_description" rows="15"><?= $result_get_project["description"]; ?></textarea>
+                <textarea class="col-md-12" name="project_description" rows="15"><?= $result_get_project["description"]; ?></textarea>
             </div>
 
             <!-- Modal -->

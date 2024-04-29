@@ -13,7 +13,8 @@
     }
 
     $_POST["project_values"] = explode(",", $_POST["project_values"]);
-    $id = htmlspecialchars($_POST["project_values"]);
+
+    $id = htmlspecialchars($_POST["project_values"][0]);
 
     try {
         $deleted_project = $db->query(

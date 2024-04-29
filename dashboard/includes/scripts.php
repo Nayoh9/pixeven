@@ -15,7 +15,7 @@
                 }
                 const url = fr.result;
                 const img = new Image();
-                img.setAttribute("class", "project_picture");
+                img.setAttribute("class", "form_img");
                 img.src = url;
                 preview.appendChild(img);
             })
@@ -45,6 +45,8 @@
             const modal_body = document.getElementById("modal-body");
             const modal_save = document.getElementById("modal-save");
 
+            const textarea = document.getElementById("textarea");
+
             const modified = "<?= $modified_target; ?>";
             const deleted = "<?= $deleted_target; ?>";
 
@@ -52,6 +54,10 @@
                 modal_header.innerHTML = ` Modification de "${target_name}"`;
                 modal_body.innerHTML = `Êtes-vous sûr de vouloir modifier "${target_name}" ?`;
                 modal_save.innerHTML = "Sauvegarder les changements";
+
+                if (textarea.innerHTML.trim() === "") {
+                    return alert("Veuillez entrer une description");
+                }
 
                 modify_target_form.setAttribute("action", modified);
                 modal_save.setAttribute("class", "btn btn-primary");

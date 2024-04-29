@@ -56,6 +56,22 @@ function parse_error($error_code)
             return $error_code = "Veuillez entrer un nom pour la catégorie";
             break;
 
+        case 'invalid_profile_title':
+            return $error_code = "Veuillez entrer un titre principal";
+            break;
+
+        case 'missing_years':
+            return $error_code = "Veuillez entrer un nombre d'années d'experience";
+            break;
+
+        case 'missing_achieved_projects':
+            return $error_code = "Veuillez entrer votre nombre de projets achevés";
+            break;
+
+        case 'missing_satisfied_customers':
+            return $error_code = "Veuillez entrer votre nombre de clients satisfaits";
+            break;
+
         default:
             return $error_code = "Erreur inconnue";
             break;

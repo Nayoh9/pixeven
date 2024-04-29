@@ -15,7 +15,7 @@
         <form method="POST" action="check_project.php" class="new_project_form col-md-6" enctype="multipart/form-data">
 
             <div class="col-md-12">
-                <label class="form-label">Catégorie</label>
+                <label class="form-label">Catégorie(s)</label>
                 <select class="project_categories_list form-select" aria-label="multiple select example" size="3" name="project_categories[]" multiple required>
                     <?php foreach ($result_get_categories as $category) { ?>
                         <option value="<?= $category["id"] ?>" id="categories_<?= $category["id"] ?>"><?= htmlspecialchars($category["name"]) ?></option>
@@ -34,7 +34,7 @@
             </div>
 
             <div class="col-md-12">
-                <label class="form-label" for="project_img">Image</label>
+                <label class="form-label" for="project_img">Photo du projet</label>
                 <input type="file" class="form-control" id="project_img" name="project_img" accept="image/png, image/jpeg, image/jpg" required>
             </div>
 

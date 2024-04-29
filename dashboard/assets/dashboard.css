@@ -1,6 +1,14 @@
 /* CSS VARS  */
-
+:root {
+  --form-width-picture: 350px;
+  --form-height-picture: 300px;
+}
 /* CSS VARS  */
+
+.form_img {
+  max-width: var(--form-picture);
+  max-height: var(--form-height-picture);
+}
 
 a {
   color: black;
@@ -46,7 +54,7 @@ header ul li {
 }
 
 .project_picture {
-  max-width: 350px;
+  max-width: var(--form-picture);
 }
 
 /* CONSULT_CATEGORIES */
@@ -54,3 +62,5 @@ header ul li {
 .consult_categories_categories_list {
   margin-left: 30px;
 }
+
+/* SETTINGS */

@@ -7,15 +7,27 @@
     $deleted_target;
     $modified_target;
 
-    if ($page_title === "Mon projet") {
 
-        $deleted_target = "check_deleted_project.php";
-        $modified_target = "check_modified_project.php";
-    } else if ($page_title === "Ma catégorie") {
+    if (!empty($page_title)) {
 
-        $deleted_target = "check_deleted_category.php";
-        $modified_target = "check_modified_category.php";
+        switch ($page_title) {
+            case 'Mon projet':
+                $deleted_target = "check_deleted_project.php";
+                $modified_target = "check_modified_project.php";
+                break;
+
+            case 'Ma catégorie':
+                $deleted_target = "check_deleted_category.php";
+                $modified_target = "check_modified_category.php";
+                break;
+
+            default:
+                $deleted_target;
+                $modified_target;
+                break;
+        }
     }
+
 
     // **Dotenv config**
 
@@ -58,3 +70,18 @@
     Configuration::instance("cloudinary://$cloudinary_api_key:" . "$cloudinary_api_secret@" . "$cloudinary_cloud_name" . "?secure=true");
 
     // **Cloudinary config**
+
+
+
+
+
+
+
+    // {
+    //     socials : {
+    //         facebook : {
+    //             title : facebook,
+    //             icon: facebook.svg;
+    //         }        
+    //     }
+    // }

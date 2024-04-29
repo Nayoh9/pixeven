@@ -24,6 +24,7 @@ try {
     echo $error_db;
     die();
 }
+
 ?>
 
 <div class="row">
