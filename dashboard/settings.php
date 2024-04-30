@@ -11,19 +11,19 @@
     }
 
     $stats = json_decode($result_get_settings["stats"]);
-
+    $settings_values = $result_get_settings["profile_picture"] . ',' . $result_get_settings["id"] . ',' . $result_get_settings["profile_picture_uid"];
     ?>
 
     <div class="row justify-content-center">
-        <form method="POST" action="check_settings.php" class="col-md-6">
+        <form method="POST" action="check_settings.php" class="col-md-6" enctype="multipart/form-data">
 
             <div class="mb-3 text-center">
                 <label for="file_to_upload" class="form-label">Ma photo de profil
-                    <div id="preview" class="text-center ">
+                    <div id="preview" class="text-center">
                         <img id="preview_child" class="form_img" src="<?= $result_get_settings["profile_picture"]; ?>" alt="Photo d'un projet">
                     </div>
                 </label>
-                <input class="col-md-6 mt-2 form-control" id="file_to_upload" name="profile_picture" type="file" id="file_to_upload" accept="image/png, image/jpeg, image/jpg">
+                <input class="col-md-6 mt-2 form-control" name="profile_picture" type="file" id="file_to_upload" accept="image/png, image/jpeg, image/jpg" value="<?= $result_get_settings["profile_picture"]; ?>">
             </div>
 
             <div>
@@ -31,9 +31,23 @@
                 <textarea name="profile_title" class="form-control" rows="10"><?= htmlspecialchars($result_get_settings["profile_title"]); ?></textarea>
             </div>
 
-            <div class="col-md-12">
+            <div>
+                <label for="meta_title" class="form-label mt-3">Titre de mon site <b>(sera affiché dans l'onglet du navigateur) </b></label>
+                <input type="text" class="form-control w-50" name="meta_title" id="meta_title" value="<?= $result_get_settings["meta_title_homepage"] ?>" required>
+            </div>
 
-                <p class="text-center mb-4 mt-4">Statistiques</p>
+            <div>
+                <label for="meta_description" class="form-label mt-3">Description de mon site <b>(sera affiché en dessous du nom du site dans le moteur de recherche)</b></label>
+                <input type="text" class="form-control" name="meta_description" id="meta_description" value="<?= $result_get_settings["meta_description_homepage"]; ?>" required>
+            </div>
+
+            <div>
+                <label for="projects_to_display" class="form-label mt-3">Nombre de projets à afficher</label>
+                <input type="number" min="0" max="6" class="form-control w-50" name="projects_to_display" id="projects_to_display" value="<?= $result_get_settings["projects_to_display"] ?>" required>
+            </div>
+
+            <div class="col-md-12">
+                <h2 class="text-center mb-4 mt-4">Statistiques</h2>
 
                 <div class="d-flex">
                     <div class="col-md-6">
@@ -52,62 +66,59 @@
                         <label class="form-label" for="satisfied_customers">Clients satisfaits</label>
                         <input class="form-control text-center w-100" id="satisfied_customers" name="satisfied_customers" step="0.5" type="number" min="1" value="<?= htmlspecialchars($stats->satisfied_customers); ?>" required>
                     </div>
-
                 </div>
             </div>
 
             <div>
-                <p class="mb-4 mt-4 text-center">Réseaux sociaux</p>
+                <h2 class="mb-4 mt-4 text-center">Réseaux sociaux</h2>
 
                 <div>
-
                     <div class="d-flex">
                         <div class="col-md-6">
                             <label class="form-label" for="social_icon_1">Icône du réseau 1</label>
-                            <input type="text" class="form-control" id="social_icon_1" name="social_icon_1" placeholder="ex : fa-brands fa-instagram">
+                            <input type="text" class="form-control" id="social_icon_1" name="social_1[icon]" placeholder="ex : fa-brands fa-instagram">
 
                             <label class="form_label" for="social_link_1">Lien du réseau 1</label>
-                            <input class="form-control" id="social_link_1" name="social_link_1" type="text">
+                            <input class="form-control" id="social_link_1" name="social_1[link]" placeholder="ex : https://github.com/pseudo" type="text">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label" for="social_icon_2">Icône du réseau 2</label>
-                            <input type="text" class="form-control" id="social_icon_2" name="social_icon_1" placeholder="ex : fa-brands fa-instagram">
+                            <input type="text" class="form-control" id="social_icon_2" name="social_2[icon]" placeholder="ex : fa-brands fa-instagram">
 
                             <label class="form_label" for="social_link_2">Lien du réseau 2</label>
-                            <input class="form-control" id="social_link_2" name="social_link_2" type="text">
+                            <input class="form-control" id="social_link_2" name="social_2[link]" placeholder="ex : https://github.com/pseudo" type="text">
                         </div>
                     </div>
 
                     <div class="d-flex mt-4 ">
                         <div class="col-md-6">
-                            <label class="form-label" for="social_icon_1">Icône du réseau 3</label>
-                            <input type="text" class="form-control" id="social_icon_1" name="social_icon_1" placeholder="ex : fa-brands fa-instagram">
+                            <label class="form-label" for="social_icon_3">Icône du réseau 3</label>
+                            <input type="text" class="form-control" id="social_icon_3" name="social_3[icon]" placeholder="ex : fa-brands fa-instagram">
 
-                            <label class="form_label" for="social_link_1">Lien du réseau 3</label>
-                            <input class="form-control" id="social_link_1" name="social_link_1" type="text">
+                            <label class="form_label" for="social_link_3">Lien du réseau 3</label>
+                            <input class="form-control" id="social_link_3" name="social_3[link]" placeholder="ex : https://github.com/pseudo" type="text">
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label" for="social_icon_2">Icône du réseau 4</label>
-                            <input type="text" class="form-control" id="social_icon_2" name="social_icon_1" placeholder="ex : fa-brands fa-instagram">
+                            <label class="form-label" for="social_icon_4">Icône du réseau 4</label>
+                            <input type="text" class="form-control" id="social_icon_4" name="social_4[icon]" placeholder="ex : fa-brands fa-instagram">
 
-                            <label class="form_label" for="social_link_2">Lien du réseau 4</label>
-                            <input class="form-control" id="social_link_2" name="social_link_2" type="text">
+                            <label class="form_label" for="social_link_4">Lien du réseau 4</label>
+                            <input class="form-control" id="social_link_4" name="social_4[link]" placeholder="ex : https://github.com/pseudo" type="text">
                         </div>
                     </div>
 
-
-
-
                 </div>
-
             </div>
+
             <div class="mt-3 col-md-12 d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary">Appliquer</button>
+                <button type="submit" class="btn btn-primary" name="settings_values" value="<?= $settings_values; ?>">
+                    Appliquer
+                </button>
             </div>
-        </form>
 
+        </form>
     </div>
 
     <?php include "footer.php"; ?>
