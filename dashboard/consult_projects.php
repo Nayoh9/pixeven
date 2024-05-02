@@ -17,25 +17,45 @@ try {
             projects.categories
         )
     GROUP BY
-        projects.id;"
+        projects.id
+    
+    ORDER BY 
+    projects.id 
+    DESC",
+
     );
     $result_get_projects = $get_projects->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo $error_db;
     die();
 }
-
 ?>
 
 <div class="row">
     <?php foreach ($result_get_projects as $project) {
         if ($project["deleted"] === 0) { ?>
-            <div class="col-md-4 text-center ">
+            <div class="col-md-4 mb-2 ">
                 <a href="http://localhost/pixeven/dashboard/modify_project.php?id=<?= $project["id"]; ?>">
-                    <p><?= htmlspecialchars($project["title"]); ?></p>
-                    <img src="<?= $project["picture"] ?>" alt="photo d'un projet créer" class="consult_projects_picture">
-                    <p>Catégories :</p>
-                    <p><?= htmlspecialchars($project["GROUP_CONCAT(categories.name)"]);  ?></p>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <p class="mb-0 fw-bold"><?= htmlspecialchars($project["title"]); ?></p>
+                                </div>
+                                <div class="col-auto">
+                                    ETAT
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-body text-center">
+                            <img src="<?= $project["picture"] ?>" alt="photo d'un projet créer" class="consult_projects_picture">
+                            <p>Catégories :</p>
+                            <p><?= htmlspecialchars($project["GROUP_CONCAT(categories.name)"]);  ?></p>
+                        </div>
+                    </div>
+
+
                 </a>
             </div>
     <?php }

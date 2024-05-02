@@ -10,7 +10,7 @@ include "header.php";
         </div>
 
         <div class="col-md-12 d-flex justify-content-center ">
-            <button type="submit" class="btn btn-primary ">Créer la catégorie</button>
+            <button type="submit" class="btn btn-primary">Créer la catégorie</button>
         </div>
     </form>
 </div>

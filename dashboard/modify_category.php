@@ -57,11 +57,11 @@ $project_values = $result_get_category["id"];
         <div class="text-center col-md-12" id="project_data_container" data-title="<?= htmlspecialchars($result_get_category["name"]) ?>">
             <!-- Button trigger modal -->
 
-            <button type="button" id="delete_button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" id="delete_button" class="btn btn-danger mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Effacer la catégorie
             </button>
 
-            <button type="button" id="modify_button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="project_id">
+            <button type="button" id="modify_button" class="btn btn-primary mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal" name="project_id">
                 Modifier la catégorie
             </button>
         </div>

@@ -28,9 +28,7 @@
         }
     }
 
-
     // **Dotenv config**
-
     $dotenvPath = __DIR__ . '/../../.env';
     $dotenv = Dotenv\Dotenv::createImmutable(dirname($dotenvPath));
     $loaded = $dotenv->load();
@@ -48,11 +46,10 @@
     // Tiny mce env vars
     $tiny_mce_key = $_ENV["TINY_MCE_KEY"];
 
-    // **Dotenv config**
+
 
 
     // **DB connexion** //
-
     try {
         $db = new PDO("mysql:host=$db_host;dbname=pixeven", $db_user, $db_pass);
     } catch (PDOException $e) {
@@ -60,28 +57,7 @@
         // e->getmessage()
     }
 
-    // **DB connexion** //
-
     // **Cloudinary config**
-
-
     use Cloudinary\Configuration\Configuration;
 
     Configuration::instance("cloudinary://$cloudinary_api_key:" . "$cloudinary_api_secret@" . "$cloudinary_cloud_name" . "?secure=true");
-
-    // **Cloudinary config**
-
-
-
-
-
-
-
-    // {
-    //     socials : {
-    //         facebook : {
-    //             title : facebook,
-    //             icon: facebook.svg;
-    //         }        
-    //     }
-    // }

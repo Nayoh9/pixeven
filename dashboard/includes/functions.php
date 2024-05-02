@@ -4,16 +4,8 @@
     function parse_error($error_code)
     {
         switch ($error_code) {
-            case 'file_too_big';
-                return $error_code = "Fichier trop volumineux";
-                break;
-
             case 'no_file_downloaded';
                 return $error_code = "Aucun fichier téléchargé";
-                break;
-
-            case 'something_went_wrong_during_the_file_upload':
-                return $error_code = "Le telechargement du fichier s'est mal passé";
                 break;
 
             case 'image_format_not_allowed':
@@ -82,6 +74,10 @@
 
             case 'missing_number_projects':
                 return $error_code = "Veuillez entrer un nombre dans les projets à afficher";
+                break;
+
+            case 'invalid_file_size':
+                return $error_code = "Fichier trop volumineux";
                 break;
 
             default:

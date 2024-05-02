@@ -18,52 +18,47 @@
         $error = "no_categories_selected";
     }
 
-    if ($_FILES["project_img"]["error"] !== 0) {
-        switch ($_FILES["project_img"]["error"]) {
-            case 2:
-            case 1:
-                $error = "file_too_big";
-                break;
+    use Cloudinary\Api\Upload\UploadApi;;
 
-            case 4:
-                $error = "no_file_downloaded";
-                break;
+    if (!empty($_FILES["project_img"]["tmp_name"])) {
 
-            default:
-                $error = "someting_went_wrong_during_the_file_upload";
-                break;
+        if ($_FILES["project_img"]["size"] > 5000000) {
+
+            $error = "invalid_file_size";
+            header("location: $not_ok_check_project?error=$error");
+            die();
         }
+
+        try {
+            $tmpFilePath = $_FILES["project_img"]["tmp_name"];
+            $upload = new UploadApi();
+
+            $picture_uid = uniqid("img_");
+
+            $options = [
+                'public_id' => $picture_uid,
+                'use_filename' => true,
+                'overwrite' => false,
+                'allowed_formats' => ['jpg', 'jpeg', 'png'],
+                'folder' => "pixeven/project_img"
+            ];
+
+            $result = $upload->upload($tmpFilePath, $options);
+
+            // echo "<pre/>";
+            // echo (json_encode($result, JSON_PRETTY_PRINT));
+            // echo "<pre/>";
+        } catch (\Throwable $e) {
+            // var_dump($e->getMessage());
+            $error = "image_format_not_allowed";
+        }
+    } else {
+        $error = "no_file_downloaded";
     }
 
     if (!empty($error)) {
         header("location: $not_ok_check_project?error=$error");
-        exit();
-    }
-
-    use Cloudinary\Api\Upload\UploadApi;;
-
-    $picture_uid = uniqid("img_");
-
-    try {
-        $tmpFilePath = $_FILES["project_img"]["tmp_name"];
-        $upload = new UploadApi();
-
-        $options = [
-            'public_id' => $picture_uid,
-            'use_filename' => true,
-            'overwrite' => false,
-            'allowed_formats' => ['jpg', 'jpeg', 'png'],
-            'folder' => "pixeven/project_img"
-        ];
-
-        $result = $upload->upload($tmpFilePath, $options);
-
-        // echo "<pre/>";
-        // echo (json_encode($result, JSON_PRETTY_PRINT));
-        // echo "<pre/>";
-    } catch (\Throwable $e) {
-        // var_dump($e->getMessage());
-        $error = "image_format_not_allowed";
+        die();
     }
 
     $title = htmlspecialchars($_POST["project_title"]);
@@ -79,7 +74,7 @@
                 title,
                 picture, 
                 picture_uid,
-                description,
+                description, 
                 categories,
                 slug
                 ) VALUES (
@@ -103,14 +98,12 @@
             // echo $error_db;
             // var_dump($e);
             header("location: $not_ok_check_project?error=$error_db");
-            exit();
+            die();
         }
 
         header("location: $ok_check_project");
-        exit();
     } else {
         header("location: $not_ok_check_project?error=$error");
-        die();
     }
 
     ?>

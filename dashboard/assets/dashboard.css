@@ -63,8 +63,13 @@ header ul li {
 
 /* CONSULT_CATEGORIES */
 
-.consult_categories_categories_list {
-  margin-left: 30px;
+.visible {
+  background-color: green;
+  color: white;
+}
+
+.deleted {
+  background-color: red;
 }
 
 /* SETTINGS */

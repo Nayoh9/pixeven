@@ -26,6 +26,7 @@
             <div class="col-md-12">
                 <label class="form-label" for="project_title">Titre du projet</label>
                 <input type="text" placeholder="Goodtime.." class="form-control" id="project_title" name="project_title" required>
+                <p class="mb-0"></p>
             </div>
 
             <div class="col-md-12">

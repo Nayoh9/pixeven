@@ -20,7 +20,7 @@
             <div class="mb-3 text-center">
                 <label for="file_to_upload" class="form-label">Ma photo de profil
                     <div id="preview" class="text-center">
-                        <img id="preview_child" class="form_img" src="<?= $result_get_settings["profile_picture"]; ?>" alt="Photo d'un projet">
+                        <img id="preview_child" class="form_img" src="<?= $result_get_settings["profile_picture"]; ?>" alt="Photo de profil">
                     </div>
                 </label>
                 <input class="col-md-6 mt-2 form-control" name="profile_picture" type="file" id="file_to_upload" accept="image/png, image/jpeg, image/jpg" value="<?= $result_get_settings["profile_picture"]; ?>">
@@ -71,7 +71,6 @@
 
             <div>
                 <h2 class="mb-4 mt-4 text-center">Réseaux sociaux</h2>
-
                 <div>
                     <div class="d-flex">
                         <div class="col-md-6">
@@ -108,7 +107,6 @@
                             <input class="form-control" id="social_link_4" name="social_4[link]" placeholder="ex : https://github.com/pseudo" type="text">
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -117,7 +115,6 @@
                     Appliquer
                 </button>
             </div>
-
         </form>
     </div>
 

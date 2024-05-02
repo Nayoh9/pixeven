@@ -2,23 +2,22 @@
     include "includes/functions.php";
 
     $error = false;
-    $ok_check_modified_project = "index.php";
+    $ok_check_modified_project = "consult_projects.php";
     $not_ok_check_modified_project = "consult_projects.php";
-
 
     if (empty($_POST["project_title"])) {
         $error = "no_project_title";
-    };
-
-    if (empty($_POST["project_description"])) {
-        $error = "no_project_description";
     }
 
     if (empty($_POST["project_categories"])) {
         $error = "no_categories_selected";
     }
 
-    if (empty($_POST["project_values"])) {
+    if (empty($_POST["project_description"])) {
+        $error = "no_project_description";
+    }
+
+    if (empty($_POST["project_id"])) {
         $error = "cant_find_var";
     }
 
@@ -27,14 +26,24 @@
         die();
     }
 
-    $_POST["project_values"] = explode(",", $_POST["project_values"]);
-    $picture_uid = $_POST["project_values"][1];
-    $id = $_POST["project_values"][0];
+    $id = $_POST["project_id"];
+
+    try {
+        $get_project = $db->query("SELECT * FROM projects WHERE projects.id = $id");
+        $result_get_project = $get_project->fetch(PDO::FETCH_ASSOC);
+    } catch (\PDOException $e) {
+        var_dump($error_db);
+        die();
+    }
+
+    $picture_uid = $result_get_project["picture_uid"];
 
     use Cloudinary\Api\Upload\UploadApi;
 
-    switch ($_FILES["project_img"]["error"]) {
-        case 0:
+    if (!empty($_FILES["project_img"]["tmp_name"])) {
+
+        if ($_FILES["project_img"]["size"] <= 5000000) {
+
             try {
                 // Chemin temporaire du fichier uploadé
                 $tmpFilePath = $_FILES["project_img"]["tmp_name"];
@@ -46,11 +55,10 @@
                     'use_filename' => false,
                     'overwrite' => true,
                     'allowed_formats' => ['jpg', 'jpeg', 'png'],
-                    'folder' => "pixeven/project_img"
+                    'folder' => "pixeven/project_img",
                 ];
 
                 $result = $upload->upload($tmpFilePath, $options);
-
                 $picture = $result["secure_url"];
 
                 // echo "<pre/>";
@@ -60,26 +68,16 @@
                 // var_dump($e->getMessage());
                 $error = "image_format_not_allowed";
             }
-            break;
-
-        case 1:
-        case 2:
-            $error = "file_too_big";
-            break;
-
-        case 4:
-            $picture = $_POST["project_values"][2];
-            break;
-
-        default:
-            $error = "someting_went_wrong_during_the_file_upload";
-            break;
+        }
     }
 
     if (!empty($error)) {
         header("location: $not_ok_check_modified_project?error=$error");
-        exit();
+        die();
     } else {
+
+
+        empty($picture) && $picture = $result_get_project["picture"];
         $title = htmlspecialchars($_POST["project_title"]);
         $description = htmlspecialchars($_POST["project_description"]);
         $categories = implode(",", $_POST["project_categories"]);
@@ -98,8 +96,7 @@
                     slug = :slug,
                     last_modification = :last_modification
                 WHERE 
-                    projects.id = :id
-                "
+                    projects.id = :id"
             );
 
             $update_project->execute([
@@ -113,7 +110,7 @@
             ]);
         } catch (PDOException $e) {
             header("location: $not_ok_check_modified_project?error=$error_db");
-            exit();
+            die();
         }
 
         header("location: $ok_check_modified_project");

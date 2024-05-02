@@ -45,7 +45,7 @@
     }
 
     // Necessary infomations sent via in the button form
-    $project_values = $result_get_project["id"] . ',' . $result_get_project["picture_uid"] . "," . $result_get_project["picture"];
+    $project_id = $result_get_project["id"];
 
     ?>
 
@@ -94,7 +94,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            <button type="submit" id="modal-save" name="project_values" value="<?= $project_values; ?>"></button>
+                            <button type="submit" id="modal-save" name="project_id" value="<?= $project_id; ?>"></button>
                         </div>
                     </div>
                 </div>
@@ -103,11 +103,11 @@
             <div class="text-center col-md-12" id="project_data_container" data-title="<?= htmlspecialchars($result_get_project["title"]) ?>">
 
                 <!-- Button trigger modal -->
-                <button type="button" id="delete_button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" id="delete_button" class="btn btn-danger mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Effacer le projet
                 </button>
 
-                <button type="button" id="modify_button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="project_id">
+                <button type="button" id="modify_button" class="btn btn-primary mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal" name="project_id">
                     Modifier le projet
                 </button>
             </div>
