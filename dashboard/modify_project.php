@@ -51,6 +51,10 @@
 
     <div class="row d-flex justify-content-center project">
         <form method="POST" class="col-md-6" id="modify_target_form" enctype="multipart/form-data">
+
+            <input type="hidden" name="direction" id="direction" value="">
+            <input type="hidden" name="project_id" value="<?= $project_id; ?>">
+
             <div class="text-center">
                 <label for="project_title" class="form-label">Titre :</label>
                 <input class="form-control col-auto" id="project_title" name="project_title" value="<?= htmlspecialchars($result_get_project["title"]); ?>" required>
@@ -64,6 +68,7 @@
                 </label>
 
                 <input class="col-md-6 mt-2 form-control" name="project_img" type="file" id="file_to_upload" accept="image/png, image/jpeg, image/jpg">
+                <p class="fs-6 mb-0">Taille maximum du fichier 5 MO</p>
             </div>
 
             <div class="text-center">
@@ -94,7 +99,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                            <button type="submit" id="modal-save" name="project_id" value="<?= $project_id; ?>"></button>
+                            <button type="submit" id="modal-save"></button>
                         </div>
                     </div>
                 </div>
@@ -110,6 +115,7 @@
                 <button type="button" id="modify_button" class="btn btn-primary mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal" name="project_id">
                     Modifier le projet
                 </button>
+
             </div>
         </form>
     </div>

@@ -3,27 +3,20 @@
 
     $error_db = "error_no_results_found";
 
-    // Redirection forms
-    $deleted_target;
-    $modified_target;
-
-
+    // Redirection form
     if (!empty($page_title)) {
 
         switch ($page_title) {
             case 'Mon projet':
-                $deleted_target = "check_deleted_project.php";
-                $modified_target = "check_modified_project.php";
+                $action = "project.php";
                 break;
 
-            case 'Ma catégorie':
-                $deleted_target = "check_deleted_category.php";
-                $modified_target = "check_modified_category.php";
+            case 'category':
+                $action = "category.php";
                 break;
 
             default:
-                $deleted_target;
-                $modified_target;
+                $action;
                 break;
         }
     }
@@ -45,9 +38,6 @@
 
     // Tiny mce env vars
     $tiny_mce_key = $_ENV["TINY_MCE_KEY"];
-
-
-
 
     // **DB connexion** //
     try {

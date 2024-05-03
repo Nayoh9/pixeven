@@ -17,7 +17,7 @@
                 <div class="card col-md-4 mb-3">
                     <div class="card-header">
                         <div>
-                            <?= $category["deleted"] === 0 ? "<p class='visible fw-bold mb-0'>Visible</p>" : "<p class='deleted fw-bold mb-0'>Supprimée</p>" ?>
+                            <?= $category["deleted"] === 0 ? "<p class='visible fw-bold mb-0'>Visible</p>" : "<p class='deleted fw-bold mb-0'>Non visible</p>" ?>
                         </div>
                     </div>
                     <a href=" modify_category.php?id=<?= htmlspecialchars($category["id"]) ?>">

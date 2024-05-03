@@ -27,8 +27,6 @@
                 </div>
             </header>
 
-
-
             <?php
             if (!empty($_GET["error"])) {
                 $error = htmlspecialchars(parse_error($_GET["error"]));
