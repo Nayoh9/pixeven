@@ -9,7 +9,6 @@
         var_dump($error_db);
         die();
     }
-
     ?>
 
     <form method="POST" action="project.php" class="row new_project_form d-flex flex-column align-items-center" enctype="multipart/form-data">
@@ -25,9 +24,11 @@
         <div class="col-md-6">
             <label class="form-label">Catégorie(s)</label>
             <select class="project_categories_list form-select" aria-label="multiple select example" size="3" name="project_categories[]" multiple required>
-                <?php foreach ($result_get_categories as $category) { ?>
-                    <option value="<?= $category["id"] ?>" id="categories_<?= $category["id"] ?>"><?= htmlspecialchars($category["name"]) ?></option>
-                <?php } ?>
+                <?php foreach ($result_get_categories as $category) {
+                    if ($category["deleted"] === 0) { ?>
+                        <option value="<?= $category["id"] ?>" id="categories_<?= $category["id"] ?>"><?= $category["name"] ?></option>
+                <?php }
+                } ?>
             </select>
         </div>
 
@@ -46,7 +47,5 @@
             <button type="submit" class="btn btn-primary">Créer le projet</button>
         </div>
     </form>
-
-
 
     <?php include "footer.php"; ?>

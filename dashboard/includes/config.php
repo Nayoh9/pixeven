@@ -7,11 +7,11 @@
     if (!empty($page_title)) {
 
         switch ($page_title) {
-            case 'Mon projet':
+            case 'projet':
                 $action = "project.php";
                 break;
 
-            case 'category':
+            case 'categorie':
                 $action = "category.php";
                 break;
 

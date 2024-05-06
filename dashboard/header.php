@@ -20,8 +20,8 @@
                     <ul class="col-auto list-group flex-row flex-wrap ">
                         <li class="col-auto"> <a href="create_project.php">Ajouter un projet</a></li>
                         <li class="col-auto"><a href="create_category.php">Ajouter une catégorie</a></li>
-                        <li class="col-auto"> <a href="consult_projects.php">Consulter mes projets</a></li>
-                        <li class="col-auto"><a href="consult_categories.php">Consulter mes categories</a></li>
+                        <li class="col-auto"> <a href="project.php">Consulter mes projets</a></li>
+                        <li class="col-auto"><a href="category.php">Consulter mes categories</a></li>
                         <li class="col-auto"><a href="settings.php">Mes paramètres</a></li>
                     </ul>
                 </div>

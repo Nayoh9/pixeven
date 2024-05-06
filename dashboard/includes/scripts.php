@@ -45,7 +45,7 @@
             const modal_save = document.getElementById("modal-save");
 
             const form_direction = document.getElementById("direction");
-            const target_name = document.getElementById("project_data_container").getAttribute("data-title");
+            const target_name = document.getElementById("target_data_container").getAttribute("data-title");
             const action = "<?= $action ?>";
 
 
