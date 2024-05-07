@@ -1,6 +1,7 @@
     <?php
     $page_title = "Créer un nouveau projet";
     include "header.php";
+    include "includes/functions.php";
 
     try {
         $get_categories = $db->query("SELECT * FROM categories");
@@ -32,6 +33,12 @@
             </select>
         </div>
 
+
+        <div class="col-md-6">
+            <label class="form-label" for="project_hook">Courte description du projet</label>
+            <input type="text" class="form-control" id="project_hook" name="project_hook" required>
+        </div>
+
         <div class="col-md-8">
             <label class="form-label">Description du projet</label>
             <textarea type="text" class="form-control" placeholder="Voici un nouveau design.." rows="15" name="project_description"></textarea>
@@ -40,7 +47,7 @@
         <div class="col-md-6">
             <label class="form-label" for="project_img">Photo du projet</label>
             <input type="file" class="form-control" id="project_img" name="project_img" accept="image/png, image/jpeg, image/jpg" required>
-            <p class="fs-6 mb-0">Taille maximum du fichier 5 MO</p>
+            <p class="fs-6 fw-bold text-center mb-0">Taille maximum du fichier 5 MO</p>
         </div>
 
         <div class="col-md-12 text-center">

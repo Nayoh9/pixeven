@@ -58,8 +58,6 @@
                 modal_save.setAttribute("class", "btn btn-primary");
                 form_direction.setAttribute("value", "modify");
 
-                console.log(action, form_direction.getAttribute("value"));
-
             });
 
             delete_button.addEventListener("click", () => {
@@ -67,12 +65,9 @@
                 modal_body.innerHTML = `Êtes-vous sûr de vouloir supprimer "${target_name}" ?`;
                 modal_save.innerHTML = `Supprimer "${target_name}"`
 
-
                 modify_target_form.setAttribute("action", action);
                 modal_save.setAttribute("class", "btn btn-danger");
                 form_direction.setAttribute("value", "delete");
-
-                console.log(action, form_direction.getAttribute("value"));
 
             })
         })

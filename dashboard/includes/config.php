@@ -3,23 +3,9 @@
 
     $error_db = "error_no_results_found";
 
-    // Redirection form
-    if (!empty($page_title)) {
+    // Dynamic url 
+    $url = "http://localhost/pixeven/dashboard/";
 
-        switch ($page_title) {
-            case 'projet':
-                $action = "project.php";
-                break;
-
-            case 'categorie':
-                $action = "category.php";
-                break;
-
-            default:
-                $action;
-                break;
-        }
-    }
 
     // **Dotenv config**
     $dotenvPath = __DIR__ . '/../../.env';

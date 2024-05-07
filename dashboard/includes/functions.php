@@ -80,6 +80,10 @@
                 return $error_code = "Fichier trop volumineux";
                 break;
 
+            case 'no_project_hook':
+                return $error_code = "Veuillez entrer une courte description du projet";
+                break;
+
             default:
                 return $error_code = "Erreur inconnue";
                 break;

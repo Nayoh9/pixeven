@@ -1,15 +1,13 @@
     <?php
-    $page_title = "categorie";
-    include "header.php";
+    include "includes/functions.php";
 
     $error = false;
 
-    $ok_category = "category.php";
-    $not_ok_category = "category.php";
+    $ok_category = $url . "category.php";
+    $not_ok_category = $url . "category.php";
 
 
     if (!empty($_POST["direction"])) {
-
         switch ($_POST["direction"]) {
 
             case 'create':
@@ -138,124 +136,122 @@
         }
     }
 
-
-
-
-
-
-
-    if (empty($_GET)) {
-        try {
-            $get_categories = $db->query("SELECT * FROM categories ORDER BY categories.name");
-            $result_get_categories = $get_categories->fetchALL(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            var_dump($error_db);
-            die();
-        }
-    ?>
-
-        <div class="row">
-            <div class="col-md-12 d-flex flex-wrap">
-                <?php foreach ($result_get_categories as $category) { ?>
-                    <div class="card col-md-4 mb-3">
-                        <div class="card-header">
-                            <div>
-                                <?= $category["deleted"] === 0 ? "<p class='visible fw-bold mb-0'>Visible</p>" : "<p class='deleted fw-bold mb-0'>Non visible</p>" ?>
-                            </div>
-                        </div>
-                        <a href="category.php?id=<?= htmlspecialchars($category["id"]) ?>">
-                            <div class="card-body">
-                                <p class="mb-0"><?= $category["name"] ?></p>
-                            </div>
-                        </a>
-
-                        <?php if ($category["deleted"] === 1) { ?>
-
-                            <form action="category.php" method="POST" class="col-md-12 d-flex justify-content-center">
-
-                                <input type="hidden" name="direction" value="restore">
-                                <input type="hidden" name="category_id" value="<?= $category["id"]; ?>">
-                                <button type="submit" class="btn btn-success mt-1">Restaurer</button>
-
-                            </form>
-
-                        <?php } ?>
-                    </div>
-                <?php } ?>
-            </div>
-
-
-        <?php } else if ($_GET["id"]) {
-
-        if (!empty($_GET["id"])) {
-            $category_id = htmlspecialchars($_GET["id"]);
-        } else {
-            $error = "invalid_category_id";
-            header("location: $not_ok_category.php?error=$error");
-            die();
-        }
+    if (!empty($_GET["id"])) {
+        $category_id = htmlspecialchars($_GET["id"]);
 
         try {
-            $get_category = $db->query("SELECT * FROM categories WHERE categories.id =$category_id;");
+            $page_title = "Ma catégorie";
+            $get_category = $db->query("SELECT * FROM categories WHERE categories.id = $category_id;");
             $result_get_category = $get_category->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             var_dump($error_db);
-            header("location: $not_ok_category.php?error=$error_db");
+            header("location:$not_ok_category?error=$error_db");
             die();
         }
 
         if (empty($result_get_category["id"])) {
             $error = "invalid_category_id";
-            header("location: $not_ok_category.php?error=$error");
+            header("location:$not_ok_category?error=$error");
             die();
         }
 
         $category_id = $result_get_category["id"];
-        ?>
 
-            <div class="row justify-content-center">
+        $page_title = "Ma catégorie";
+        include "header.php";
+    ?>
 
-                <form method="POST" id="modify_target_form" class="col-md-6">
+        <div class="row justify-content-center">
+            <form method="POST" id="modify_target_form" class="col-md-6">
+                <input type="hidden" name="direction" id="direction" value="">
+                <input type="hidden" name="category_id" value="<?= $category_id; ?>">
 
-                    <input type="hidden" name="direction" id="direction" value="">
-                    <input type="hidden" name="category_id" value="<?= $category_id; ?>">
+                <div class="mb-5 mt-5">
+                    <label for="category_name" class="form-label">Nom de la catégorie :</label>
+                    <input type="text" id="category_name" name="category_name" class="form-control" value="<?= $result_get_category["name"]; ?>" required>
+                </div>
 
-
-                    <div class="mb-5 mt-5">
-                        <label for="category_name" class="form-label">Nom de la catégorie :</label>
-                        <input type="text" id="category_name" name="category_name" class="form-control" value="<?= $result_get_category["name"]; ?>" required>
-                    </div>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header" id="modal-header">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body" id="modal-body">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                    <button type="submit" id="modal-save"></button>
-                                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header" id="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="modal-body">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <button type="submit" id="modal-save"></button>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="text-center col-md-12" id="target_data_container" data-title="<?= htmlspecialchars($result_get_category["name"]) ?>">
-                        <!-- Button trigger modal -->
+                <div class="text-center col-md-12" id="target_data_container" data-title="<?= htmlspecialchars($result_get_category["name"]) ?>">
+                    <button type="button" id="delete_button" class="btn btn-danger me-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Effacer la catégorie
+                    </button>
+                    <button type="button" id="modify_button" class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal" name="category_id">
+                        Modifier la catégorie
+                    </button>
+                </div>
+            </form>
+        </div>
 
-                        <button type="button" id="delete_button" class="btn btn-danger mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Effacer la catégorie
-                        </button>
+    <?php
+    } else {
+        try {
+            $get_categories = $db->query("SELECT * FROM categories ORDER BY categories.name");
+            $result_get_categories = $get_categories->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            var_dump($error_db);
+            die();
+        }
+        $page_title = "Mes catégories";
+        include "header.php";
+    ?>
 
-                        <button type="button" id="modify_button" class="btn btn-primary mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal" name="category_id">
-                            Modifier la catégorie
-                        </button>
-                    </div>
-                </form>
+        <div class="row">
+            <div class="col-md-12 d-flex flex-wrap">
+                <?php
+                if (!empty($result_get_categories)) {
+                    foreach ($result_get_categories as $category) {
+                ?>
+                        <div class="card col-md-4 mb-3">
+                            <div class="card-header">
+                                <div>
+                                    <?= $category["deleted"] === 0 ? "<p class='visible fw-bold mb-0'>Visible</p>" : "<p class='deleted fw-bold mb-0'>Non visible</p>" ?>
+                                </div>
+                            </div>
+                            <a href="category.php?id=<?= htmlspecialchars($category["id"]) ?>" class="text-decoration-none">
+                                <div class="card-body">
+                                    <p class="mb-0"><?= $category["name"] ?></p>
+                                </div>
+                            </a>
+
+                            <?php
+                            if ($category["deleted"] === 1) {
+                            ?>
+                                <form action="category.php" method="POST" class="col-md-12 d-flex justify-content-center">
+                                    <input type="hidden" name="direction" value="restore">
+                                    <input type="hidden" name="category_id" value="<?= $category["id"]; ?>">
+                                    <button type="submit" class="btn btn-success mt-1">Restaurer</button>
+                                </form>
+                            <?php } ?>
+                        </div>
+                    <?php
+                    }
+                } else {
+                    ?>
+                    <p class="col-md-12 text-center fw-bold">
+                        Vous n'avez pas encore créé de catégories pour l'instant..</p>
+                <?php } ?>
+
+
             </div>
-
-        <?php }
-    include "footer.php"; ?>
+        </div>
+    <?php
+    }
+    include "footer.php";
+    ?>

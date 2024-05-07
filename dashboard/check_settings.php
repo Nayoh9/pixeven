@@ -19,7 +19,7 @@
         $error = "invalid_meta_description";
     }
 
-    if (!is_int($projects_to_display)) {
+    if (!is_int($projects_to_display) || $projects_to_display > 6) {
         $error = "missing_number_projects";
     }
 
@@ -109,19 +109,18 @@
             'icon' => htmlspecialchars($_POST["social_1"]["icon"]),
             'link' => htmlspecialchars($_POST["social_1"]["link"]),
         ],
-
         "social_2" => [
             'icon' => htmlspecialchars($_POST["social_2"]["icon"]),
             'link' => htmlspecialchars($_POST["social_2"]["link"]),
         ],
 
         "social_3" => [
-            'icon' => htmlspecialchars($_POST["social_3"]["icon"]),
+            'icon' => htmlspecialchars("fa-brands fa-" . $_POST["social_3"]["icon"]),
             'link' => htmlspecialchars($_POST["social_3"]["link"]),
         ],
 
         "social_4" => [
-            'icon' => htmlspecialchars($_POST["social_4"]["icon"]),
+            'icon' => htmlspecialchars("fa-brands fa-" . $_POST["social_4"]["icon"]),
             'link' => htmlspecialchars($_POST["social_4"]["link"]),
         ],
     ]);
