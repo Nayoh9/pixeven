@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the Cloudinary PHP package.
  *
@@ -36,7 +37,7 @@ class Utils
      */
     public static function floatToString($value)
     {
-        if (! is_float($value)) {
+        if (!is_float($value)) {
             return $value;
         }
 
@@ -62,7 +63,7 @@ class Utils
      */
     public static function boolToString($value)
     {
-        if (! is_bool($value)) {
+        if (!is_bool($value)) {
             return $value;
         }
 
@@ -78,7 +79,7 @@ class Utils
      */
     public static function boolToIntString($value)
     {
-        if (! is_bool($value)) {
+        if (!is_bool($value)) {
             return $value;
         }
 
@@ -201,8 +202,8 @@ class Utils
      */
     public static function tryParseUrl($url, array $allowedSchemes = null)
     {
-        if (! $url instanceof UriInterface) {
-            if (! is_string($url)) {
+        if (!$url instanceof UriInterface) {
+            if (!is_string($url)) {
                 return false;
             }
 
@@ -213,7 +214,7 @@ class Utils
             $url = Uri::fromParts($urlParts);
         }
 
-        if ($allowedSchemes !== null && ! in_array($url->getScheme(), $allowedSchemes, false)) {
+        if ($allowedSchemes !== null && !in_array($url->getScheme(), $allowedSchemes, false)) {
             return false;
         }
 
@@ -300,7 +301,7 @@ class Utils
      */
     public static function tryParseBoolean($value)
     {
-        if (! is_string($value)) {
+        if (!is_string($value)) {
             return $value;
         }
 

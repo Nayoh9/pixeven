@@ -219,12 +219,10 @@
                     foreach ($result_get_categories as $category) {
                 ?>
                         <div class="card col-md-4 mb-3">
-                            <div class="card-header">
-                                <div>
+                            <a href="category.php?id=<?= htmlspecialchars($category["id"]) ?>" class="text-decoration-none">
+                                <div class="card-header">
                                     <?= $category["deleted"] === 0 ? "<p class='visible fw-bold mb-0'>Visible</p>" : "<p class='deleted fw-bold mb-0'>Non visible</p>" ?>
                                 </div>
-                            </div>
-                            <a href="category.php?id=<?= htmlspecialchars($category["id"]) ?>" class="text-decoration-none">
                                 <div class="card-body">
                                     <p class="mb-0"><?= $category["name"] ?></p>
                                 </div>

@@ -5,7 +5,7 @@
 }
 /* CSS VARS  */
 
-.form_img {
+.form_asset {
   max-width: var(--form-picture);
   max-height: var(--form-height-picture);
 }

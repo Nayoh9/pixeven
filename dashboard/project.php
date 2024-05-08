@@ -1,10 +1,11 @@
     <?php
     include "includes/functions.php";
 
-    $error = false;
-
     $ok_project = $url . "project.php";
     $not_ok_project = $url . "project.php";
+
+    $error = false;
+
 
     use Cloudinary\Api\Upload\UploadApi;
 
@@ -29,38 +30,66 @@
                     $error = "no_project_hook";
                 }
 
-
                 if (!empty($_FILES["project_img"]["tmp_name"])) {
 
-                    if ($_FILES["project_img"]["size"] > 5000000) {
+                    switch ($_FILES["project_img"]["type"]) {
 
-                        $error = "invalid_file_size";
-                        header("location: $not_ok_project?error=$error");
-                        die();
-                    };
+                        case 'video/mp4':
 
-                    try {
-                        $tmpFilePath = $_FILES["project_img"]["tmp_name"];
-                        $upload = new UploadApi();
+                            $picture_uid = uniqid("asset_");
 
-                        $picture_uid = uniqid("img_");
+                            try {
+                                $tmpFilePath = $_FILES["project_img"]["tmp_name"];
+                                $upload = new UploadApi();
+                                $options = [
+                                    'resource_type' => 'video',
+                                    'folder' => 'pixeven/project_video',
+                                    'public_id' => uniqid("asset_"),
+                                    'use_filename' => true,
+                                    'overwrite' => false,
+                                    'allowed_formats' => ['mp4']
+                                ];
 
-                        $options = [
-                            'public_id' => $picture_uid,
-                            'use_filename' => true,
-                            'overwrite' => false,
-                            'allowed_formats' => ['jpg', 'jpeg', 'png'],
-                            'folder' => "pixeven/project_img"
-                        ];
+                                $result = $upload->upload($tmpFilePath, $options);
+                            } catch (\Throwable $e) {
+                                // var_dump($e->getMessage());
+                                $error = "something_went_wrong_during_video_upload";
+                            }
 
-                        $result = $upload->upload($tmpFilePath, $options);
+                            break;
 
-                        // echo "<pre/>";
-                        // echo (json_encode($result, JSON_PRETTY_PRINT));
-                        // echo "<pre/>";
-                    } catch (\Throwable $e) {
-                        // var_dump($e->getMessage());
-                        $error = "image_format_not_allowed";
+                        default:
+
+                            if ($_FILES["project_img"]["size"] > 5000000) {
+
+                                $error = "invalid_file_size";
+                                header("location: $not_ok_project?error=$error");
+                                die();
+                            };
+
+                            try {
+                                $tmpFilePath = $_FILES["project_img"]["tmp_name"];
+                                $upload = new UploadApi();
+
+                                $picture_uid = uniqid("asset_");
+
+                                $options = [
+                                    'public_id' => $picture_uid,
+                                    'use_filename' => true,
+                                    'overwrite' => false,
+                                    'allowed_formats' => ['jpg', 'jpeg', 'png'],
+                                    'folder' => "pixeven/project_img"
+                                ];
+                                $result = $upload->upload($tmpFilePath, $options);
+
+                                // echo "<pre/>";
+                                // echo (json_encode($result, JSON_PRETTY_PRINT));
+                                // echo "<pre/>";
+                            } catch (\Throwable $e) {
+                                // var_dump($e->getMessage());
+                                $error = "image_format_not_allowed";
+                            }
+                            break;
                     }
                 } else {
                     $error = "no_file_downloaded";
@@ -109,7 +138,8 @@
                         ]);
                     } catch (PDOException $e) {
                         // echo $error_db;
-                        // var_dump($e);
+                        var_dump($e);
+                        die();
                         header("location: $not_ok_project?error=$error_db");
                         die();
                     }
@@ -121,7 +151,6 @@
                     die();
                 };
                 break;
-
 
             case 'modify':
 
@@ -160,38 +189,69 @@
                     die();
                 }
 
-                if (!empty($picture_uid)) {
+                if (!empty($result_get_project["picture_uid"])) {
                     $picture_uid = $result_get_project["picture_uid"];
                 }
 
                 if (!empty($_FILES["project_img"]["tmp_name"])) {
 
-                    if ($_FILES["project_img"]["size"] <= 5000000) {
 
-                        try {
-                            // Chemin temporaire du fichier uploadé
-                            $tmpFilePath = $_FILES["project_img"]["tmp_name"];
-                            $upload = new UploadApi();
+                    switch ($_FILES["project_img"]["type"]) {
+                        case 'video/mp4':
 
-                            // Options
-                            $options = [
-                                'public_id' => $picture_uid,
-                                'use_filename' => false,
-                                'overwrite' => true,
-                                'allowed_formats' => ['jpg', 'jpeg', 'png'],
-                                'folder' => "pixeven/project_img",
-                            ];
+                            try {
+                                $tmpFilePath = $_FILES["project_img"]["tmp_name"];
+                                $upload = new UploadApi();
+                                $options = [
+                                    'resource_type' => 'video',
+                                    'folder' => 'pixeven/project_video',
+                                    'public_id' => $picture_uid,
+                                    'use_filename' => false,
+                                    'overwrite' => true,
+                                    'allowed_formats' => ["mp4"]
+                                ];
 
-                            $result = $upload->upload($tmpFilePath, $options);
-                            $picture = $result["secure_url"];
+                                $result = $upload->upload($tmpFilePath, $options);
+                                $picture = $result["secure_url"];
+                            } catch (\Throwable $e) {
+                                // var_dump($e->getMessage());
+                                $error = "something_went_wrong_during_video_upload";
+                            }
+                            break;
 
-                            // echo "<pre/>";
-                            // echo (json_encode($result, JSON_PRETTY_PRINT));
-                            // echo "<pre/>";
-                        } catch (\Throwable $e) {
-                            // var_dump($e->getMessage());
-                            $error = "image_format_not_allowed";
-                        }
+                        default:
+                            if ($_FILES["project_img"]["size"] > 5000000) {
+
+                                $error = "invalid_file_size";
+                                header("location: $not_ok_project?error=$error");
+                                die();
+                            };
+
+                            try {
+                                // Chemin temporaire du fichier uploadé
+                                $tmpFilePath = $_FILES["project_img"]["tmp_name"];
+                                $upload = new UploadApi();
+
+                                // Options
+                                $options = [
+                                    'public_id' => $picture_uid,
+                                    'use_filename' => false,
+                                    'overwrite' => true,
+                                    'allowed_formats' => ['jpg', 'jpeg', 'png'],
+                                    'folder' => "pixeven/project_img",
+                                ];
+
+                                $result = $upload->upload($tmpFilePath, $options);
+                                $picture = $result["secure_url"];
+
+                                // echo "<pre/>";
+                                // echo (json_encode($result, JSON_PRETTY_PRINT));
+                                // echo "<pre/>";
+                            } catch (\Throwable $e) {
+                                // var_dump($e->getMessage());
+                                $error = "image_format_not_allowed";
+                            }
+                            break;
                     }
                 }
 
@@ -366,12 +426,12 @@
                 <div class="col-md-6 text-center">
                     <label for="file_to_upload">
                         <div id="preview">
-                            <img id="preview_child" class="form_img rounded-1" src="<?= $result_get_project["picture"]; ?>" alt="Photo d'un projet">
+                            <img id="preview_child" class="form_asset rounded-1" src="<?= $result_get_project["picture"]; ?>" alt="Photo/vidéo d'un projet">
                         </div>
                     </label>
 
-                    <input class="col-md-6 mt-2 accordion form-control" name="project_img" type="file" id="file_to_upload" accept="image/png, image/jpeg, image/jpg">
-                    <p class="fs-6 fw-bold mb-0">Taille maximum du fichier 5 MO</p>
+                    <input class="col-md-6 mt-2 accordion form-control" name="project_img" type="file" id="file_to_upload" accept="image/png, image/jpeg, image/jpg, video/mp4">
+                    <p class="fs-6 fw-bold mb-0">Taille maximum du fichier : 5 MO</p>
                 </div>
 
                 <div class="text-center mt-4">
@@ -388,7 +448,7 @@
                                     $is_selected = str_contains($result_get_project["categories"], $category["id"]) ? 'selected' : '';
                         ?>
                                     <option <?= $is_selected ?> value="<?= $category["id"] ?>" id="categories_<?= $category["id"] ?>">
-                                        <?= $category["name"] ?>
+                                        <?= htmlspecialchars($category["name"]);  ?>
                                     </option>
                         <?php
                                 }
@@ -461,7 +521,6 @@
             ORDER BY 
             projects.id 
             DESC",
-
             );
             $result_get_projects = $get_projects->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -492,7 +551,7 @@
 
                                 </div>
                                 <div class="card-body text-center">
-                                    <img src="<?= $project["picture"] ?>" alt="photo d'un projet créer" class="consult_projects_picture rounded-1 ">
+                                    <img src="<?= $project["picture"] ?>" alt="photo/video d'un projet créé" class="consult_projects_picture rounded-1 ">
                                     <p class="mb-0">Catégories :</p>
                                     <p><?= htmlspecialchars($project["GROUP_CONCAT(categories.name)"]);  ?></p>
                                 </div>
@@ -520,6 +579,7 @@
             <?php } ?>
         </div>
 
-    <?php }
+    <?php
+    }
     include "footer.php"
     ?>

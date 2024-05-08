@@ -25,14 +25,18 @@
         <div class="col-md-6">
             <label class="form-label">Catégorie(s)</label>
             <select class="project_categories_list form-select" aria-label="multiple select example" size="3" name="project_categories[]" multiple required>
-                <?php foreach ($result_get_categories as $category) {
-                    if ($category["deleted"] === 0) { ?>
-                        <option value="<?= $category["id"] ?>" id="categories_<?= $category["id"] ?>"><?= $category["name"] ?></option>
-                <?php }
-                } ?>
+                <?php
+                if (!empty($result_get_categories)) {
+                    foreach ($result_get_categories as $category) {
+                        if ($category["deleted"] === 0) { ?>
+                            <option value="<?= $category["id"] ?>" id="categories_<?= $category["id"] ?>"><?= htmlspecialchars($category["name"]);  ?></option>
+                <?php
+                        }
+                    }
+                }
+                ?>
             </select>
         </div>
-
 
         <div class="col-md-6">
             <label class="form-label" for="project_hook">Courte description du projet</label>
@@ -46,8 +50,8 @@
 
         <div class="col-md-6">
             <label class="form-label" for="project_img">Photo du projet</label>
-            <input type="file" class="form-control" id="project_img" name="project_img" accept="image/png, image/jpeg, image/jpg" required>
-            <p class="fs-6 fw-bold text-center mb-0">Taille maximum du fichier 5 MO</p>
+            <input type="file" class="form-control" id="project_img" name="project_img" accept="image/png, image/jpeg, image/jpg, video/mp4" required>
+            <p class="fs-6 fw-bold text-center mb-0">Taille maximum du fichier : 5 MO</p>
         </div>
 
         <div class="col-md-12 text-center">

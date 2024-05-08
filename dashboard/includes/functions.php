@@ -84,6 +84,10 @@
                 return $error_code = "Veuillez entrer une courte description du projet";
                 break;
 
+            case "something_went_wrong_during_video_upload":
+                return $error_code = "Une erreur s'est produite pendant le telechargement de la vidéo";
+                break;
+
             default:
                 return $error_code = "Erreur inconnue";
                 break;

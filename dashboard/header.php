@@ -34,15 +34,15 @@
             <div class="wrapper">
                 <header class="row">
                     <h1 class="col-md-12 text-center"><?= $page_title ?></h1>
-                    <div class="col-md-12 d-flex justify-content-center">
-                        <ul class="col-auto list-group flex-row flex-wrap ">
+                    <nav class="col-md-12">
+                        <ul class="list-group d-flex flex-row flex-wrap justify-content-center ">
                             <li class="col-auto"> <a href="create_project.php">Ajouter un projet</a></li>
                             <li class="col-auto"><a href="create_category.php">Ajouter une catégorie</a></li>
                             <li class="col-auto"> <a href="project.php">Consulter mes projets</a></li>
                             <li class="col-auto"><a href="category.php">Consulter mes categories</a></li>
                             <li class="col-auto"><a href="settings.php">Mes paramètres</a></li>
                         </ul>
-                    </div>
+                    </nav>
                 </header>
 
                 <?php

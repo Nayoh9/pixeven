@@ -7,20 +7,55 @@
         const preview = document.getElementById("preview");
 
         fileInput.addEventListener("change", () => {
-            const fr = new FileReader();
-            fr.readAsDataURL(fileInput.files[0]);
-            fr.addEventListener("load", () => {
-                for (let i = 0; i < preview.children.length; i++) {
-                    preview.removeChild(preview.children[i]);
+            if (fileInput.files.length > 0) {
+                file = fileInput.files[0];
+
+                switch (file.type) {
+                    case "image/jpeg":
+                    case "image/png":
+                    case "image/jpg":
+                        const fr = new FileReader();
+
+                        fr.readAsDataURL(file);
+                        fr.addEventListener("load", () => {
+                            for (let i = 0; i < preview.children.length; i++) {
+                                preview.removeChild(preview.children[i]);
+                            }
+                            const url = fr.result;
+                            const video = new Image();
+
+                            img.setAttribute("class", "form_asset");
+                            img.src = url;
+                            preview.appendChild(img);
+                        });
+                        break;
+
+                    case "video/mp4":
+
+                        const fr_video = new FileReader();
+
+                        fr_video.readAsDataURL(file);
+                        fr_video.addEventListener("load", () => {
+                            for (let i = 0; i < preview.children.length; i++) {
+                                preview.removeChild(preview.children[i]);
+                            }
+                            const url = fr_video.result;
+                            const video = document.createElement("video");
+
+                            video.setAttribute("class", "form_asset");
+                            video.src = url;
+                            video.controls = true;
+                            preview.appendChild(video);
+                        });
+                        break;
+
+                    default:
+
                 }
-                const url = fr.result;
-                const img = new Image();
-                img.setAttribute("class", "form_img");
-                img.src = url;
-                preview.appendChild(img);
-            })
-        })
+            }
+        });
     </script>
+
 
     <!-- ** TINY MCE SCRIPT ** -->
     <!-- Place the first <script> tag in your HTML's <head> -->
@@ -32,6 +67,7 @@
             menubar: 'file edit view',
         });
     </script>
+
 
     <!-- **HANDLE MODAL SCRIPT** -->
     <script>
