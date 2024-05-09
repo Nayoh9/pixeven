@@ -205,7 +205,7 @@
                         </div>
                     </label>
 
-                    <input class="col-md-6 mt-2 form-control" name="profile_picture" type="file" id="file_to_upload" accept="image/png, image/jpeg, image/jpg, video/mp4" value="<?= $result_get_settings["profile_picture"]; ?>">
+                    <input class="col-md-6 mt-2 form-control" name="profile_picture" type="file" id="file_to_upload" accept="image/png, image/jpeg, image/jpg" value="<?= $result_get_settings["profile_picture"]; ?>">
                     <p class="fs-6 fw-bold text-center">Taille maximum du fichier : 5 MO</p>
                 </div>
 

@@ -1,21 +1,62 @@
-<!DOCTYPE html>
-<html class="no-js" lang="fr">
+  <?php
+  include "/Users/yohann/localhost/pixeven/dashboard/includes/functions.php";
+
+  try {
+    $get_settings = $db->query("SELECT * FROM settings");
+    $result_get_settings = $get_settings->fetch(PDO::FETCH_ASSOC);
+  } catch (\PDOException $e) {
+    var_dump($error_db);
+  }
+
+  $socials = json_decode($result_get_settings["socials"], true);
+  $stats = json_decode($result_get_settings["stats"], true);
+
+  try {
+    $get_projects = $db->query(
+      "SELECT
+      -- Tout selectionner dans projects
+      projects.*,
+      -- Rassembler dans une chaine de caractère les categories.name
+      GROUP_CONCAT(categories.name)
+      FROM
+      projects
+      -- Chercher dans project_categories si il ya des categories_id
+     INNER JOIN categories ON FIND_IN_SET(
+          categories.id,
+          projects.categories
+      )
+      GROUP BY
+      projects.id
+    ORDER BY 
+      projects.id 
+    DESC",
+    );
+
+    $result_get_projects = $get_projects->fetchALL(PDO::FETCH_ASSOC);
+
+    // var_dump($result_get_projects);
+    // die();
+  } catch (\PDOException $e) {
+    var_dump($error_db);
+  }
+  ?>
+
+
+  <!DOCTYPE html>
+  <html class="no-js" lang="fr">
+
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
+    <meta name="description" content="<?= $result_get_settings["meta_description_homepage"] ?>" />
 
     <!-- Site Title -->
-    <title>Pixeven</title>
+    <title><?= $result_get_settings["meta_title_homepage"] ?></title>
 
     <!-- Place favicon.ico in the root directory -->
     <link rel="apple-touch-icon" href="./assets/img/favicon.png" />
-    <link
-      rel="shortcut icon"
-      type="image/png"
-      href="./assets/img/favicon.png"
-    />
+    <link rel="shortcut icon" type="image/png" href="./assets/img/favicon.png" />
 
     <!-- CSS here -->
     <link rel="stylesheet" href="assets/css/animate.min.css" />
@@ -30,43 +71,36 @@
 
     <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="stylesheet" href="assets/css/responsive.css" />
+
   </head>
 
   <body>
     <!-- Preloader Area Start -->
-    <div class="preloader">
-		<svg viewBox="0 0 1000 1000" preserveAspectRatio="none">
-			<path
-			id="preloaderSvg"
-			d="M0,1005S175,995,500,995s500,5,500,5V0H0Z"
-			></path>
-		</svg>
+    <!-- <div class="preloader">
+      <svg viewBox="0 0 1000 1000" preserveAspectRatio="none">
+        <path id="preloaderSvg" d="M0,1005S175,995,500,995s500,5,500,5V0H0Z"></path>
+      </svg>
 
-		<div class="preloader-heading">
-			<div class="load-text">
-        <span>C</span>
-        <span>h</span>
-        <span>a</span>
-        <span>r</span>
-        <span>g</span>
-        <span>e</span>
-        <span>m</span>
-        <span>e</span>
-        <span>n</span>
-        <span>t</span>
-			</div>
-		</div>
-		</div>
+      <div class="preloader-heading">
+        <div class="load-text">
+          <span>C</span>
+          <span>h</span>
+          <span>a</span>
+          <span>r</span>
+          <span>g</span>
+          <span>e</span>
+          <span>m</span>
+          <span>e</span>
+          <span>n</span>
+          <span>t</span>
+        </div>
+      </div>
+    </div> -->
     <!-- Preloader Area End -->
 
     <!-- start: Back To Top -->
     <div class="progress-wrap" id="scrollUp">
-      <svg
-        class="progress-circle svg-content"
-        width="100%"
-        height="100%"
-        viewBox="-1 -1 102 102"
-      >
+      <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
         <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
       </svg>
     </div>
@@ -162,14 +196,10 @@
             <div class="col-md-6">
               <div class="hero-content-box">
                 <h1 class="hero-title wow fadeInLeft" data-wow-delay="1.2s">
-                  Infographiste &<br />Motion Designer <br />
-                  à Montbéliard
+                  <?= $result_get_settings["profile_title"]; ?>
                 </h1>
 
-                <div
-                  class="hero-image-box d-md-none text-center wow fadeInRight"
-                  data-wow-delay="1.3s"
-                >
+                <div class="hero-image-box d-md-none text-center wow fadeInRight" data-wow-delay="1.3s">
                   <img src="assets/img/hero/me.png" alt="" />
                 </div>
 
@@ -177,32 +207,27 @@
                   Réflexion, creation, innovation.
                 </p>
                 <div class="button-box d-flex flex-wrap align-items-center">
-                  <ul
-                    class="ul-reset social-icons wow fadeInLeft"
-                    data-wow-delay="1.6s"
-                  >
-                    <li>
-                      <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fa-brands fa-github"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fa-brands fa-github"></i></a>
-                    </li>
+                  <ul class="ul-reset social-icons wow fadeInLeft" data-wow-delay="1.6s">
+
+                    <?php
+                    foreach ($socials as $social) {
+                      if (!empty($social["icon"])) {
+                    ?>
+                        <li>
+                          <a href="<?= $social["link"] ?>" target="_blank"><i class="<?= $social["icon"] ?>"></i></a>
+                        </li>
+                    <?php
+                      }
+                    }
+                    ?>
+
                   </ul>
                 </div>
               </div>
             </div>
             <div class="col-md-6 d-none d-md-block">
-              <div
-                class="hero-image-box text-center wow fadeInRight"
-                data-wow-delay="1.5s"
-              >
-                <img src="assets/img/hero/me.png" alt="" />
+              <div class="hero-image-box text-center wow fadeInRight" data-wow-delay="1.5s">
+                <img src="<?= $result_get_settings["profile_picture"] ?>" alt="Photo d'un homme" />
               </div>
             </div>
           </div>
@@ -210,45 +235,39 @@
           <div class="funfact-area">
             <div class="row">
               <div class="col-6 col-lg-4">
-                <div
-                  class="funfact-item d-flex flex-column flex-sm-row flex-wrap align-items-center"
-                >
+                <div class="funfact-item d-flex flex-column flex-sm-row flex-wrap align-items-center">
                   <div class="number">
-                    <span class="odometer" data-count="14">0</span>
+                    <span class="odometer" data-count="<?= htmlspecialchars($stats["years_of_experience"]); ?>">0</span>
                   </div>
                   <div class="text">Années <br />d'Experience</div>
                 </div>
               </div>
               <div class="col-6 col-lg-4">
-                <div
-                  class="funfact-item d-flex flex-column flex-sm-row flex-wrap align-items-center"
-                >
+                <div class="funfact-item d-flex flex-column flex-sm-row flex-wrap align-items-center">
                   <div class="number">
-                    <span class="odometer" data-count="50">0</span>+
+                    <span class="odometer" data-count="<?= htmlspecialchars($stats["achieved_projects"]) ?>">0</span>+
                   </div>
                   <div class="text">Projets <br />réalisés</div>
                 </div>
               </div>
               <div class="col-6 col-lg-4">
-                <div
-                  class="funfact-item d-flex flex-column flex-sm-row flex-wrap align-items-center"
-                >
+                <div class="funfact-item d-flex flex-column flex-sm-row flex-wrap align-items-center">
                   <div class="number">
-                    <span class="odometer" data-count="1.5">0</span>K
+                    <span class="odometer" data-count="<?= htmlspecialchars($stats["satisfied_customers"]) ?>">0</span>K
                   </div>
                   <div class="text">Clients <br />Satisfaits</div>
                 </div>
               </div>
               <!-- <div class="col-6 col-lg-3">
-                <div
-                  class="funfact-item d-flex flex-column flex-sm-row flex-wrap align-items-center"
-                >
-                  <div class="number">
-                    <span class="odometer" data-count="14">0</span>
+                  <div
+                    class="funfact-item d-flex flex-column flex-sm-row flex-wrap align-items-center"
+                  >
+                    <div class="number">
+                      <span class="odometer" data-count="14">0</span>
+                    </div>
+                    <div class="text">Années <br />d'Experience</div>
                   </div>
-                  <div class="text">Années <br />d'Experience</div>
-                </div>
-              </div> -->
+                </div> -->
             </div>
           </div>
         </div>
@@ -275,81 +294,57 @@
           <div class="row">
             <div class="col-md-12">
               <div class="services-widget position-relative">
-                <div
-                  class="service-item current d-flex flex-wrap align-items-center wow fadeInUp"
-                  data-wow-delay=".5s"
-                >
+                <div class="service-item current d-flex flex-wrap align-items-center wow fadeInUp" data-wow-delay=".5s">
                   <div class="left-box d-flex flex-wrap align-items-center">
                     <span class="number">01</span>
                     <h3 class="service-title">Prestation</h3>
                   </div>
                   <div class="right-box">
                     <p>
-                    Description prestation
+                      Description prestation
                     </p>
                   </div>
                   <i class="flaticon-up-right-arrow"></i>
-                  <button
-                    data-mfp-src="#service-wrapper"
-                    class="service-link modal-popup"
-                  ></button>
+                  <button data-mfp-src="#service-wrapper" class="service-link modal-popup"></button>
                 </div>
-                <div
-                  class="service-item d-flex flex-wrap align-items-center wow fadeInUp"
-                  data-wow-delay=".6s"
-                >
+                <div class="service-item d-flex flex-wrap align-items-center wow fadeInUp" data-wow-delay=".6s">
                   <div class="left-box d-flex flex-wrap align-items-center">
                     <span class="number">02</span>
                     <h3 class="service-title">Prestation</h3>
                   </div>
                   <div class="right-box">
                     <p>
-                    Description prestation
+                      Description prestation
                     </p>
                   </div>
                   <i class="flaticon-up-right-arrow"></i>
-                  <button
-                    data-mfp-src="#service-wrapper"
-                    class="service-link modal-popup"
-                  ></button>
+                  <button data-mfp-src="#service-wrapper" class="service-link modal-popup"></button>
                 </div>
-                <div
-                  class="service-item d-flex flex-wrap align-items-center wow fadeInUp"
-                  data-wow-delay=".7s"
-                >
+                <div class="service-item d-flex flex-wrap align-items-center wow fadeInUp" data-wow-delay=".7s">
                   <div class="left-box d-flex flex-wrap align-items-center">
-                    <span class="number">03</span>  
-                  <h3 class="service-title">Prestation</h3>
+                    <span class="number">03</span>
+                    <h3 class="service-title">Prestation</h3>
                   </div>
                   <div class="right-box">
                     <p>
-                    Description prestation
+                      Description prestation
                     </p>
                   </div>
                   <i class="flaticon-up-right-arrow"></i>
-                  <button
-                    data-mfp-src="#service-wrapper"
-                    class="service-link modal-popup"
-                  ></button>
+                  <button data-mfp-src="#service-wrapper" class="service-link modal-popup"></button>
                 </div>
-                <div
-                  class="service-item d-flex flex-wrap align-items-center wow fadeInUp"
-                  data-wow-delay=".8s"
-                >
+                <div class="service-item d-flex flex-wrap align-items-center wow fadeInUp" data-wow-delay=".8s">
                   <div class="left-box d-flex flex-wrap align-items-center">
                     <span class="number">04</span>
                     <h3 class="service-title">Prestation</h3>
                   </div>
                   <div class="right-box">
                     <p>
-                    Description prestation
+                      Description prestation
                     </p>
                   </div>
                   <i class="flaticon-up-right-arrow"></i>
-                  <button
-                    data-mfp-src="#service-wrapper"
-                    class="service-link modal-popup"
-                  ></button>
+                  <button data-mfp-src="#service-wrapper" class="service-link modal-popup"></button>
                 </div>
                 <div class="active-bg wow fadeInUp" data-wow-delay=".5s"></div>
               </div>
@@ -360,10 +355,7 @@
       <!-- SERVICES SECTION END -->
 
       <!-- start: Service Popup -->
-      <div
-        id="service-wrapper"
-        class="popup_content_area zoom-anim-dialog mfp-hide"
-      >
+      <div id="service-wrapper" class="popup_content_area zoom-anim-dialog mfp-hide">
         <div class="popup_modal_img">
           <img src="./assets/img/services/modal-img.jpg" alt="" />
         </div>
@@ -468,30 +460,13 @@
 
                     <form action="index.html">
                       <div class="form_group">
-                        <input
-                          type="text"
-                          name="name"
-                          id="name"
-                          placeholder="Name"
-                          autocomplete="off"
-                        />
+                        <input type="text" name="name" id="name" placeholder="Name" autocomplete="off" />
                       </div>
                       <div class="form_group">
-                        <input
-                          type="email"
-                          name="semail"
-                          id="semail"
-                          placeholder="Email"
-                          autocomplete="off"
-                        />
+                        <input type="email" name="semail" id="semail" placeholder="Email" autocomplete="off" />
                       </div>
                       <div class="form_group">
-                        <textarea
-                          name="smessage"
-                          id="smessage"
-                          placeholder="Your message"
-                          autocomplete="off"
-                        ></textarea>
+                        <textarea name="smessage" id="smessage" placeholder="Your message" autocomplete="off"></textarea>
                       </div>
                       <div class="form_btn">
                         <button class="btn tj-btn-primary" type="submit">
@@ -528,123 +503,54 @@
 
           <div class="row">
             <div class="col-md-12">
-              <div
-                class="portfolio-filter text-center wow fadeInUp"
-                data-wow-delay=".5s"
-              >
+              <div class="portfolio-filter text-center wow fadeInUp" data-wow-delay=".5s">
+
                 <!-- <div class="button-group filter-button-group">
-                  <button data-filter="*" class="active">All</button>
-                  <button data-filter=".uxui">UX/UI</button>
-                  <button data-filter=".branding">Branding</button>
-                  <button data-filter=".mobile-app">Apps</button>
-                  <div class="active-bg"></div>
-                </div>
-              </div> -->
-
-              <div class="portfolio-box wow fadeInUp" data-wow-delay=".6s">
-                <div class="portfolio-sizer"></div>
-                <div class="gutter-sizer"></div>
-                <div class="col-md-12">
-                  <div class="portfolio-item branding">
-                    <div class="image-box">
-                      <img src="assets/img/portfolio/2.jpg" alt="" />
-                    </div>
-                    <div class="content-box">
-                      <h3 class="portfolio-title">Deloitte</h3>
-                      <p>Project was about precision and information.</p>
-                      <i class="flaticon-up-right-arrow"></i>
-                      <button
-                        data-mfp-src="#portfolio-wrapper"
-                        class="portfolio-link modal-popup"
-                      ></button>
-                    </div>
+                    <button data-filter="*" class="active">All</button>
+                    <button data-filter=".uxui">UX/UI</button>
+                    <button data-filter=".branding">Branding</button>
+                    <button data-filter=".mobile-app">Apps</button>
+                    <div class="active-bg"></div>
                   </div>
+                </div> -->
 
-                  <div class="portfolio-item branding">
-                    <div class="image-box">
-                      <img src="assets/img/portfolio/2.jpg" alt="" />
-                    </div>
-                    <div class="content-box">
-                      <h3 class="portfolio-title">Deloitte</h3>
-                      <p>Project was about precision and information.</p>
-                      <i class="flaticon-up-right-arrow"></i>
-                      <button
-                        data-mfp-src="#portfolio-wrapper"
-                        class="portfolio-link modal-popup"
-                      ></button>
-                    </div>
-                  </div>
-                  <div class="portfolio-item branding">
-                    <div class="image-box">
-                      <img src="assets/img/portfolio/2.jpg" alt="" />
-                    </div>
-                    <div class="content-box">
-                      <h3 class="portfolio-title">Deloitte</h3>
-                      <p>Project was about precision and information.</p>
-                      <i class="flaticon-up-right-arrow"></i>
-                      <button
-                        data-mfp-src="#portfolio-wrapper"
-                        class="portfolio-link modal-popup"
-                      ></button>
-                    </div>
+                <div class="portfolio-box wow fadeInUp" data-wow-delay=".6s">
+                  <div class="portfolio-sizer"></div>
+                  <div class="gutter-sizer"></div>
+                  <div class="col-md-12">
+
+
+                    <?php
+                    foreach ($result_get_projects as $project) {
+                    ?>
+
+                      <div class="portfolio-item branding">
+                        <div class="image-box">
+                          <img src="<?= $project["picture"] ?>" alt="photo d'un projet" />
+                        </div>
+                        <div class="content-box">
+                          <h3 class="portfolio-title">Deloitte</h3>
+                          <p>Project was about precision and information.</p>
+                          <i class="flaticon-up-right-arrow"></i>
+                          <button data-mfp-src="#portfolio-wrapper" class="portfolio-link modal-popup"></button>
+                        </div>
+                      </div>
+
+                    <?php
+                    }
+                    ?>
+
+
+
                   </div>
                 </div>
-
-                <div class="portfolio-item uxui">
-					<div class="image-box">
-						<img src="assets/img/portfolio/1.jpg" alt="" />
-					</div>
-					<div class="content-box">
-						<h3 class="portfolio-title">New Age</h3>
-						<p>Project was about precision and information.</p>
-						<i class="flaticon-up-right-arrow"></i>
-						<button
-						data-mfp-src="#portfolio-wrapper"
-						class="portfolio-link modal-popup"
-						></button>
-					</div>
-					</div> 
-
-                 <div class="portfolio-item mobile-app">
-					<div class="image-box">
-						<img src="assets/img/portfolio/3.jpg" alt="" />
-					</div>
-					<div class="content-box">
-						<h3 class="portfolio-title">Sebastian</h3>
-						<p>Project was about precision and information.</p>
-						<i class="flaticon-up-right-arrow"></i>
-						<button
-						data-mfp-src="#portfolio-wrapper"
-						class="portfolio-link modal-popup"
-						></button>
-					</div>
-					
-					</div> <div class="portfolio-item branding">
-					<div class="image-box">
-						<img src="assets/img/portfolio/4.jpg" alt="" />
-					</div>
-					<div class="content-box">
-						<h3 class="portfolio-title">Mochnix</h3>
-						<p>Project was about precision and information.</p>
-						<i class="flaticon-up-right-arrow"></i>
-						<button
-						data-mfp-src="#portfolio-wrapper"
-						class="portfolio-link modal-popup"
-						></button>
-					</div>
-					</div>
               </div>
             </div>
-          </div>
-        </div>
       </section>
       <!-- PORTFOLIO SECTION END -->
 
       <!-- start: Portfolio Popup -->
-      <div
-        id="portfolio-wrapper"
-        class="popup_content_area zoom-anim-dialog mfp-hide"
-      >
+      <div id="portfolio-wrapper" class="popup_content_area zoom-anim-dialog mfp-hide">
         <div class="popup_modal_img">
           <img src="./assets/img/portfolio/modal-img.jpg" alt="" />
         </div>
@@ -660,9 +566,7 @@
                   gathering gathered he one us saying can't divide.
                 </p>
               </div>
-              <a href="#" class="btn tj-btn-primary"
-                >live preview <i class="fal fa-arrow-right"></i
-              ></a>
+              <a href="#" class="btn tj-btn-primary">live preview <i class="fal fa-arrow-right"></i></a>
             </div>
             <div class="portfolio_info_items">
               <div class="info_item">
@@ -686,28 +590,16 @@
 
           <div class="portfolio_gallery owl-carousel">
             <div class="gallery_item">
-              <img
-                src="./assets/img/portfolio-gallery/p-gallery-1.jpg"
-                alt=""
-              />
+              <img src="./assets/img/portfolio-gallery/p-gallery-1.jpg" alt="" />
             </div>
             <div class="gallery_item">
-              <img
-                src="./assets/img/portfolio-gallery/p-gallery-2.jpg"
-                alt=""
-              />
+              <img src="./assets/img/portfolio-gallery/p-gallery-2.jpg" alt="" />
             </div>
             <div class="gallery_item">
-              <img
-                src="./assets/img/portfolio-gallery/p-gallery-3.jpg"
-                alt=""
-              />
+              <img src="./assets/img/portfolio-gallery/p-gallery-3.jpg" alt="" />
             </div>
             <div class="gallery_item">
-              <img
-                src="./assets/img/portfolio-gallery/p-gallery-4.jpg"
-                alt=""
-              />
+              <img src="./assets/img/portfolio-gallery/p-gallery-4.jpg" alt="" />
             </div>
           </div>
 
@@ -822,9 +714,7 @@
 
           <div class="row">
             <div class="col-md-12">
-              <div
-                class="skills-widget d-flex flex-wrap justify-content-center align-items-center"
-              >
+              <div class="skills-widget d-flex flex-wrap justify-content-center align-items-center">
                 <div class="skill-item wow fadeInUp" data-wow-delay=".3s">
                   <div class="skill-inner">
                     <div class="icon-box">
@@ -905,55 +795,27 @@
                     <div class="row gx-3">
                       <div class="col-sm-6">
                         <div class="form_group">
-                          <input
-                            type="text"
-                            name="fname"
-                            id="fname"
-                            placeholder="Prénom"
-                            autocomplete="off"
-                          />
+                          <input type="text" name="fname" id="fname" placeholder="Prénom" autocomplete="off" />
                         </div>
                       </div>
                       <div class="col-sm-6">
                         <div class="form_group">
-                          <input
-                            type="text"
-                            name="lname"
-                            id="lname"
-                            placeholder="Nom"
-                            autocomplete="off"
-                          />
+                          <input type="text" name="lname" id="lname" placeholder="Nom" autocomplete="off" />
                         </div>
                       </div>
                       <div class="col-sm-6">
                         <div class="form_group">
-                          <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            placeholder="Adresse E-mail"
-                            autocomplete="off"
-                          />
+                          <input type="email" name="email" id="email" placeholder="Adresse E-mail" autocomplete="off" />
                         </div>
                       </div>
                       <div class="col-sm-6">
                         <div class="form_group">
-                          <input
-                            type="tel"
-                            name="phone"
-                            id="phone"
-                            placeholder="Numéro de téléphone"
-                            autocomplete="off"
-                          />
+                          <input type="tel" name="phone" id="phone" placeholder="Numéro de téléphone" autocomplete="off" />
                         </div>
                       </div>
                       <div class="col-12">
                         <div class="form_group">
-                          <select
-                            name="service"
-                            id="service"
-                            class="tj-nice-select"
-                          >
+                          <select name="service" id="service" class="tj-nice-select">
                             <option value="" selected disabled>
                               Choisir une prestation
                             </option>
@@ -966,11 +828,7 @@
                       </div>
                       <div class="col-12">
                         <div class="form_group">
-                          <textarea
-                            name="message"
-                            id="message"
-                            placeholder="Message"
-                          ></textarea>
+                          <textarea name="message" id="message" placeholder="Message"></textarea>
                         </div>
                       </div>
                       <div class="col-12">
@@ -986,15 +844,10 @@
               </div>
             </div>
 
-            <div
-              class="col-lg-5 offset-lg-1 col-md-5 d-flex flex-wrap align-items-center order-1 order-md-2"
-            >
+            <div class="col-lg-5 offset-lg-1 col-md-5 d-flex flex-wrap align-items-center order-1 order-md-2">
               <div class="contact-info-list">
                 <ul class="ul-reset">
-                  <li
-                    class="d-flex flex-wrap align-items-center position-relative wow fadeInRight"
-                    data-wow-delay=".4s"
-                  >
+                  <li class="d-flex flex-wrap align-items-center position-relative wow fadeInRight" data-wow-delay=".4s">
                     <div class="icon-box">
                       <i class="flaticon-phone-call"></i>
                     </div>
@@ -1003,10 +856,7 @@
                       <a href="tel:0123456789">+01 123 654 8096</a>
                     </div>
                   </li>
-                  <li
-                    class="d-flex flex-wrap align-items-center position-relative wow fadeInRight"
-                    data-wow-delay=".5s"
-                  >
+                  <li class="d-flex flex-wrap align-items-center position-relative wow fadeInRight" data-wow-delay=".5s">
                     <div class="icon-box">
                       <i class="flaticon-mail-inbox-app"></i>
                     </div>
@@ -1015,18 +865,13 @@
                       <a href="mailto:mail@mail.com">gerolddesign@mail.com</a>
                     </div>
                   </li>
-                  <li
-                    class="d-flex flex-wrap align-items-center position-relative wow fadeInRight"
-                    data-wow-delay=".6s"
-                  >
+                  <li class="d-flex flex-wrap align-items-center position-relative wow fadeInRight" data-wow-delay=".6s">
                     <div class="icon-box">
                       <i class="flaticon-location"></i>
                     </div>
                     <div class="text-box">
                       <p>Adresse</p>
-                      <a href="#"
-                        >Warne Park Street Pine, <br />FL 33157, New York</a
-                      >
+                      <a href="#">Warne Park Street Pine, <br />FL 33157, New York</a>
                     </div>
                   </li>
                 </ul>
@@ -1080,4 +925,5 @@
 
     <script src="assets/js/main.js"></script>
   </body>
-</html>
+
+  </html>

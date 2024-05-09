@@ -12,7 +12,7 @@
     }
     ?>
 
-    <form method="POST" action="project.php" class="row new_project_form d-flex flex-column align-items-center" enctype="multipart/form-data">
+    <form method="POST" action="project.php" class="row new_project_form d-flex flex-column align-items-center" enctype="multipart/form-data" id="valid_project_form">
 
         <input type="hidden" name="direction" value="create">
 
@@ -48,14 +48,14 @@
             <textarea type="text" class="form-control" placeholder="Voici un nouveau design.." rows="15" name="project_description"></textarea>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 text-center ">
             <label class="form-label" for="project_img">Photo du projet</label>
-            <input type="file" class="form-control" id="project_img" name="project_img" accept="image/png, image/jpeg, image/jpg, video/mp4" required>
+            <input type="file" class="form-control" id="project_img" name="project_img" accept="image/png, image/jpeg, image/jpg" required>
             <p class="fs-6 fw-bold text-center mb-0">Taille maximum du fichier : 5 MO</p>
         </div>
 
         <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Créer le projet</button>
+            <button type="submit" id="valid_project_button" class="btn btn-primary">Créer le projet</button>
         </div>
     </form>
 

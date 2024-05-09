@@ -1,4 +1,4 @@
-    <?php include "includes/config.php";
+    <?php include "/Users/yohann/localhost/pixeven/dashboard/includes/config.php";
 
 
     function parse_error($error_code)

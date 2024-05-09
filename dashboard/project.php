@@ -34,29 +34,29 @@
 
                     switch ($_FILES["project_img"]["type"]) {
 
-                        case 'video/mp4':
+                            // case 'video/mp4':
 
-                            $picture_uid = uniqid("asset_");
+                            //     $picture_uid = uniqid("asset_");
 
-                            try {
-                                $tmpFilePath = $_FILES["project_img"]["tmp_name"];
-                                $upload = new UploadApi();
-                                $options = [
-                                    'resource_type' => 'video',
-                                    'folder' => 'pixeven/project_video',
-                                    'public_id' => uniqid("asset_"),
-                                    'use_filename' => true,
-                                    'overwrite' => false,
-                                    'allowed_formats' => ['mp4']
-                                ];
+                            //     try {
+                            //         $tmpFilePath = $_FILES["project_img"]["tmp_name"];
+                            //         $upload = new UploadApi();
+                            //         $options = [
+                            //             'resource_type' => 'video',
+                            //             'folder' => 'pixeven/project_video',
+                            //             'public_id' => uniqid("asset_"),
+                            //             'use_filename' => true,
+                            //             'overwrite' => false,
+                            //             'allowed_formats' => ['mp4']
+                            //         ];
 
-                                $result = $upload->upload($tmpFilePath, $options);
-                            } catch (\Throwable $e) {
-                                // var_dump($e->getMessage());
-                                $error = "something_went_wrong_during_video_upload";
-                            }
+                            //         $result = $upload->upload($tmpFilePath, $options);
+                            //     } catch (\Throwable $e) {
+                            //         // var_dump($e->getMessage());
+                            //         $error = "something_went_wrong_during_video_upload";
+                            //     }
 
-                            break;
+                            //     break;
 
                         default:
 
@@ -197,27 +197,27 @@
 
 
                     switch ($_FILES["project_img"]["type"]) {
-                        case 'video/mp4':
+                            // case 'video/mp4':
 
-                            try {
-                                $tmpFilePath = $_FILES["project_img"]["tmp_name"];
-                                $upload = new UploadApi();
-                                $options = [
-                                    'resource_type' => 'video',
-                                    'folder' => 'pixeven/project_video',
-                                    'public_id' => $picture_uid,
-                                    'use_filename' => false,
-                                    'overwrite' => true,
-                                    'allowed_formats' => ["mp4"]
-                                ];
+                            //     try {
+                            //         $tmpFilePath = $_FILES["project_img"]["tmp_name"];
+                            //         $upload = new UploadApi();
+                            //         $options = [
+                            //             'resource_type' => 'video',
+                            //             'folder' => 'pixeven/project_video',
+                            //             'public_id' => $picture_uid,
+                            //             'use_filename' => false,
+                            //             'overwrite' => true,
+                            //             'allowed_formats' => ["mp4"]
+                            //         ];
 
-                                $result = $upload->upload($tmpFilePath, $options);
-                                $picture = $result["secure_url"];
-                            } catch (\Throwable $e) {
-                                // var_dump($e->getMessage());
-                                $error = "something_went_wrong_during_video_upload";
-                            }
-                            break;
+                            //         $result = $upload->upload($tmpFilePath, $options);
+                            //         $picture = $result["secure_url"];
+                            //     } catch (\Throwable $e) {
+                            //         // var_dump($e->getMessage());
+                            //         $error = "something_went_wrong_during_video_upload";
+                            //     }
+                            //     break;
 
                         default:
                             if ($_FILES["project_img"]["size"] > 5000000) {
@@ -430,7 +430,7 @@
                         </div>
                     </label>
 
-                    <input class="col-md-6 mt-2 accordion form-control" name="project_img" type="file" id="file_to_upload" accept="image/png, image/jpeg, image/jpg, video/mp4">
+                    <input class="col-md-6 mt-2 accordion form-control" name="project_img" type="file" id="file_to_upload" accept="image/png, image/jpeg, image/jpg">
                     <p class="fs-6 fw-bold mb-0">Taille maximum du fichier : 5 MO</p>
                 </div>
 
@@ -517,7 +517,6 @@
                 )
             GROUP BY
                 projects.id
-            
             ORDER BY 
             projects.id 
             DESC",
@@ -551,7 +550,7 @@
 
                                 </div>
                                 <div class="card-body text-center">
-                                    <img src="<?= $project["picture"] ?>" alt="photo/video d'un projet créé" class="consult_projects_picture rounded-1 ">
+                                    <img src="<?= $project["picture"] ?>" alt="photo d'un projet créé" class="consult_projects_picture rounded-1 ">
                                     <p class="mb-0">Catégories :</p>
                                     <p><?= htmlspecialchars($project["GROUP_CONCAT(categories.name)"]);  ?></p>
                                 </div>

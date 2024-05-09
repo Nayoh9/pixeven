@@ -22,7 +22,7 @@
                                 preview.removeChild(preview.children[i]);
                             }
                             const url = fr.result;
-                            const video = new Image();
+                            const img = new Image();
 
                             img.setAttribute("class", "form_asset");
                             img.src = url;
@@ -30,30 +30,42 @@
                         });
                         break;
 
-                    case "video/mp4":
+                        // case "video/mp4":
 
-                        const fr_video = new FileReader();
+                        //     const fr_video = new FileReader();
 
-                        fr_video.readAsDataURL(file);
-                        fr_video.addEventListener("load", () => {
-                            for (let i = 0; i < preview.children.length; i++) {
-                                preview.removeChild(preview.children[i]);
-                            }
-                            const url = fr_video.result;
-                            const video = document.createElement("video");
+                        //     fr_video.readAsDataURL(file);
+                        //     fr_video.addEventListener("load", () => {
+                        //         for (let i = 0; i < preview.children.length; i++) {
+                        //             preview.removeChild(preview.children[i]);
+                        //         }
+                        //         const url = fr_video.result;
+                        //         const video = document.createElement("video");
 
-                            video.setAttribute("class", "form_asset");
-                            video.src = url;
-                            video.controls = true;
-                            preview.appendChild(video);
-                        });
-                        break;
+                        //         video.setAttribute("class", "form_asset");
+                        //         video.src = url;
+                        //         video.controls = true;
+                        //         preview.appendChild(video);
+                        //     });
+                        //     break;
 
-                    default:
+                        // default:
 
                 }
             }
         });
+    </script>
+
+
+    <!-- ONE CLICK DISABLE BUTTON SCRIPT  -->
+
+    <script>
+        const validate_project_button = document.getElementById("valid_project_button")
+        const validate_project_form = document.getElementById("valid_project_form");
+
+        validate_project_form.addEventListener("submit", () => {
+            validate_project_button.setAttribute("disabled", true)
+        })
     </script>
 
 
