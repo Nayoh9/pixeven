@@ -3,8 +3,8 @@
 
     $error = false;
 
-    $ok_category = $url . "category.php";
-    $not_ok_category = $url . "category.php";
+    $ok_category = $dashboard_url . "category.php";
+    $not_ok_category = $dashboard_url . "category.php";
 
 
     if (!empty($_POST["direction"])) {

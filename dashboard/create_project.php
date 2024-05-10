@@ -49,6 +49,11 @@
         </div>
 
         <div class="col-md-6 text-center ">
+            <label for="project_link" class="form-label">Lien du projet</label>
+            <input name="project_link" id="project_link" type="text" placeholder="lien de votre projet" class="form-control">
+        </div>
+
+        <div class="col-md-6 text-center">
             <label class="form-label" for="project_img">Photo du projet</label>
             <input type="file" class="form-control" id="project_img" name="project_img" accept="image/png, image/jpeg, image/jpg" required>
             <p class="fs-6 fw-bold text-center mb-0">Taille maximum du fichier : 5 MO</p>

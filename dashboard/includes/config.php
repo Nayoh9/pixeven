@@ -4,7 +4,8 @@
     $error_db = "error_no_results_found";
 
     // Dynamic url 
-    $url = "http://localhost/pixeven/dashboard/";
+    $dashboard_url = "http://localhost/pixeven/dashboard/";
+    $template_url = "http://localhost/pixeven/template/";
 
 
     // **Dotenv config**

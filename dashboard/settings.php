@@ -1,7 +1,7 @@
     <?php
     include "includes/functions.php";
-    $ok_settings = $url . "settings.php";
-    $not_ok_settings = $url . "settings.php";
+    $ok_settings = $dashboard_url . "settings.php";
+    $not_ok_settings = $dashboard_url . "settings.php";
 
     $error = false;
 

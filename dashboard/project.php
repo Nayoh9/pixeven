@@ -1,8 +1,8 @@
     <?php
     include "includes/functions.php";
 
-    $ok_project = $url . "project.php";
-    $not_ok_project = $url . "project.php";
+    $ok_project = $dashboard_url . "project.php";
+    $not_ok_project = $dashboard_url . "project.php";
 
     $error = false;
 
@@ -13,6 +13,7 @@
 
         switch ($_POST["direction"]) {
             case 'create':
+
 
                 if (empty($_POST["project_title"])) {
                     $error = "no_project_title";
@@ -29,6 +30,11 @@
                 if (empty($_POST["project_hook"])) {
                     $error = "no_project_hook";
                 }
+
+                if (empty($_POST["project_link"])) {
+                    $error = "no_project_link";
+                }
+
 
                 if (!empty($_FILES["project_img"]["tmp_name"])) {
 
@@ -102,8 +108,9 @@
 
                 $title = htmlspecialchars($_POST["project_title"]);
                 $picture = $result["secure_url"];
-                $description = htmlspecialchars($_POST["project_description"]);
+                $description = $_POST["project_description"];
                 $categories = implode(",", $_POST["project_categories"]);
+                $link = htmlspecialchars($_POST["project_link"]);
                 $slug = "project" . "-" . "$title";
                 $hook = htmlspecialchars($_POST["project_hook"]);
 
@@ -115,6 +122,7 @@
                             picture_uid,
                             description, 
                             categories,
+                            link,
                             hook,
                             slug
                             ) VALUES (
@@ -123,6 +131,7 @@
                             :picture_uid,
                             :description,
                             :categories,
+                            :link,
                             :hook,
                             :slug
                         )");
@@ -133,13 +142,12 @@
                             'picture_uid' => $picture_uid,
                             'description' => $description,
                             'categories' => $categories,
+                            'link' => $link,
                             'hook' => $hook,
                             'slug' => $slug
                         ]);
                     } catch (PDOException $e) {
-                        // echo $error_db;
-                        var_dump($e);
-                        die();
+                        echo $error_db;
                         header("location: $not_ok_project?error=$error_db");
                         die();
                     }
@@ -172,6 +180,10 @@
 
                 if (empty($_POST["project_hook"])) {
                     $error = "no_project_hook";
+                }
+
+                if (empty($_POST["project_link"])) {
+                    $error = "no_project_link";
                 }
 
                 if (!empty($error)) {
@@ -264,6 +276,7 @@
                     $title = htmlspecialchars($_POST["project_title"]);
                     $description = htmlspecialchars($_POST["project_description"]);
                     $categories = implode(",", $_POST["project_categories"]);
+                    $link = htmlspecialchars($_POST["project_link"]);
                     $hook = htmlspecialchars($_POST["project_hook"]);
                     $slug = "project" . "-" . "$title";
                     $last_modification = date("Y-m-d H:i:s");
@@ -277,6 +290,7 @@
                                 picture = :picture,
                                 description = :description,
                                 categories = :categories,
+                                link = :link,
                                 slug = :slug,
                                 hook = :hook,
                                 last_modification = :last_modification
@@ -289,6 +303,7 @@
                             'picture' => $picture,
                             'description' => $description,
                             'categories' => $categories,
+                            'link' => $link,
                             'slug' => $slug,
                             'hook' => $hook,
                             'last_modification' => $last_modification,
@@ -461,6 +476,11 @@
                 <div class="col-md-6">
                     <label class="form-label" for="project_hook">Courte description du projet</label>
                     <input type="text" class="form-control" id="project_hook" name="project_hook" value="<?= htmlspecialchars($result_get_project["hook"]); ?>" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="form-label">Lien du projet</label>
+                    <input type="text" class="form-control" name="project_link" placeholder="Lien de votre projet" id="project_link" value="<?= htmlspecialchars($result_get_project["link"]) ?>">
                 </div>
 
                 <div class="col-md-8 text-center mb-3 ">
