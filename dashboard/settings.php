@@ -5,7 +5,6 @@
 
     $error = false;
 
-    use Cloudinary\Api\Upload\UploadApi;
 
     if (!empty($_POST)) {
 
@@ -58,12 +57,10 @@
 
         $current_profile_picture = $_POST["settings_values"][0];
         $id = $_POST["settings_values"][1];
-        $profile_picture_uid = $_POST["settings_values"][2];
+        $profile_picture_uid = uniqid("profile_picture_");
         $profile_title = $_POST["profile_title"];
         $meta_title_homepage = htmlspecialchars($_POST["meta_title"]);
         $meta_description_homepage = htmlspecialchars($_POST["meta_description"]);
-
-
 
         if (!empty($_FILES["profile_picture"]["tmp_name"])) {
 
@@ -73,35 +70,34 @@
                 die();
             };
 
-            try {
-                // Chemin temporaire du fichier uploadé
-                $tmpFilePath = $_FILES["profile_picture"]["tmp_name"];
-                $upload = new UploadApi();
+            switch ($_FILES["profile_picture"]["type"]) {
+                case 'image/jpeg':
+                case 'image/jpg':
+                case 'image/png':
+                    try {
 
-                // Options
-                $options = [
-                    'public_id' => $profile_picture_uid,
-                    'use_filename' => false,
-                    'overwrite' => true,
-                    'allowed_formats' => ['jpg', 'jpeg', 'png', 'mp4'],
-                    'folder' => "pixeven/profile_picture"
-                ];
+                        $result = $s3Client->putObject([
+                            'Bucket' => $bucket,
+                            'Key'    => $profile_picture_uid,
+                            'Body'   => fopen($_FILES["profile_picture"]['tmp_name'], 'r'),
+                            'ContentType' => $_FILES["profile_picture"]["type"],
+                            'ACL' => 'public-read'
 
-                $result = $upload->upload($tmpFilePath, $options);
+                        ]);
 
-                $profile_picture = $result["secure_url"];
+                        $profile_picture = $result["ObjectURL"];
+                    } catch (\Throwable $e) {
+                        $error = "something_went_wrong_during_the_file_upload";
+                    }
+                    break;
 
-                // echo "<pre/>";
-                // echo (json_encode($result, JSON_PRETTY_PRINT));
-                // echo "<pre/>";
-            } catch (\Throwable $e) {
-                $error = "image_format_not_allowed";
+                default:
+                    $error = "image_format_not_allowed";
+                    break;
             }
         } else {
             $profile_picture = $_POST["settings_values"][0];
         }
-
-
 
 
         $socials = json_encode([
@@ -125,13 +121,15 @@
             ],
         ]);
 
+
         if (!empty($error)) {
             header("location: $not_ok_settings?error=$error");
             die();
-        } else {
-            try {
-                $update_settings = $db->prepare(
-                    "UPDATE 
+        }
+
+        try {
+            $update_settings = $db->prepare(
+                "UPDATE 
                             settings
                         SET 
                             profile_picture = :profile_picture,
@@ -144,28 +142,26 @@
                             meta_description_homepage = :meta_description_homepage
                         WHERE
                             settings.id = :id"
-                );
+            );
 
-                $update_settings->execute([
-                    'id' => $id,
-                    'profile_picture' => $profile_picture,
-                    'profile_picture_uid' => $profile_picture_uid,
-                    'profile_title' => $profile_title,
-                    'socials' => $socials,
-                    'stats' => $stats,
-                    'projects_to_display' => $projects_to_display,
-                    'meta_title_homepage' => $meta_title_homepage,
-                    'meta_description_homepage' => $meta_description_homepage
-                ]);
-            } catch (PDOException $e) {
-                header("location: $not_ok_settings?error=$error_db");
-                die();
-            }
+            $update_settings->execute([
+                'id' => $id,
+                'profile_picture' => $profile_picture,
+                'profile_picture_uid' => $profile_picture_uid,
+                'profile_title' => $profile_title,
+                'socials' => $socials,
+                'stats' => $stats,
+                'projects_to_display' => $projects_to_display,
+                'meta_title_homepage' => $meta_title_homepage,
+                'meta_description_homepage' => $meta_description_homepage
+            ]);
+        } catch (PDOException $e) {
+            header("location: $not_ok_settings?error=$error_db");
+            die();
+        }
 
-            header("location: $ok_settings");
-        };
+        header("location: $ok_settings");
     } else {
-
         $page_title = "Mes paramètres";
         include "header.php";
 
@@ -191,7 +187,6 @@
             var_dump($error_db);
             die();
         }
-
 
     ?>
 

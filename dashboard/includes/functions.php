@@ -84,13 +84,14 @@
                 return $error_code = "Veuillez entrer une courte description du projet";
                 break;
 
-            case "something_went_wrong_during_video_upload":
-                return $error_code = "Une erreur s'est produite pendant le telechargement de la vidéo";
-                break;
-
             case "no_project_link":
                 return $error_code = "Veuillez entrer un lien du projet";
                 break;
+
+            case "something_went_wrong_during_the_file_upload":
+                return $error_code = "Erreur durant le telechargement du fichier";
+                break;
+
 
 
 

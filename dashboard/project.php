@@ -7,13 +7,10 @@
     $error = false;
 
 
-    use Cloudinary\Api\Upload\UploadApi;
-
     if (!empty($_POST["direction"])) {
 
         switch ($_POST["direction"]) {
             case 'create':
-
 
                 if (empty($_POST["project_title"])) {
                     $error = "no_project_title";
@@ -38,81 +35,50 @@
 
                 if (!empty($_FILES["project_img"]["tmp_name"])) {
 
+                    if ($_FILES["project_img"]["size"] > 5000000) {
+
+                        $error = "invalid_file_size";
+                        header("location: $not_ok_project?error=$error");
+                        die();
+                    };
+
                     switch ($_FILES["project_img"]["type"]) {
+                        case 'image/jpeg':
+                        case 'image/jpg':
+                        case 'image/png':
+                            try {
 
-                            // case 'video/mp4':
+                                $result = $s3Client->putObject([
+                                    'Bucket' => $bucket,
+                                    'Key'    => $picture_uid = uniqid("asset_"),
+                                    'Body'   => fopen($_FILES["project_img"]['tmp_name'], 'r'),
+                                    'ContentType' => $_FILES["project_img"]["type"],
+                                    'ACL' => 'public-read'
+                                ]);
 
-                            //     $picture_uid = uniqid("asset_");
-
-                            //     try {
-                            //         $tmpFilePath = $_FILES["project_img"]["tmp_name"];
-                            //         $upload = new UploadApi();
-                            //         $options = [
-                            //             'resource_type' => 'video',
-                            //             'folder' => 'pixeven/project_video',
-                            //             'public_id' => uniqid("asset_"),
-                            //             'use_filename' => true,
-                            //             'overwrite' => false,
-                            //             'allowed_formats' => ['mp4']
-                            //         ];
-
-                            //         $result = $upload->upload($tmpFilePath, $options);
-                            //     } catch (\Throwable $e) {
-                            //         // var_dump($e->getMessage());
-                            //         $error = "something_went_wrong_during_video_upload";
-                            //     }
-
-                            //     break;
+                                $picture = $result["ObjectURL"];
+                            } catch (\Throwable $e) {
+                                $error = "something_went_wrong_during_the_file_upload";
+                            }
+                            break;
 
                         default:
-
-                            if ($_FILES["project_img"]["size"] > 5000000) {
-
-                                $error = "invalid_file_size";
-                                header("location: $not_ok_project?error=$error");
-                                die();
-                            };
-
-                            try {
-                                $tmpFilePath = $_FILES["project_img"]["tmp_name"];
-                                $upload = new UploadApi();
-
-                                $picture_uid = uniqid("asset_");
-
-                                $options = [
-                                    'public_id' => $picture_uid,
-                                    'use_filename' => true,
-                                    'overwrite' => false,
-                                    'allowed_formats' => ['jpg', 'jpeg', 'png'],
-                                    'folder' => "pixeven/project_img"
-                                ];
-                                $result = $upload->upload($tmpFilePath, $options);
-
-                                // echo "<pre/>";
-                                // echo (json_encode($result, JSON_PRETTY_PRINT));
-                                // echo "<pre/>";
-                            } catch (\Throwable $e) {
-                                // var_dump($e->getMessage());
-                                $error = "image_format_not_allowed";
-                            }
+                            $error = "image_format_not_allowed";
                             break;
                     }
                 } else {
                     $error = "no_file_downloaded";
-                }
-
-                if (!empty($error)) {
                     header("location: $not_ok_project?error=$error");
                     die();
                 }
 
                 $title = htmlspecialchars($_POST["project_title"]);
-                $picture = $result["secure_url"];
+                $picture = $result["ObjectURL"];
                 $description = $_POST["project_description"];
                 $categories = implode(",", $_POST["project_categories"]);
                 $link = htmlspecialchars($_POST["project_link"]);
-                $slug = "project" . "-" . "$title";
                 $hook = htmlspecialchars($_POST["project_hook"]);
+                $slug = "project" . "-" . "$title";
 
                 if (empty($error)) {
                     try {
@@ -201,68 +167,39 @@
                     die();
                 }
 
-                if (!empty($result_get_project["picture_uid"])) {
-                    $picture_uid = $result_get_project["picture_uid"];
-                }
-
                 if (!empty($_FILES["project_img"]["tmp_name"])) {
 
+                    if ($_FILES["project_img"]["size"] > 5000000) {
+
+                        $error = "invalid_file_size";
+                        header("location: $not_ok_project?error=$error");
+                        die();
+                    };
 
                     switch ($_FILES["project_img"]["type"]) {
-                            // case 'video/mp4':
+                        case 'image/jpeg':
+                        case 'image/jpg':
+                        case 'image/png':
+                            try {
+                                $result = $s3Client->putObject([
+                                    'Bucket' => $bucket,
+                                    'Key'    =>  $picture_uid = uniqid("asset_"),
+                                    'Body'   => fopen($_FILES["project_img"]['tmp_name'], 'r'),
+                                    'ContentType' => $_FILES["project_img"]["type"],
+                                    'ACL' => 'public-read'
+                                ]);
 
-                            //     try {
-                            //         $tmpFilePath = $_FILES["project_img"]["tmp_name"];
-                            //         $upload = new UploadApi();
-                            //         $options = [
-                            //             'resource_type' => 'video',
-                            //             'folder' => 'pixeven/project_video',
-                            //             'public_id' => $picture_uid,
-                            //             'use_filename' => false,
-                            //             'overwrite' => true,
-                            //             'allowed_formats' => ["mp4"]
-                            //         ];
+                                $picture = $result["ObjectURL"];
+                            } catch (\Throwable $e) {
 
-                            //         $result = $upload->upload($tmpFilePath, $options);
-                            //         $picture = $result["secure_url"];
-                            //     } catch (\Throwable $e) {
-                            //         // var_dump($e->getMessage());
-                            //         $error = "something_went_wrong_during_video_upload";
-                            //     }
-                            //     break;
+                                var_dump($e);
+                                die();
+                                $error = "something_went_wrong_during_the_file_upload";
+                            }
+                            break;
 
                         default:
-                            if ($_FILES["project_img"]["size"] > 5000000) {
-
-                                $error = "invalid_file_size";
-                                header("location: $not_ok_project?error=$error");
-                                die();
-                            };
-
-                            try {
-                                // Chemin temporaire du fichier uploadé
-                                $tmpFilePath = $_FILES["project_img"]["tmp_name"];
-                                $upload = new UploadApi();
-
-                                // Options
-                                $options = [
-                                    'public_id' => $picture_uid,
-                                    'use_filename' => false,
-                                    'overwrite' => true,
-                                    'allowed_formats' => ['jpg', 'jpeg', 'png'],
-                                    'folder' => "pixeven/project_img",
-                                ];
-
-                                $result = $upload->upload($tmpFilePath, $options);
-                                $picture = $result["secure_url"];
-
-                                // echo "<pre/>";
-                                // echo (json_encode($result, JSON_PRETTY_PRINT));
-                                // echo "<pre/>";
-                            } catch (\Throwable $e) {
-                                // var_dump($e->getMessage());
-                                $error = "image_format_not_allowed";
-                            }
+                            $error = "image_format_not_allowed";
                             break;
                     }
                 }
@@ -270,20 +207,20 @@
                 if (!empty($error)) {
                     header("location: $not_ok_project?error=$error");
                     die();
-                } else {
+                }
 
-                    empty($picture) && $picture = $result_get_project["picture"];
-                    $title = htmlspecialchars($_POST["project_title"]);
-                    $description = htmlspecialchars($_POST["project_description"]);
-                    $categories = implode(",", $_POST["project_categories"]);
-                    $link = htmlspecialchars($_POST["project_link"]);
-                    $hook = htmlspecialchars($_POST["project_hook"]);
-                    $slug = "project" . "-" . "$title";
-                    $last_modification = date("Y-m-d H:i:s");
+                empty($picture) && $picture = $result_get_project["picture"];
+                $title = htmlspecialchars($_POST["project_title"]);
+                $description = htmlspecialchars($_POST["project_description"]);
+                $categories = implode(",", $_POST["project_categories"]);
+                $link = htmlspecialchars($_POST["project_link"]);
+                $hook = htmlspecialchars($_POST["project_hook"]);
+                $slug = "project" . "-" . "$title";
+                $last_modification = date("Y-m-d H:i:s");
 
-                    try {
-                        $update_project = $db->prepare(
-                            "UPDATE 
+                try {
+                    $update_project = $db->prepare(
+                        "UPDATE 
                                 projects 
                             SET 
                                 title = :title,
@@ -296,29 +233,27 @@
                                 last_modification = :last_modification
                             WHERE 
                                 projects.id = :id"
-                        );
+                    );
 
-                        $update_project->execute([
-                            'title' => $title,
-                            'picture' => $picture,
-                            'description' => $description,
-                            'categories' => $categories,
-                            'link' => $link,
-                            'slug' => $slug,
-                            'hook' => $hook,
-                            'last_modification' => $last_modification,
-                            'id' => $id
-                        ]);
-                    } catch (PDOException $e) {
-                        header("location: $not_ok_project?error=$error_db");
-                        die();
-                    }
-
-                    header("location: $ok_project");
+                    $update_project->execute([
+                        'title' => $title,
+                        'picture' => $picture,
+                        'description' => $description,
+                        'categories' => $categories,
+                        'link' => $link,
+                        'slug' => $slug,
+                        'hook' => $hook,
+                        'last_modification' => $last_modification,
+                        'id' => $id
+                    ]);
+                } catch (PDOException $e) {
+                    header("location: $not_ok_project?error=$error_db");
                     die();
                 }
-                break;
 
+                header("location: $ok_project");
+                die();
+                break;
 
             case "delete":
 
@@ -343,14 +278,13 @@
                     $error = "something_went_wrong_while_deleting_project";
                 }
 
-                if (empty($error)) {
-                    header("location: $ok_project");
+                if (!empty($error)) {
+                    header("location: $not_ok_project?error=$error");
                     die();
                 }
 
-                header("location: $not_ok_project?error=$error");
+                header("location: $ok_project");
                 break;
-
 
             case 'restore':
 
@@ -453,6 +387,12 @@
                     <p class="mb-0">Catégories :</p>
                     <p><?= htmlspecialchars($result_get_project["GROUP_CONCAT(categories.name)"]);  ?></p>
                 </div>
+
+                <!-- <div class="col-md-6">
+                    <form action="project.php" method="POST">
+                        <button name="image" value="<?= $result_get_project["picture_uid"] ?>">Supprimer l'image</button>
+                    </form>
+                </div> -->
 
                 <div class="col-md-6">
                     <select class="project_categories_list form-select mb-3" aria-label="multiple select example" size="3" name="project_categories[]" multiple required>

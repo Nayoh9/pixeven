@@ -1,5 +1,5 @@
   <?php
-  include "/Users/yohann/localhost/pixeven/dashboard/includes/functions.php";
+  include "includes/functions.php";
 
   try {
     $get_settings = $db->query("SELECT * FROM settings");
@@ -8,7 +8,7 @@
     var_dump($error_db);
   }
 
-  include "includes/header.php";
+  include "header.php";
 
 
   $socials = json_decode($result_get_settings["socials"], true);
@@ -598,4 +598,5 @@
     </section>
     <!-- CONTACT SECTION END -->
   </main>
-  <?php include "includes/footer.php" ?>
+
+  <?php include "footer.php" ?>

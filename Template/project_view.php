@@ -1,5 +1,5 @@
 <?php
-include "/Users/yohann/localhost/pixeven/dashboard/includes/functions.php";
+include "includes/functions.php";
 
 if (!empty($_GET["id"])) {
 
@@ -30,8 +30,7 @@ if (!empty($_GET["id"])) {
 }
 
 $page_title = "Pixeven - " . $result_get_project_info["title"];
-include "includes/header.php";
-
+include "header.php";
 ?>
 
 <div class="background">
@@ -167,4 +166,4 @@ include "includes/header.php";
 </div>
 
 
-<?php include "includes/footer.php" ?>
+<?php include "footer.php" ?>

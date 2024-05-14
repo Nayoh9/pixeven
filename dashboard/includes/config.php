@@ -5,7 +5,7 @@
 
     // Dynamic url 
     $dashboard_url = "http://localhost/pixeven/dashboard/";
-    $template_url = "http://localhost/pixeven/template/";
+
 
 
     // **Dotenv config**
@@ -13,18 +13,13 @@
     $dotenv = Dotenv\Dotenv::createImmutable(dirname($dotenvPath));
     $loaded = $dotenv->load();
 
-    // Cloudinary env vars
-    $cloudinary_api_key = $_ENV['CLOUDINARY_API_KEY'];
-    $cloudinary_api_secret = $_ENV['CLOUDINARY_API_SECRET'];
-    $cloudinary_cloud_name = $_ENV['CLOUDINARY_CLOUD_NAME'];
+    // Tiny mce env vars
+    $tiny_mce_key = $_ENV["TINY_MCE_KEY"];
 
     // PDO env vars
     $db_user = $_ENV["DB_USER"];
     $db_pass = $_ENV["DB_PASS"];
     $db_host = $_ENV["DB_HOST"];
-
-    // Tiny mce env vars
-    $tiny_mce_key = $_ENV["TINY_MCE_KEY"];
 
     // **DB connexion** //
     try {
@@ -34,7 +29,27 @@
         // e->getmessage()
     }
 
-    // **Cloudinary config**
-    use Cloudinary\Configuration\Configuration;
+    // AWS S3 config 
 
-    Configuration::instance("cloudinary://$cloudinary_api_key:" . "$cloudinary_api_secret@" . "$cloudinary_cloud_name" . "?secure=true");
+    use Aws\S3\S3Client;
+
+    $AWS_CREDENTIALS = serialize(array(
+        "key" => $_ENV["API_PUBLIC"],
+        "secret" => $_ENV["API_SECRET"]
+    ));
+
+
+    //Create a S3Client
+    $s3Client = new S3Client([
+        'region' => 'eu-north-1',
+        'version' => 'latest',
+        'credentials' => unserialize($AWS_CREDENTIALS)
+    ]);
+
+    $bucket = "pixeven";
+    
+    //Listing all S3 Bucket
+    // $buckets = $s3Client->listBuckets();
+    // foreach ($buckets['Buckets'] as $bucket) {
+    //     echo $bucket['Name'] . "\n";
+    // }
