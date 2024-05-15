@@ -1,13 +1,13 @@
 /* CSS VARS  */
 :root {
-  --form-width-picture: 350px;
-  --form-height-picture: 300px;
+  --form-width-picture: 150px;
+  --form-height-picture: 150px;
 }
 /* CSS VARS  */
 
 .form_asset {
-  max-width: var(--form-picture);
-  max-height: var(--form-height-picture);
+  width: var(--form-picture);
+  height: var(--form-height-picture);
 }
 
 #preview_child {
@@ -39,6 +39,10 @@ header ul li {
 
 .new_project_form div {
   margin-bottom: 20px;
+}
+
+.displayed_files {
+  margin: 0;
 }
 
 /* CONSULT_PROJECT */

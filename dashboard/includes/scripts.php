@@ -10,50 +10,28 @@
             if (fileInput.files.length > 0) {
                 file = fileInput.files[0];
 
-                switch (file.type) {
-                    case "image/jpeg":
-                    case "image/png":
-                    case "image/jpg":
-                        const fr = new FileReader();
 
-                        fr.readAsDataURL(file);
-                        fr.addEventListener("load", () => {
-                            for (let i = 0; i < preview.children.length; i++) {
-                                preview.removeChild(preview.children[i]);
-                            }
-                            const url = fr.result;
-                            const img = new Image();
+                const fr = new FileReader();
 
-                            img.setAttribute("class", "form_asset");
-                            img.src = url;
-                            preview.appendChild(img);
-                        });
-                        break;
+                fr.readAsDataURL(file);
+                fr.addEventListener("load", () => {
+                    for (let i = 0; i < preview.children.length; i++) {
+                        preview.removeChild(preview.children[i]);
+                    }
+                    const url = fr.result;
+                    const img = new Image();
 
-                        // case "video/mp4":
+                    img.setAttribute("class", "form_asset");
+                    img.src = url;
+                    preview.appendChild(img);
+                });
 
-                        //     const fr_video = new FileReader();
 
-                        //     fr_video.readAsDataURL(file);
-                        //     fr_video.addEventListener("load", () => {
-                        //         for (let i = 0; i < preview.children.length; i++) {
-                        //             preview.removeChild(preview.children[i]);
-                        //         }
-                        //         const url = fr_video.result;
-                        //         const video = document.createElement("video");
-
-                        //         video.setAttribute("class", "form_asset");
-                        //         video.src = url;
-                        //         video.controls = true;
-                        //         preview.appendChild(video);
-                        //     });
-                        //     break;
-
-                        // default:
-
-                }
             }
         });
+
+
+        const filesInput = document.getElementById("files_to_upload");
     </script>
 
 
@@ -118,5 +96,30 @@
                 form_direction.setAttribute("value", "delete");
 
             })
+        })
+    </script>
+
+    <!-- **DISPLAY INPUT FILES SCRIPT** -->
+
+    <script>
+        const multi_input_file = document.getElementById("project_pictures");
+        const files_name_container = document.getElementById("files_container");
+
+        multi_input_file.addEventListener("change", (e) => {
+
+            const files = e.target.files
+            const arr = Array.from(files)
+
+            files_name_container.innerHTML = '';
+
+            arr.forEach((file) => {
+                const p = document.createElement("p");
+                p.setAttribute("class", "displayed_files")
+                p.textContent = file.name;
+                files_name_container.appendChild(p);
+
+            })
+
+
         })
     </script>

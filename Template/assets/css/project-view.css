@@ -61,3 +61,8 @@
 .project-view-gutter {
   height: 200px;
 }
+
+.project_picture {
+  height: 300px;
+  width: 200px;
+}

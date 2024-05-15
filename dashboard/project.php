@@ -32,6 +32,59 @@
                     $error = "no_project_link";
                 }
 
+                if (!empty($_FILES["project_pictures"]["tmp_name"]["0"])) {
+
+                    $file_counter = count($_FILES["project_pictures"]["tmp_name"]);
+                    $files_array = [];
+
+                    for ($i = 0; $i < $file_counter; $i++) {
+                        $files_array[] = [
+                            'name' => $_FILES["project_pictures"]["name"][$i],
+                            'type' => $_FILES["project_pictures"]["type"][$i],
+                            'tmp_name' => $_FILES["project_pictures"]["tmp_name"][$i],
+                            'error' => $_FILES["project_pictures"]["error"][$i],
+                            'size' => $_FILES["project_pictures"]["size"][$i],
+                        ];
+                    }
+
+                    $picture_list = [];
+
+                    foreach ($files_array as $file) {
+                        if ($file["size"] > 5000000) {
+                            $error = "invalid_file_size";
+                            header("location: $not_ok_project?error=$error");
+                            die();
+                        }
+
+                        switch ($file["type"]) {
+                            case 'image/jpeg':
+                            case 'image/jpg':
+                            case 'image/png':
+                                try {
+                                    $result = $s3Client->putObject([
+                                        'Bucket' => $bucket,
+                                        'Key'    => $picture_uid = uniqid("project_list_img_"),
+                                        'Body'   => fopen($file['tmp_name'], 'r'),
+                                        'ContentType' => $file["type"],
+                                        'ACL' => 'public-read'
+                                    ]);
+
+                                    array_push($picture_list, $result["ObjectURL"]);
+                                } catch (\Throwable $e) {
+                                    $error = "something_went_wrong_during_the_file_upload";
+                                }
+                                break;
+
+                            default:
+                                $error = "image_format_not_allowed";
+                                break;
+                        }
+                    }
+                } else {
+                    $error = "no_file_downloaded";
+                    header("location: $not_ok_project?error=$error");
+                    die();
+                }
 
                 if (!empty($_FILES["project_img"]["tmp_name"])) {
 
@@ -50,7 +103,7 @@
 
                                 $result = $s3Client->putObject([
                                     'Bucket' => $bucket,
-                                    'Key'    => $picture_uid = uniqid("asset_"),
+                                    'Key'    => $picture_uid = uniqid("project_img_"),
                                     'Body'   => fopen($_FILES["project_img"]['tmp_name'], 'r'),
                                     'ContentType' => $_FILES["project_img"]["type"],
                                     'ACL' => 'public-read'
@@ -74,6 +127,7 @@
 
                 $title = htmlspecialchars($_POST["project_title"]);
                 $picture = $result["ObjectURL"];
+                $picture_list = implode(",", $picture_list);
                 $description = $_POST["project_description"];
                 $categories = implode(",", $_POST["project_categories"]);
                 $link = htmlspecialchars($_POST["project_link"]);
@@ -85,6 +139,7 @@
                         $create_project = $db->prepare("INSERT INTO projects (
                             title,
                             picture, 
+                            picture_list,
                             picture_uid,
                             description, 
                             categories,
@@ -94,6 +149,7 @@
                             ) VALUES (
                             :title,
                             :picture,
+                            :picture_list,
                             :picture_uid,
                             :description,
                             :categories,
@@ -105,6 +161,7 @@
                         $create_project->execute([
                             'title' => $title,
                             'picture' => $picture,
+                            'picture_list' => $picture_list,
                             'picture_uid' => $picture_uid,
                             'description' => $description,
                             'categories' => $categories,
@@ -167,6 +224,7 @@
                     die();
                 }
 
+
                 if (!empty($_FILES["project_img"]["tmp_name"])) {
 
                     if ($_FILES["project_img"]["size"] > 5000000) {
@@ -181,10 +239,11 @@
                         case 'image/jpg':
                         case 'image/png':
                             try {
+
                                 $result = $s3Client->putObject([
                                     'Bucket' => $bucket,
-                                    'Key'    =>  $picture_uid = uniqid("asset_"),
-                                    'Body'   => fopen($_FILES["project_img"]['tmp_name'], 'r'),
+                                    'Key' => $picture_uid = uniqid("project_img_"),
+                                    'Body' => fopen($_FILES["project_img"]['tmp_name'], 'r'),
                                     'ContentType' => $_FILES["project_img"]["type"],
                                     'ACL' => 'public-read'
                                 ]);
@@ -204,14 +263,68 @@
                     }
                 }
 
+                if (!empty($_FILES["project_pictures"]["tmp_name"]["0"])) {
+
+                    $file_counter = count($_FILES["project_pictures"]["tmp_name"]);
+                    $files_array = [];
+
+                    for ($i = 0; $i < $file_counter; $i++) {
+                        $files_array[] = [
+                            'name' => $_FILES["project_pictures"]["name"][$i],
+                            'type' => $_FILES["project_pictures"]["type"][$i],
+                            'tmp_name' => $_FILES["project_pictures"]["tmp_name"][$i],
+                            'error' => $_FILES["project_pictures"]["error"][$i],
+                            'size' => $_FILES["project_pictures"]["size"][$i],
+                        ];
+                    }
+
+                    $picture_list = [];
+
+                    foreach ($files_array as $file) {
+                        if ($file["size"] > 5000000) {
+                            $error = "invalid_file_size";
+                            header("location: $not_ok_project?error=$error");
+                            die();
+                        }
+
+                        switch ($file["type"]) {
+                            case 'image/jpeg':
+                            case 'image/jpg':
+                            case 'image/png':
+                                try {
+                                    $result = $s3Client->putObject([
+                                        'Bucket' => $bucket,
+                                        'Key'    => $picture_uid = uniqid("project_list_img_"),
+                                        'Body'   => fopen($file['tmp_name'], 'r'),
+                                        'ContentType' => $file["type"],
+                                        'ACL' => 'public-read'
+                                    ]);
+
+                                    array_push($picture_list, $result["ObjectURL"]);
+                                } catch (\Throwable $e) {
+                                    $error = "something_went_wrong_during_the_file_upload";
+                                }
+                                break;
+
+                            default:
+                                $error = "image_format_not_allowed";
+                                break;
+                        }
+                    }
+
+                    $picture_list = implode(",", $picture_list);
+                }
+
                 if (!empty($error)) {
                     header("location: $not_ok_project?error=$error");
                     die();
                 }
 
                 empty($picture) && $picture = $result_get_project["picture"];
+                empty($picture_list) && $picture_list = $result_get_project["picture_list"];
+                empty($picture_uid) && $picture_uid = $result_get_project["picture_uid"];
                 $title = htmlspecialchars($_POST["project_title"]);
-                $description = htmlspecialchars($_POST["project_description"]);
+                $description = $_POST["project_description"];
                 $categories = implode(",", $_POST["project_categories"]);
                 $link = htmlspecialchars($_POST["project_link"]);
                 $hook = htmlspecialchars($_POST["project_hook"]);
@@ -225,6 +338,8 @@
                             SET 
                                 title = :title,
                                 picture = :picture,
+                                picture_list = :picture_list,
+                                picture_uid = :picture_uid,
                                 description = :description,
                                 categories = :categories,
                                 link = :link,
@@ -238,6 +353,8 @@
                     $update_project->execute([
                         'title' => $title,
                         'picture' => $picture,
+                        'picture_list' => $picture_list,
+                        'picture_uid' => $picture_uid,
                         'description' => $description,
                         'categories' => $categories,
                         'link' => $link,
@@ -349,6 +466,8 @@
             die();
         }
 
+        $picture_list = explode(",", $result_get_project["picture_list"]);
+
         try {
             $get_categories = $db->query("SELECT * FROM categories");
             $result_get_categories = $get_categories->fetchALL(PDO::FETCH_ASSOC);
@@ -380,19 +499,21 @@
                     </label>
 
                     <input class="col-md-6 mt-2 accordion form-control" name="project_img" type="file" id="file_to_upload" accept="image/png, image/jpeg, image/jpg">
-                    <p class="fs-6 fw-bold mb-0">Taille maximum du fichier : 5 MO</p>
+                </div>
+
+
+
+                <div class="col-md-6">
+                    <label for="files_to_upload" class="form-label">Photos du projet</label>
+                    <input type="file" class="form-control" name="project_pictures[]" id="files_to_upload" accept="image/png, image/jpeg, image/jpg" multiple>
+
+                    <p class="fs-6 fw-bold mb-0">Taille maximum des fichiers: 5 MO</p>
                 </div>
 
                 <div class="text-center mt-4">
                     <p class="mb-0">Catégories :</p>
                     <p><?= htmlspecialchars($result_get_project["GROUP_CONCAT(categories.name)"]);  ?></p>
                 </div>
-
-                <!-- <div class="col-md-6">
-                    <form action="project.php" method="POST">
-                        <button name="image" value="<?= $result_get_project["picture_uid"] ?>">Supprimer l'image</button>
-                    </form>
-                </div> -->
 
                 <div class="col-md-6">
                     <select class="project_categories_list form-select mb-3" aria-label="multiple select example" size="3" name="project_categories[]" multiple required>

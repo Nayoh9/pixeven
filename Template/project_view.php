@@ -1,12 +1,14 @@
 <?php
 include "includes/functions.php";
 
+
+
 if (!empty($_GET["id"])) {
 
     $project_id = htmlspecialchars($_GET["id"]);
 
     try {
-        $get_project_info = $db->query("SELECT
+        $get_project = $db->query("SELECT
         projects.*,
         GROUP_CONCAT(categories.name)
         FROM
@@ -18,7 +20,7 @@ if (!empty($_GET["id"])) {
         WHERE
         projects.id = $project_id");
 
-        $result_get_project_info = $get_project_info->fetch(PDO::FETCH_ASSOC);
+        $result_get_project = $get_project->fetch(PDO::FETCH_ASSOC);
     } catch (\Throwable $th) {
         var_dump($error_db);
         header("Location: " . $template_url . "index.php?error=$error_db");
@@ -29,7 +31,10 @@ if (!empty($_GET["id"])) {
     die();
 }
 
-$page_title = "Pixeven - " . $result_get_project_info["title"];
+$picture_list = explode(",", $result_get_project["picture_list"]);
+
+
+$page_title = "Pixeven - " . $result_get_project["title"];
 include "header.php";
 ?>
 
@@ -38,7 +43,7 @@ include "header.php";
 
     <div id="portfolio-wrapper" class="popup_content_area zoom-anim-dialog project_view">
         <div class="popup_modal_img">
-            <img src="<?= $result_get_project_info["picture"] ?>" alt="photo d'un projet" />
+            <img src="<?= $result_get_project["picture"] ?>" alt="photo d'un projet" />
         </div>
 
         <div class="popup_modal_content">
@@ -50,12 +55,12 @@ include "header.php";
 
                         </p>
                     </div>
-                    <a href="<?= htmlspecialchars($result_get_project_info["link"]) ?>" class="btn tj-btn-primary">live preview <i class="fal fa-arrow-right"></i></a>
+                    <a href="<?= htmlspecialchars($result_get_project["link"]) ?>" class="btn tj-btn-primary">live preview <i class="fal fa-arrow-right"></i></a>
                 </div>
                 <div class="portfolio_info_items">
                     <div class="info_item">
                         <div class="key">Category</div>
-                        <div class="value"><?= htmlspecialchars($result_get_project_info["GROUP_CONCAT(categories.name)"]); ?></div>
+                        <div class="value"><?= htmlspecialchars($result_get_project["GROUP_CONCAT(categories.name)"]); ?></div>
                     </div>
                     <div class="info_item">
                         <div class="key">Client</div>
@@ -73,24 +78,22 @@ include "header.php";
             </div>
 
             <div class="portfolio_gallery owl-carousel">
-                <div class="gallery_item">
-                    <img src="./assets/img/portfolio-gallery/p-gallery-1.jpg" alt="" />
-                </div>
-                <div class="gallery_item">
-                    <img src="./assets/img/portfolio-gallery/p-gallery-2.jpg" alt="" />
-                </div>
-                <div class="gallery_item">
-                    <img src="./assets/img/portfolio-gallery/p-gallery-3.jpg" alt="" />
-                </div>
-                <div class="gallery_item">
-                    <img src="./assets/img/portfolio-gallery/p-gallery-4.jpg" alt="" />
-                </div>
+
+                <?php
+                foreach ($picture_list as $picture_link) {
+                ?>
+                    <div class="gallery_item">
+                        <img src="<?= $picture_link; ?>" alt="photo d'un projet" class="project_picture" />
+                    </div>
+                <?php } ?>
+
             </div>
+
 
             <div class="portfolio_description">
                 <h2 class="title">Project Description</h2>
                 <div class="desc">
-                    <?= $result_get_project_info["description"] ?>
+                    <?= $result_get_project["description"] ?>
                 </div>
             </div>
 

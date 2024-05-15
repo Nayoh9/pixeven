@@ -54,9 +54,19 @@
         </div>
 
         <div class="col-md-6 text-center">
-            <label class="form-label" for="project_img">Photo du projet</label>
+            <label class="form-label" for="project_img">Photo de présentation du projet</label>
             <input type="file" class="form-control" id="project_img" name="project_img" accept="image/png, image/jpeg, image/jpg" required>
-            <p class="fs-6 fw-bold text-center mb-0">Taille maximum du fichier : 5 MO</p>
+        </div>
+
+        <div class="col-md-6 text-center">
+            <label for="project_pictures" class="form-label">Photos du projet</label>
+            <input type="file" class="form-control" id="project_pictures" name="project_pictures[]" accept="image/png, image/jpeg, image/jpg" multiple required>
+        </div>
+
+        <p class="fs-6 fw-bold text-center mb-0">Taille maximum des fichiers : 5 MO</p>
+
+        <div class="col-md-6" id="files_container">
+
         </div>
 
         <div class="col-md-12 text-center">
