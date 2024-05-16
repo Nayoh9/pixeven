@@ -90,6 +90,22 @@ Description: Gerold - Personal Portfolio HTML5 Template
   --tj-fz-sub-title: 36px;
 }
 
+/* CSS  */
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.current_page {
+  color: gray;
+}
+/* CSS  */
+
 * {
   margin: 0;
   padding: 0;
@@ -179,10 +195,6 @@ h6 > a {
   font-size: inherit;
   font-family: inherit;
   font-weight: inherit;
-  text-decoration: none;
-}
-
-a:hover {
   text-decoration: none;
 }
 

@@ -39,6 +39,8 @@
   } catch (\PDOException $e) {
     var_dump($error_db);
   }
+
+
   ?>
 
 
@@ -380,35 +382,48 @@
                 <div class="gutter-sizer"></div>
                 <div class="col-md-12">
 
-
                   <?php
+                  $counter = 0;
                   foreach ($result_get_projects as $project) {
+                    if ($project["deleted"] === 0) {
+
+                      if ($counter < 6) {
+                        $counter++;
                   ?>
-
-                    <div class="portfolio-item branding">
-                      <div class="image-box">
-                        <img src="<?= $project["picture"] ?>" alt="photo d'un projet" />
-                      </div>
-                      <div class="content-box">
-                        <a href="<?= $template_url . "project_view.php?id=" . $project["id"] ?>">
-                          <h3 class="portfolio-title"><?= htmlspecialchars($project["title"]) ?></h3>
-                          <p><?= htmlspecialchars($project["hook"]) ?></p>
-                          <i class="flaticon-up-right-arrow"></i>
-                        </a>
-                      </div>
-                    </div>
-
-                  <?php } ?>
+                        <div class="portfolio-item branding">
+                          <div class="image-box">
+                            <img src="<?= $project["picture"] ?>" alt="photo d'un projet" />
+                          </div>
+                          <div class="content-box">
+                            <a href="<?= $template_url . "project_view.php?id=" . $project["id"] ?>">
+                              <h3 class="portfolio-title"><?= htmlspecialchars($project["title"]) ?></h3>
+                              <p><?= htmlspecialchars($project["hook"]) ?></p>
+                              <i class="flaticon-up-right-arrow"></i>
+                            </a>
+                          </div>
+                        </div>
+                  <?php
+                      }
+                    }
+                  }
+                  ?>
 
                 </div>
               </div>
             </div>
           </div>
+
+          <?php
+          if ($counter === 6) {
+          ?>
+            <div class="col-md-12 d-flex justify-content-center">
+              <a class="col-auto  all_projects" href="<?= $template_url . "project_view.php" ?>">
+                <h4 class="mb-0">Voir tous nos travaux</h4>
+              </a>
+            </div>
+          <?php } ?>
     </section>
     <!-- PORTFOLIO SECTION END -->
-
-
-
 
     <!-- SKILLS SECTION START -->
     <section class="skills-section" id="skills-section">

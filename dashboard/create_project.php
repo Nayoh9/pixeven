@@ -63,11 +63,13 @@
             <input type="file" class="form-control" id="project_pictures" name="project_pictures[]" accept="image/png, image/jpeg, image/jpg" multiple required>
         </div>
 
-        <p class="fs-6 fw-bold text-center mb-0">Taille maximum des fichiers : 5 MO</p>
 
         <div class="col-md-6" id="files_container">
 
         </div>
+
+        <p class="fs-6 fw-bold text-center">Taille maximum des fichiers : 5 MO</p>
+
 
         <div class="col-md-12 text-center">
             <button type="submit" id="valid_project_button" class="btn btn-primary">Créer le projet</button>
