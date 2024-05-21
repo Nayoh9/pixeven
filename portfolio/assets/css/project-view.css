@@ -51,7 +51,7 @@
 }
 
 .background {
-  background-color: var(--tj-black-2);
+  background-color: var(--tj-theme-accent-1);
 }
 
 .project-view {
@@ -63,6 +63,12 @@
 }
 
 .project_picture {
-  height: 200px;
-  width: 200px;
+  height: 300px;
+  width: 100px;
+  object-fit: cover;
+}
+
+.categories,
+.key {
+  color: black;
 }

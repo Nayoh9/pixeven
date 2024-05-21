@@ -93,8 +93,25 @@ function parse_error($error_code)
             return $error_code = "Erreur durant le telechargement du fichier";
             break;
 
+        case "error_message":
+            return $error_code = "Veuillez entrer un message";
+            break;
 
+        case "error_phone_number":
+            return $error_code = "Veuillez entrer un numéro de téléphone";
+            break;
 
+        case "error_email":
+            return $error_code = "Veuillez entrer une adresse mail";
+            break;
+
+        case "error_lastname":
+            return $error_code = "Veuillez entrer un nom";
+            break;
+
+        case "error_firstname":
+            return $error_code = "Veuillez entrer votre prenom";
+            break;
 
         default:
             return $error_code = "Erreur inconnue";

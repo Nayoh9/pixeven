@@ -6,8 +6,6 @@
     // Dynamic url 
     $dashboard_url = "http://localhost/pixeven/dashboard/";
 
-
-
     // **Dotenv config**
     $dotenvPath = __DIR__ . '/../../.env';
     $dotenv = Dotenv\Dotenv::createImmutable(dirname($dotenvPath));

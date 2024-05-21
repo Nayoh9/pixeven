@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '../../../vendor/autoload.php';
 
-$template_url = "http://localhost/pixeven/website/";
+$template_url = "http://localhost/pixeven/portfolio/";
 $error_db = "error_no_results_found";
 
 // **Dotenv config**

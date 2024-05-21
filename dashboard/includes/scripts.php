@@ -26,7 +26,6 @@
                     preview.appendChild(img);
                 });
 
-
             }
         });
 
@@ -51,12 +50,20 @@
     <!-- Place the first <script> tag in your HTML's <head> -->
     <script src="https://cdn.tiny.cloud/1/<?= $tiny_mce_key ?>/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
+    <script src=“https://cdn.tiny.cloud/1/isi9rntd97m1oe0d1fvucquulejjzpu490422bohdt15p361/tinymce/5/tinymce.min.js” referrerpolicy=“origin”></script>
     <script>
         tinymce.init({
-            selector: 'textarea', // change this value according to your HTML
-            menubar: 'file edit view',
+            selector: 'textarea',
+            menubar: false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | bold italic underline | image | forecolor | alignleft aligncenter alignjustify | bullist numlist outdent indent | removeformat | link | code'
         });
     </script>
+
 
 
     <!-- **HANDLE MODAL SCRIPT** -->

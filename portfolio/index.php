@@ -8,8 +8,9 @@
     var_dump($error_db);
   }
 
+  $page_title = $result_get_settings["meta_title_homepage"];
+  $meta_description = $result_get_settings["meta_description_homepage"];
   include "header.php";
-
 
   $socials = json_decode($result_get_settings["socials"], true);
   $stats = json_decode($result_get_settings["stats"], true);
@@ -40,13 +41,17 @@
     var_dump($error_db);
   }
 
+  try {
+    $get_services = $db->query("SELECT * FROM services");
+    $result_get_services = $get_services->fetchALL(PDO::FETCH_ASSOC);
+  } catch (\PDOException $e) {
+    var_dump($error_db);
+  }
+
 
   ?>
-
-
-
-
   <main class="site-content" id="content">
+
     <!-- HERO SECTION START -->
     <section class="hero-section d-flex align-items-center" id="intro">
       <div class="intro_text">
@@ -63,7 +68,7 @@
               </h1>
 
               <div class="hero-image-box d-md-none text-center wow fadeInRight" data-wow-delay="1.3s">
-                <img src="assets/img/hero/me.png" alt="" />
+                <img src="<?= $result_get_settings["profile_picture"]; ?>" alt="photo d'un homme" />
               </div>
 
               <p class="lead wow fadeInLeft" data-wow-delay="1.4s">
@@ -83,7 +88,6 @@
                     }
                   }
                   ?>
-
                 </ul>
               </div>
             </div>
@@ -121,16 +125,7 @@
                 <div class="text">Clients <br />Satisfaits</div>
               </div>
             </div>
-            <!-- <div class="col-6 col-lg-3">
-                  <div
-                    class="funfact-item d-flex flex-column flex-sm-row flex-wrap align-items-center"
-                  >
-                    <div class="number">
-                      <span class="odometer" data-count="14">0</span>
-                    </div>
-                    <div class="text">Années <br />d'Experience</div>
-                  </div>
-                </div> -->
+
           </div>
         </div>
       </div>
@@ -157,58 +152,29 @@
         <div class="row">
           <div class="col-md-12">
             <div class="services-widget position-relative">
-              <div class="service-item current d-flex flex-wrap align-items-center wow fadeInUp" data-wow-delay=".5s">
-                <div class="left-box d-flex flex-wrap align-items-center">
-                  <span class="number">01</span>
-                  <h3 class="service-title">Prestation</h3>
-                </div>
-                <div class="right-box">
-                  <p>
-                    Description prestation
-                  </p>
-                </div>
-                <i class="flaticon-up-right-arrow"></i>
-                <button data-mfp-src="#service-wrapper" class="service-link modal-popup"></button>
-              </div>
-              <div class="service-item d-flex flex-wrap align-items-center wow fadeInUp" data-wow-delay=".6s">
-                <div class="left-box d-flex flex-wrap align-items-center">
-                  <span class="number">02</span>
-                  <h3 class="service-title">Prestation</h3>
-                </div>
-                <div class="right-box">
-                  <p>
-                    Description prestation
-                  </p>
-                </div>
-                <i class="flaticon-up-right-arrow"></i>
-                <button data-mfp-src="#service-wrapper" class="service-link modal-popup"></button>
-              </div>
-              <div class="service-item d-flex flex-wrap align-items-center wow fadeInUp" data-wow-delay=".7s">
-                <div class="left-box d-flex flex-wrap align-items-center">
-                  <span class="number">03</span>
-                  <h3 class="service-title">Prestation</h3>
-                </div>
-                <div class="right-box">
-                  <p>
-                    Description prestation
-                  </p>
-                </div>
-                <i class="flaticon-up-right-arrow"></i>
-                <button data-mfp-src="#service-wrapper" class="service-link modal-popup"></button>
-              </div>
-              <div class="service-item d-flex flex-wrap align-items-center wow fadeInUp" data-wow-delay=".8s">
-                <div class="left-box d-flex flex-wrap align-items-center">
-                  <span class="number">04</span>
-                  <h3 class="service-title">Prestation</h3>
-                </div>
-                <div class="right-box">
-                  <p>
-                    Description prestation
-                  </p>
-                </div>
-                <i class="flaticon-up-right-arrow"></i>
-                <button data-mfp-src="#service-wrapper" class="service-link modal-popup"></button>
-              </div>
+              <?php
+              $counter = 0;
+              foreach ($result_get_services as $service) {
+                $counter++;
+              ?>
+                <a href="<?= $template_url . "service_view.php?id=" . $service['id']; ?>">
+
+                  <div class="service-item current d-flex flex-wrap align-items-center wow fadeInUp" data-wow-delay=".5s">
+                    <div class="left-box d-flex flex-wrap align-items-center">
+                      <span class="number"><?= $counter; ?></span>
+                      <h3 class="service-title"><?= $service["name"]; ?></h3>
+                    </div>
+                    <div class="right-box">
+                      <p>
+                        <?= $service["description"]; ?>
+                      </p>
+                    </div>
+                    <i class="flaticon-up-right-arrow"></i>
+                    <button data-mfp-src="#service-wrapper" class="service-link modal-popup"></button>
+                  </div>
+                </a>
+
+              <?php } ?>
               <div class="active-bg wow fadeInUp" data-wow-delay=".5s"></div>
             </div>
           </div>
@@ -216,135 +182,6 @@
       </div>
     </section>
     <!-- SERVICES SECTION END -->
-
-    <!-- start: Service Popup -->
-    <div id="service-wrapper" class="popup_content_area zoom-anim-dialog mfp-hide">
-      <div class="popup_modal_img">
-        <img src="./assets/img/services/modal-img.jpg" alt="" />
-      </div>
-
-      <div class="popup_modal_content">
-        <div class="service_details">
-          <div class="row">
-            <div class="col-lg-7 col-xl-8">
-              <div class="service_details_content">
-                <div class="service_info">
-                  <h6 class="subtitle">SERVICES</h6>
-                  <h2 class="title">UI/UX Design</h2>
-                  <div class="desc">
-                    <p>
-                      Elizabeth some dodgy chavs are you taking the piss faff
-                      about pardon amongst car boot a load of old tosh is
-                      cracking goal blow off telling brown.
-                    </p>
-
-                    <p>
-                      Brolly show off show off pick your nose and blow off
-                      well A bit of how’s your father tomfoolery blimey, me
-                      old mucker starkers Queen’s English dropped a clanger
-                      bite your arm spiffing good time burke Why chancer.
-                      Hotpot bum bag cracking goal young delinquent naff
-                      bugger cup of chars bender loo it’s all gone to pot the
-                      nancy cheeky.
-                    </p>
-
-                    <p>
-                      At public school cras bog some dodgy chav Richard Why
-                      argy bargy vagabon William bender matie boy, off his nut
-                      chancer Jeffrey up the kyver say mufty you mug ummm
-                      telling pear shaped Oxford owt to do with me do one so
-                      said are you taking his.
-                    </p>
-                  </div>
-
-                  <h3 class="title">Services Process</h3>
-                  <div class="desc">
-                    <p>
-                      Elizabeth some dodgy chavs are you taking the piss faff
-                      about pardon amongst car boot a load of old tosh is
-                      cracking goal blow off telling brown.
-                    </p>
-                  </div>
-                  <ul>
-                    <li>Reinvent Your Business to Better</li>
-                    <li>Pioneering the Internet's First</li>
-                    <li>Pioneering the Design World's First</li>
-                    <li>Pioneering the Design World's First</li>
-                    <li>Pioneering the Design World's First</li>
-                    <li>Pioneering the Design World's First</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-5 col-xl-4">
-              <div class="tj_main_sidebar">
-                <div class="sidebar_widget services_list">
-                  <div class="widget_title">
-                    <h3 class="title">All Services</h3>
-                  </div>
-                  <ul>
-                    <li class="active">
-                      <button>
-                        <i class="flaticon-design"></i>
-                        Branding Design
-                      </button>
-                    </li>
-                    <li>
-                      <button>
-                        <i class="flaticon-3d-movie"></i>
-                        3D Animation
-                      </button>
-                    </li>
-                    <li>
-                      <button>
-                        <i class="flaticon-ux-design"></i>
-                        UI/UX Design
-                      </button>
-                    </li>
-                    <li>
-                      <button>
-                        <i class="flaticon-web-design"></i>
-                        Web Design
-                      </button>
-                    </li>
-                    <li>
-                      <button>
-                        <i class="flaticon-ui-design"></i>
-                        App Design
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="sidebar_widget contact_form">
-                  <div class="widget_title">
-                    <h3 class="title">Get in Touch</h3>
-                  </div>
-
-                  <form action="index.html">
-                    <div class="form_group">
-                      <input type="text" name="name" id="name" placeholder="Name" autocomplete="off" />
-                    </div>
-                    <div class="form_group">
-                      <input type="email" name="semail" id="semail" placeholder="Email" autocomplete="off" />
-                    </div>
-                    <div class="form_group">
-                      <textarea name="smessage" id="smessage" placeholder="Your message" autocomplete="off"></textarea>
-                    </div>
-                    <div class="form_btn">
-                      <button class="btn tj-btn-primary" type="submit">
-                        Send Message
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- end: Service Popup -->
 
     <!-- PORTFOLIO SECTION START -->
     <section class="portfolio-section" id="works-section">
@@ -368,15 +205,6 @@
           <div class="col-md-12">
             <div class="portfolio-filter text-center wow fadeInUp" data-wow-delay=".5s">
 
-              <!-- <div class="button-group filter-button-group">
-                    <button data-filter="*" class="active">All</button>
-                    <button data-filter=".uxui">UX/UI</button>
-                    <button data-filter=".branding">Branding</button>
-                    <button data-filter=".mobile-app">Apps</button>
-                    <div class="active-bg"></div>
-                  </div>
-                </div> -->
-
               <div class="portfolio-box wow fadeInUp" data-wow-delay=".6s">
                 <div class="portfolio-sizer"></div>
                 <div class="gutter-sizer"></div>
@@ -395,7 +223,8 @@
                             <img src="<?= $project["picture"] ?>" alt="photo d'un projet" />
                           </div>
                           <div class="content-box">
-                            <a href="<?= $template_url . "project_view.php?id=" . $project["id"] ?>">
+
+                            <a href="<?= $template_url . "project/" . "project" . "-" . $project["id"] . "-" . str_replace(" ", "", strtolower($project["slug"]));  ?>">
                               <h3 class="portfolio-title"><?= htmlspecialchars($project["title"]) ?></h3>
                               <p><?= htmlspecialchars($project["hook"]) ?></p>
                               <i class="flaticon-up-right-arrow"></i>
@@ -417,7 +246,7 @@
           if ($counter === 6) {
           ?>
             <div class="col-md-12 d-flex justify-content-center">
-              <a class="col-auto  all_projects" href="<?= $template_url . "project_view.php" ?>">
+              <a class="col-auto  all_projects" href="<?= $template_url . "projects" ?>">
                 <h4 class="mb-0">Voir tous nos travaux</h4>
               </a>
             </div>
@@ -522,26 +351,26 @@
               </div>
 
               <div class="tj-contact-form">
-                <form action="index.html">
+                <form action="send_email.php" method="POST">
                   <div class="row gx-3">
                     <div class="col-sm-6">
                       <div class="form_group">
-                        <input type="text" name="fname" id="fname" placeholder="Prénom" autocomplete="off" />
+                        <input type="text" name="fname" id="fname" placeholder="Prénom" autocomplete="off" required />
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form_group">
-                        <input type="text" name="lname" id="lname" placeholder="Nom" autocomplete="off" />
+                        <input type="text" name="lname" id="lname" placeholder="Nom" autocomplete="off" required />
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form_group">
-                        <input type="email" name="email" id="email" placeholder="Adresse E-mail" autocomplete="off" />
+                        <input type="email" name="email" id="email" placeholder="Adresse E-mail" autocomplete="off" required />
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form_group">
-                        <input type="tel" name="phone" id="phone" placeholder="Numéro de téléphone" autocomplete="off" />
+                        <input type="tel" name="phone" id="phone" placeholder="Numéro de téléphone" autocomplete="off" required />
                       </div>
                     </div>
                     <div class="col-12">
@@ -550,16 +379,19 @@
                           <option value="" selected disabled>
                             Choisir une prestation
                           </option>
-                          <option value="branding">Branding Design</option>
-                          <option value="web">Web Design</option>
-                          <option value="uxui">UI/UX Design</option>
-                          <option value="app">App Design</option>
+                          <?php
+                          foreach ($result_get_services as $service) {
+                          ?>
+                            <option value="<?= $service["name"]; ?>"><?= $service["name"]; ?></option>
+                          <?php } ?>
+
+
                         </select>
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="form_group">
-                        <textarea name="message" id="message" placeholder="Message"></textarea>
+                        <textarea name="message" id="message" placeholder="Message" required></textarea>
                       </div>
                     </div>
                     <div class="col-12">

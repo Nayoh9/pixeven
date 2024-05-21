@@ -131,8 +131,8 @@
                 $description = $_POST["project_description"];
                 $categories = implode(",", $_POST["project_categories"]);
                 $link = htmlspecialchars($_POST["project_link"]);
-                $hook = htmlspecialchars($_POST["project_hook"]);
-                $slug = "project" . "-" . "$title";
+                $hook = $_POST["project_hook"];
+                $slug = $title;
 
                 if (empty($error)) {
                     try {
@@ -327,8 +327,8 @@
                 $description = $_POST["project_description"];
                 $categories = implode(",", $_POST["project_categories"]);
                 $link = htmlspecialchars($_POST["project_link"]);
-                $hook = htmlspecialchars($_POST["project_hook"]);
-                $slug = "project" . "-" . "$title";
+                $hook = $_POST["project_hook"];
+                $slug = $title;
                 $last_modification = date("Y-m-d H:i:s");
 
                 try {
@@ -536,7 +536,7 @@
 
                 <div class="col-md-6">
                     <label class="form-label" for="project_hook">Courte description du projet</label>
-                    <input type="text" class="form-control" id="project_hook" name="project_hook" value="<?= htmlspecialchars($result_get_project["hook"]); ?>" required>
+                    <input type="text" class="form-control" id="project_hook" name="project_hook" value="<?= $result_get_project["hook"]; ?>" required>
                 </div>
 
                 <div class="col-md-6">
@@ -641,7 +641,6 @@
                         <?php
                         if ($project["deleted"] === 1) {
                         ?>
-
                             <form action="project.php" method="POST" class="col-md-12 d-flex justify-content-center">
 
                                 <input type="hidden" name="direction" value="restore">
@@ -649,7 +648,6 @@
                                 <button type="submit" class="btn btn-success mt-1">Restaurer</button>
 
                             </form>
-
                         <?php } ?>
                     </div>
                 <?php }

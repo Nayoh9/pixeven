@@ -92,9 +92,6 @@
                 return $error_code = "Erreur durant le telechargement du fichier";
                 break;
 
-
-
-
             default:
                 return $error_code = "Erreur inconnue";
                 break;
