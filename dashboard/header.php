@@ -5,8 +5,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><?= $page_title ?></title>
+
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <link rel="stylesheet" href="assets/dashboard.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" integrity="sha512-NXUhxhkDgZYOMjaIgd89zF2w51Mub53Ru3zCNp5LTlEzMbNNAjTjDbpURYGS5Mop2cU4b7re1nOIucsVlrx9fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <!-- CSS HERE -->
+        <link rel="stylesheet" href="<?= $dashboard_url . "assets/dashboard.css" ?>">
     </head>
 
     <?php
@@ -48,11 +52,15 @@
                 <?php
                 if (!empty($_GET["error"])) {
                     $error = htmlspecialchars(parse_error($_GET["error"]));
-                ?>
-                    <div class="col-md-12 text-center d-flex justify-content-center mt-2">
-                        <div class="col-md-4 alert alert-danger">
-                            <p class="m-0"><?php echo $error; ?></p>
-                        </div>
-                    </div>
 
-                <?php } ?>
+                    echo "<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    new Noty({
+                        type: 'error',
+                        layout: 'topRight',
+                        text: '$error',
+                        timeout: 5000,
+                    }).show();
+                });
+            </script>";
+                }; ?>

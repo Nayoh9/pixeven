@@ -7,4 +7,6 @@
         <img src="" alt="Logo pixeven">
     </div>
 
+    <?= realpath('index.php') ?>
+
     <?php include "footer.php"; ?>

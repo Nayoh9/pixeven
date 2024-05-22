@@ -1,7 +1,8 @@
     <?php
     $page_title = "Créer un nouveau projet";
-    include "header.php";
     include "includes/functions.php";
+    include "header.php";
+
 
     try {
         $get_categories = $db->query("SELECT * FROM categories");

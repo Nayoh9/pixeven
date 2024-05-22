@@ -14,6 +14,11 @@ $db_user = $_ENV["DB_USER"];
 $db_pass = $_ENV["DB_PASS"];
 $db_host = $_ENV["DB_HOST"];
 
+// PHP MAILER env vars
+$brevo_host = $_ENV["BREVO_HOST"];
+$brevo_port = $_ENV["BREVO_PORT"];
+$brevo_username = $_ENV["BREVO_USERNAME"];
+$brevo_password = $_ENV["BREVO_PASSWORD"];
 
 // **DB connexion** //
 try {

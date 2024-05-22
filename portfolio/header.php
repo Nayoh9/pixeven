@@ -24,6 +24,8 @@
         <link rel=" stylesheet" href="<?= $template_url . 'assets/css/owl.carousel.min.css' ?>" />
         <link rel=" stylesheet" href="<?= $template_url . 'assets/css/odometer-theme-default.css' ?>" />
         <link rel=" stylesheet" href="<?= $template_url . 'assets/css/magnific-popup.css' ?>" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" integrity="sha512-NXUhxhkDgZYOMjaIgd89zF2w51Mub53Ru3zCNp5LTlEzMbNNAjTjDbpURYGS5Mop2cU4b7re1nOIucsVlrx9fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <link rel="stylesheet" href="<?= $template_url . 'assets/css/main.css'; ?>" />
         <link rel="stylesheet" href="<?= $template_url . 'assets/css/responsive.css'; ?>" />
@@ -121,14 +123,18 @@
             <?php
             if (!empty($_GET["error"])) {
                 $error = htmlspecialchars(parse_error($_GET["error"]));
-            ?>
-                <div class="col-md-12 text-center d-flex justify-content-center mt-2">
-                    <div class="col-md-4 alert alert-danger">
-                        <p class="m-0"><?php echo $error; ?></p>
-                    </div>
-                </div>
 
-            <?php } ?>
+                echo "<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    new Noty({
+                        type: 'error',
+                        layout: 'topRight',
+                        text: '$error',
+                        timeout: 5000,
+                    }).show();
+                });
+            </script>";
+            }; ?>
         </header>
         <header class="tj-header-area header-2 header-sticky sticky-out">
             <div class="container">
@@ -183,16 +189,8 @@
                     </div>
                 </div>
             </div>
-            <?php
-            if (!empty($_GET["error"])) {
-                $error = htmlspecialchars(parse_error($_GET["error"]));
-            ?>
-                <div class="col-md-12 text-center d-flex justify-content-center mt-2">
-                    <div class="col-md-4 alert alert-danger">
-                        <p class="m-0"><?php echo $error; ?></p>
-                    </div>
-                </div>
-
-            <?php } ?>
         </header>
+
+
+
         <!-- HEADER END -->

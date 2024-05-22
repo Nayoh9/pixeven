@@ -1,6 +1,7 @@
   <?php
   include "includes/functions.php";
 
+
   try {
     $get_settings = $db->query("SELECT * FROM settings");
     $result_get_settings = $get_settings->fetch(PDO::FETCH_ASSOC);
@@ -99,6 +100,8 @@
           </div>
         </div>
 
+
+
         <div class="funfact-area">
           <div class="row">
             <div class="col-6 col-lg-4">
@@ -125,7 +128,6 @@
                 <div class="text">Clients <br />Satisfaits</div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -328,11 +330,11 @@
                   <!-- <div class="number">93%</div> -->
                 </div>
                 <p>Logic Pro</p>
+                </´div>
               </div>
             </div>
           </div>
         </div>
-      </div>
     </section>
     <!-- SKILLS SECTION END -->
 
@@ -351,7 +353,7 @@
               </div>
 
               <div class="tj-contact-form">
-                <form action="send_email.php" method="POST">
+                <form action="contact.php" method="POST">
                   <div class="row gx-3">
                     <div class="col-sm-6">
                       <div class="form_group">
@@ -384,7 +386,6 @@
                           ?>
                             <option value="<?= $service["name"]; ?>"><?= $service["name"]; ?></option>
                           <?php } ?>
-
 
                         </select>
                       </div>

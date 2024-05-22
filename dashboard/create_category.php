@@ -1,5 +1,6 @@
 <?php
 $page_title = "Créer une nouvelle catégorie";
+include "includes/functions.php";
 include "header.php";
 ?>
 <div class="row justify-content-center ">

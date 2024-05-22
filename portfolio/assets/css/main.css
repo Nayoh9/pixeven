@@ -1229,7 +1229,6 @@ body.loaded {
 .portfolio-section {
   padding-top: 120px;
   padding-bottom: 80px;
-  height: 100vh;
   background: var(--tj-theme-accent-1);
 }
 .portfolio-section .section-header {

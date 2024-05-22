@@ -113,6 +113,10 @@ function parse_error($error_code)
             return $error_code = "Veuillez entrer votre prenom";
             break;
 
+        case "email_sending_error":
+            return $error_code = "Erreur lors de l'envoie du mail de contact";
+            break;
+
         default:
             return $error_code = "Erreur inconnue";
             break;
