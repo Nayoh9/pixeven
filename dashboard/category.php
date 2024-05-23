@@ -18,7 +18,7 @@
                     die();
                 }
 
-                $name = $_POST["category_name"];
+                $name = htmlspecialchars($_POST["category_name"]);
 
                 try {
                     $create_category = $db->prepare("INSERT INTO categories (
@@ -34,7 +34,7 @@
                     die();
                 }
 
-                header("location: $ok_category");
+                header("location:$ok_category?success=category_created");
                 die();
                 break;
 
@@ -71,7 +71,7 @@
                     die();
                 }
 
-                header("location:$ok_category");
+                header("location:$ok_category?success=category_modified");
                 die();
 
                 break;
@@ -99,7 +99,7 @@
                     die();
                 }
 
-                header("location:$ok_category");
+                header("location:$ok_category?success=category_deleted");
                 die();
 
             case 'restore':
@@ -127,7 +127,7 @@
                     die();
                 }
 
-                header("location:$ok_category");
+                header("location:$ok_category?success=category_restored");
                 die();
 
                 break;
@@ -162,13 +162,13 @@
     ?>
 
         <div class="row justify-content-center">
-            <form method="POST" id="modify_target_form" class="col-md-6">
+            <form method="POST" id="modify_target_form" class=" d-flex flex-column align-items-center  ">
                 <input type="hidden" name="direction" id="direction" value="">
                 <input type="hidden" name="category_id" value="<?= $category_id; ?>">
 
-                <div class="mb-5 mt-5">
+                <div class="col-12 col-md-6  mb-5 mt-5">
                     <label for="category_name" class="form-label">Nom de la catégorie :</label>
-                    <input type="text" id="category_name" name="category_name" class="form-control" value="<?= $result_get_category["name"]; ?>" required>
+                    <input type="text" id="category_name" name="category_name" class="form-control" placeholder="ex : Motion-design" value="<?= $result_get_category["name"]; ?>" required>
                 </div>
 
                 <!-- Modal -->
@@ -188,11 +188,11 @@
                     </div>
                 </div>
 
-                <div class="text-center col-md-12" id="target_data_container" data-title="<?= htmlspecialchars($result_get_category["name"]) ?>">
-                    <button type="button" id="delete_button" class="btn btn-danger me-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <div class="text-center" id="target_data_container" data-title="<?= htmlspecialchars($result_get_category["name"]) ?>">
+                    <button type="button" id="delete_button" class="btn btn-danger " data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Effacer la catégorie
                     </button>
-                    <button type="button" id="modify_button" class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal" name="category_id">
+                    <button type="button" id="modify_button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="category_id">
                         Modifier la catégorie
                     </button>
                 </div>
@@ -212,15 +212,15 @@
         include "header.php";
     ?>
 
-        <div class="row">
-            <div class="col-md-12 d-flex flex-wrap">
+        <div class="row d-flex">
+            <div class="categories_wrapper justify-content-center col-12 d-flex flex-wrap gap-2 ">
                 <?php
                 if (!empty($result_get_categories)) {
                     foreach ($result_get_categories as $category) {
                 ?>
-                        <div class="card col-md-4 mb-3">
+                        <div class="card col-md-3 mb-3 ">
                             <a href="category.php?id=<?= htmlspecialchars($category["id"]) ?>" class="text-decoration-none">
-                                <div class="card-header">
+                                <div class="card-header d-flex">
                                     <?= $category["deleted"] === 0 ? "<p class='visible fw-bold mb-0'>Visible</p>" : "<p class='deleted fw-bold mb-0'>Non visible</p>" ?>
                                 </div>
                                 <div class="card-body">
@@ -245,7 +245,6 @@
                     <p class="col-md-12 text-center fw-bold">
                         Vous n'avez pas encore créé de catégories pour l'instant..</p>
                 <?php } ?>
-
 
             </div>
         </div>

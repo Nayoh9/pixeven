@@ -131,7 +131,7 @@
                 $description = $_POST["project_description"];
                 $categories = implode(",", $_POST["project_categories"]);
                 $link = htmlspecialchars($_POST["project_link"]);
-                $hook = $_POST["project_hook"];
+                $hook = htmlspecialchars($_POST["project_hook"]);
                 $slug = $title;
 
                 if (empty($error)) {
@@ -175,7 +175,7 @@
                         die();
                     }
 
-                    header("location: $ok_project");
+                    header("location: $ok_project?success=project_created");
                     die();
                 } else {
                     header("location: $not_ok_project?error=$error");
@@ -324,7 +324,7 @@
                 empty($picture_list) && $picture_list = $result_get_project["picture_list"];
                 empty($picture_uid) && $picture_uid = $result_get_project["picture_uid"];
                 $title = htmlspecialchars($_POST["project_title"]);
-                $description = $_POST["project_description"];
+                $description = htmlspecialchars($_POST["project_description"]);
                 $categories = implode(",", $_POST["project_categories"]);
                 $link = htmlspecialchars($_POST["project_link"]);
                 $hook = $_POST["project_hook"];
@@ -368,7 +368,7 @@
                     die();
                 }
 
-                header("location: $ok_project");
+                header("location: $ok_project?success=project_modified");
                 die();
                 break;
 
@@ -400,7 +400,7 @@
                     die();
                 }
 
-                header("location: $ok_project");
+                header("location: $ok_project?success=project_deleted");
                 break;
 
             case 'restore':
@@ -428,7 +428,7 @@
                     die();
                 }
 
-                header("location:$ok_project");
+                header("location:$ok_project?success=project_restored");
                 die();
                 break;
 
@@ -486,12 +486,12 @@
                 <input type="hidden" name="direction" id="direction" value="">
                 <input type="hidden" name="project_id" value="<?= $project_id; ?>">
 
-                <div class="col-md-6">
+                <div class="col-md-6 col-12 ">
                     <label for="project_title" class="form-label">Titre du projet :</label>
-                    <input class="form-control col-auto" id="project_title" name="project_title" value="<?= htmlspecialchars($result_get_project["title"]); ?>" required>
+                    <input class="form-control col-auto" id="project_title" name="project_title" placeholder="ex : Goodtime.." value="<?= htmlspecialchars($result_get_project["title"]); ?>" required>
                 </div>
 
-                <div class="col-md-6 text-center">
+                <div class="col-md-6 col-12 text-center">
                     <label for="file_to_upload">
                         <div id="preview">
                             <img id="preview_child" class="form_asset rounded-1" src="<?= $result_get_project["picture"]; ?>" alt="Photo/vidéo d'un projet">
@@ -503,7 +503,7 @@
 
 
 
-                <div class="col-md-6">
+                <div class="col-md-6 col-12 ">
                     <label for="files_to_upload" class="form-label">Photos du projet</label>
                     <input type="file" class="form-control" name="project_pictures[]" id="files_to_upload" accept="image/png, image/jpeg, image/jpg" multiple>
 
@@ -515,7 +515,7 @@
                     <p><?= htmlspecialchars($result_get_project["GROUP_CONCAT(categories.name)"]);  ?></p>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 col-12 ">
                     <select class="project_categories_list form-select mb-3" aria-label="multiple select example" size="3" name="project_categories[]" multiple required>
                         <?php
                         if (!empty($result_get_categories)) {
@@ -534,18 +534,18 @@
                     </select>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 col-12">
                     <label class="form-label" for="project_hook">Courte description du projet</label>
-                    <input type="text" class="form-control" id="project_hook" name="project_hook" value="<?= $result_get_project["hook"]; ?>" required>
+                    <input type="text" class="form-control" id="project_hook" name="project_hook" placeholder="ex : Ce projet est un..." value="<?= $result_get_project["hook"]; ?>" required>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 col-12 ">
                     <label for="form-label">Lien du projet</label>
-                    <input type="text" class="form-control" name="project_link" placeholder="Lien de votre projet" id="project_link" value="<?= htmlspecialchars($result_get_project["link"]) ?>">
+                    <input type="text" class="form-control" name="project_link" placeholder="ex : https://monprojet.com" id="project_link" value="<?= htmlspecialchars($result_get_project["link"]) ?>">
                 </div>
 
-                <div class="col-md-8 text-center mb-3 ">
-                    <textarea name="project_description" rows="15"><?= $result_get_project["description"]; ?></textarea>
+                <div class="col-12 col-md-8  mb-3">
+                    <textarea name="project_description" rows="15" placeholder="ex : Voici un nouveau design.. (possibilité d'inserer des images et des vidéos) "><?= $result_get_project["description"]; ?></textarea>
                 </div>
 
                 <!-- Modal -->

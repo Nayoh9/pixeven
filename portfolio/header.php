@@ -14,6 +14,9 @@
         <link rel="apple-touch-icon" href="<?= $template_url . "/assets/img/favicon.png" ?>" />
         <link rel="shortcut icon" type="image/png" href="<?= $template_url . "/assets/img/favicon.png" ?>" />
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" integrity="sha512-NXUhxhkDgZYOMjaIgd89zF2w51Mub53Ru3zCNp5LTlEzMbNNAjTjDbpURYGS5Mop2cU4b7re1nOIucsVlrx9fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
         <!-- CSS here -->
         <link rel="stylesheet" href="<?= $template_url . 'assets/css/animate.min.css' ?>" />
         <link rel="stylesheet" href="<?= $template_url . 'assets/css/bootstrap.min.css' ?>" />
@@ -24,9 +27,6 @@
         <link rel=" stylesheet" href="<?= $template_url . 'assets/css/owl.carousel.min.css' ?>" />
         <link rel=" stylesheet" href="<?= $template_url . 'assets/css/odometer-theme-default.css' ?>" />
         <link rel=" stylesheet" href="<?= $template_url . 'assets/css/magnific-popup.css' ?>" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" integrity="sha512-NXUhxhkDgZYOMjaIgd89zF2w51Mub53Ru3zCNp5LTlEzMbNNAjTjDbpURYGS5Mop2cU4b7re1nOIucsVlrx9fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
         <link rel="stylesheet" href="<?= $template_url . 'assets/css/main.css'; ?>" />
         <link rel="stylesheet" href="<?= $template_url . 'assets/css/responsive.css'; ?>" />
         <link rel="stylesheet" href="<?= $template_url . 'assets/css/project-view.css'; ?>" />

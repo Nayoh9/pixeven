@@ -1,6 +1,6 @@
     <?php
-    $page_title = "Créer un nouveau projet";
     include "includes/functions.php";
+    $page_title = "Créer un nouveau projet";
     include "header.php";
 
 
@@ -19,7 +19,7 @@
 
         <div class="col-md-6">
             <label class="form-label" for="project_title">Titre du projet</label>
-            <input type="text" placeholder="Goodtime.." class="form-control" id="project_title" name="project_title" required>
+            <input type="text" placeholder="ex : Goodtime.." class="form-control" id="project_title" name="project_title" required>
             <p class="mb-0"></p>
         </div>
 
@@ -41,17 +41,17 @@
 
         <div class="col-md-6">
             <label class="form-label" for="project_hook">Courte description du projet</label>
-            <input type="text" class="form-control" id="project_hook" name="project_hook" required>
+            <input type="text" class="form-control" id="project_hook" name="project_hook" placeholder="ex : Ce projet est un..." required>
         </div>
 
         <div class="col-md-8">
             <label class="form-label">Description du projet</label>
-            <textarea type="text" class="form-control" placeholder="Voici un nouveau design.." rows="15" name="project_description"></textarea>
+            <textarea type="text" class="form-control" placeholder="ex : Voici un nouveau design.. (possibilité d'inserer des images et des vidéos) " rows="15" name="project_description"></textarea>
         </div>
 
         <div class="col-md-6 text-center ">
             <label for="project_link" class="form-label">Lien du projet</label>
-            <input name="project_link" id="project_link" type="text" placeholder="lien de votre projet" class="form-control">
+            <input name="project_link" id="project_link" type="text" placeholder="ex : https://monprojet.com" class="form-control">
         </div>
 
         <div class="col-md-6 text-center">

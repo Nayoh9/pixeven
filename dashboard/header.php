@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" integrity="sha512-NXUhxhkDgZYOMjaIgd89zF2w51Mub53Ru3zCNp5LTlEzMbNNAjTjDbpURYGS5Mop2cU4b7re1nOIucsVlrx9fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <!-- CSS HERE -->
-        <link rel="stylesheet" href="<?= $dashboard_url . "assets/dashboard.css" ?>">
+        <link rel="stylesheet" href="<?= $dashboard_url . "assets/css/dashboard.css" ?>">
     </head>
 
     <?php
@@ -63,4 +63,21 @@
                     }).show();
                 });
             </script>";
-                }; ?>
+                };
+
+                if (!empty($_GET["success"])) {
+
+                    $success = htmlspecialchars(parse_success($_GET["success"]));
+
+                    echo "<script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        new Noty({
+                            type: 'success',
+                            layout: 'topRight',
+                            text: '$success',
+                            timeout: 5000,
+                        }).show();
+                    });
+                </script>";
+                }
+                ?>

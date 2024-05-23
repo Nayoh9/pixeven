@@ -50,10 +50,8 @@
  <script src="<?= $template_url . 'assets/js/owl.carousel.min.js'; ?>"></script>
  <script src="<?= $template_url . 'assets/js/isotope.pkgd.min.js'; ?>"></script>
  <script src="<?= $template_url . 'assets/js/odometer.min.js'; ?>"></script>
- <!-- <script src="<?= $template_url . 'assets/js/magnific-popup.js'; ?>"></script> -->
  <script src="<?= $template_url . 'assets/js/main.js'; ?>"></script>
- <script src="<?= $template_url . "https://cdnjs.cloudflare.com/ajax/libs/noty/3.2.0-beta/noty.min.js" ?>"></script>
-
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.2.0-beta/noty.min.js"></script>
 
  </body>
 

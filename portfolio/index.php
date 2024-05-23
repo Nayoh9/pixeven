@@ -1,7 +1,6 @@
   <?php
   include "includes/functions.php";
 
-
   try {
     $get_settings = $db->query("SELECT * FROM settings");
     $result_get_settings = $get_settings->fetch(PDO::FETCH_ASSOC);

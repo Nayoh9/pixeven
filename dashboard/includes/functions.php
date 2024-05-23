@@ -97,3 +97,46 @@
                 break;
         }
     }
+
+
+    function parse_success($success_code)
+    {
+        switch ($success_code) {
+            case 'project_created';
+                return $success_code = "Projet crée avec succès";
+                break;
+
+            case 'project_modified';
+                return $success_code = "Projet modifié avec succès";
+                break;
+
+            case 'project_deleted';
+                return $success_code = "Projet supprimé avec succès";
+                break;
+
+            case 'project_restored';
+                return $success_code = "Projet restoré avec succès";
+                break;
+
+            case 'category_created';
+                return $success_code = "Catégorie crée avec succès";
+                break;
+
+            case 'category_modified';
+                return $success_code = "Catégorie modifiée avec succès";
+                break;
+
+            case 'category_restored';
+                return $success_code = "Catégorie restaurée avec succès";
+                break;
+
+            case 'category_deleted';
+                return $success_code = "Catégorie supprimée avec succès";
+                break;
+
+
+            default:
+                return $success_code = "Erreur inconnue";
+                break;
+        }
+    }

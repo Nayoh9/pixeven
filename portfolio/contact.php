@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+
 <?php
 include "includes/functions.php";
 
@@ -52,7 +54,7 @@ try {
     $mail->Password = $brevo_password;
     $mail->setFrom($email);
     // mail du destinataire 
-    $mail->addAddress("yoyoandre90@gmail.com");
+    $mail->addAddress("y.andre90000@gmail.com");
 
     $mail->Subject = "Demande client pour Pixeven";
     $mail->Body = $message . "<br/>" . "<br/>" . "Demande pour du " . $service . " <br/> " . $email . " <br/> " . $phone;

@@ -7,7 +7,7 @@ include "header.php";
     <form method="POST" class="col-md-6" action="category.php">
         <div>
             <label for="category_name" class="form-label">Nom de la catégorie</label>
-            <input class="form-control mb-2" name="category_name" type="text" placeholder="Motion-Design" required>
+            <input class="form-control mb-2" name="category_name" type="text" placeholder="ex : Motion-Design" required>
             <input type="hidden" name="direction" value="create">
         </div>
 
