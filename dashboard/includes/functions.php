@@ -103,7 +103,7 @@
     {
         switch ($success_code) {
             case 'project_created';
-                return $success_code = "Projet crée avec succès";
+                return $success_code = "Projet créé avec succès";
                 break;
 
             case 'project_modified';
@@ -119,7 +119,7 @@
                 break;
 
             case 'category_created';
-                return $success_code = "Catégorie crée avec succès";
+                return $success_code = "Catégorie créée avec succès";
                 break;
 
             case 'category_modified';

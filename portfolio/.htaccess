@@ -1,5 +1,10 @@
 RewriteEngine On
 
 RewriteRule ^accueil$ index.php 
+
 RewriteRule ^projects$ project_view.php
+
 RewriteRule ^project/project-([0-9]+)-([a-z0-9-]+)$ project_view.php?id=$1&amp;titre=$2 
+
+RewriteRule ^service/service-([0-9]+)-([a-z0-9-]+)$ service_view.php?id=$1&amp;titre=$2 
+

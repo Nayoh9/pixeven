@@ -28,9 +28,9 @@
                     $error = "no_project_hook";
                 }
 
-                if (empty($_POST["project_link"])) {
-                    $error = "no_project_link";
-                }
+                // if (empty($_POST["project_link"])) {
+                //     $error = "no_project_link";
+                // }
 
                 if (!empty($_FILES["project_pictures"]["tmp_name"]["0"])) {
 
@@ -205,9 +205,9 @@
                     $error = "no_project_hook";
                 }
 
-                if (empty($_POST["project_link"])) {
-                    $error = "no_project_link";
-                }
+                // if (empty($_POST["project_link"])) {
+                //     $error = "no_project_link";
+                // }
 
                 if (!empty($error)) {
                     header("location:$not_ok_project?error=$error");
@@ -324,7 +324,7 @@
                 empty($picture_list) && $picture_list = $result_get_project["picture_list"];
                 empty($picture_uid) && $picture_uid = $result_get_project["picture_uid"];
                 $title = htmlspecialchars($_POST["project_title"]);
-                $description = htmlspecialchars($_POST["project_description"]);
+                $description = $_POST["project_description"];
                 $categories = implode(",", $_POST["project_categories"]);
                 $link = htmlspecialchars($_POST["project_link"]);
                 $hook = $_POST["project_hook"];
@@ -486,12 +486,12 @@
                 <input type="hidden" name="direction" id="direction" value="">
                 <input type="hidden" name="project_id" value="<?= $project_id; ?>">
 
-                <div class="col-md-6 col-12 ">
+                <div class="col-lg-8 col-12">
                     <label for="project_title" class="form-label">Titre du projet :</label>
                     <input class="form-control col-auto" id="project_title" name="project_title" placeholder="ex : Goodtime.." value="<?= htmlspecialchars($result_get_project["title"]); ?>" required>
                 </div>
 
-                <div class="col-md-6 col-12 text-center">
+                <div class="col-lg-8 col-12 text-center">
                     <label for="file_to_upload">
                         <div id="preview">
                             <img id="preview_child" class="form_asset rounded-1" src="<?= $result_get_project["picture"]; ?>" alt="Photo/vidéo d'un projet">
@@ -503,7 +503,7 @@
 
 
 
-                <div class="col-md-6 col-12 ">
+                <div class="col-lg-8 col-12">
                     <label for="files_to_upload" class="form-label">Photos du projet</label>
                     <input type="file" class="form-control" name="project_pictures[]" id="files_to_upload" accept="image/png, image/jpeg, image/jpg" multiple>
 
@@ -515,7 +515,7 @@
                     <p><?= htmlspecialchars($result_get_project["GROUP_CONCAT(categories.name)"]);  ?></p>
                 </div>
 
-                <div class="col-md-6 col-12 ">
+                <div class="col-lg-8 col-12">
                     <select class="project_categories_list form-select mb-3" aria-label="multiple select example" size="3" name="project_categories[]" multiple required>
                         <?php
                         if (!empty($result_get_categories)) {
@@ -524,7 +524,7 @@
                                     $is_selected = str_contains($result_get_project["categories"], $category["id"]) ? 'selected' : '';
                         ?>
                                     <option <?= $is_selected ?> value="<?= $category["id"] ?>" id="categories_<?= $category["id"] ?>">
-                                        <?= htmlspecialchars($category["name"]);  ?>
+                                        <?= $category["name"];  ?>
                                     </option>
                         <?php
                                 }
@@ -534,17 +534,17 @@
                     </select>
                 </div>
 
-                <div class="col-md-6 col-12">
+                <div class="col-lg-8 col-12">
                     <label class="form-label" for="project_hook">Courte description du projet</label>
                     <input type="text" class="form-control" id="project_hook" name="project_hook" placeholder="ex : Ce projet est un..." value="<?= $result_get_project["hook"]; ?>" required>
                 </div>
 
-                <div class="col-md-6 col-12 ">
+                <div class="col-lg-8 col-12">
                     <label for="form-label">Lien du projet</label>
                     <input type="text" class="form-control" name="project_link" placeholder="ex : https://monprojet.com" id="project_link" value="<?= htmlspecialchars($result_get_project["link"]) ?>">
                 </div>
 
-                <div class="col-12 col-md-8  mb-3">
+                <div class="col-12 col-lg-8 mb-3">
                     <textarea name="project_description" rows="15" placeholder="ex : Voici un nouveau design.. (possibilité d'inserer des images et des vidéos) "><?= $result_get_project["description"]; ?></textarea>
                 </div>
 
@@ -630,10 +630,10 @@
                                     </div>
 
                                 </div>
-                                <div class="card-body text-center">
+                                <div class="card-body project_card_body text-center">
                                     <img src="<?= $project["picture"] ?>" alt="photo d'un projet créé" class="consult_projects_picture rounded-1 ">
                                     <p class="mb-0">Catégories :</p>
-                                    <p><?= htmlspecialchars($project["GROUP_CONCAT(categories.name)"]);  ?></p>
+                                    <p><?= $project["GROUP_CONCAT(categories.name)"];  ?></p>
                                 </div>
                             </div>
                         </a>

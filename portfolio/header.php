@@ -134,7 +134,23 @@
                     }).show();
                 });
             </script>";
-            }; ?>
+            };
+
+            if (!empty($_GET["success"])) {
+                $success = htmlspecialchars(parse_success($_GET["success"]));
+
+                echo "<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    new Noty({
+                        type: 'success',
+                        layout: 'topRight',
+                        text: '$success',
+                        timeout: 5000,
+                    }).show();
+                });
+            </script>";
+            };
+            ?>
         </header>
         <header class="tj-header-area header-2 header-sticky sticky-out">
             <div class="container">

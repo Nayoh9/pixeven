@@ -166,7 +166,7 @@
                 <input type="hidden" name="direction" id="direction" value="">
                 <input type="hidden" name="category_id" value="<?= $category_id; ?>">
 
-                <div class="col-12 col-md-6  mb-5 mt-5">
+                <div class="col-12 col-lg-8 mb-5 mt-5">
                     <label for="category_name" class="form-label">Nom de la catégorie :</label>
                     <input type="text" id="category_name" name="category_name" class="form-control" placeholder="ex : Motion-design" value="<?= $result_get_category["name"]; ?>" required>
                 </div>
@@ -189,10 +189,10 @@
                 </div>
 
                 <div class="text-center" id="target_data_container" data-title="<?= htmlspecialchars($result_get_category["name"]) ?>">
-                    <button type="button" id="delete_button" class="btn btn-danger " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" id="delete_button" class="btn btn-danger mb-3 " data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Effacer la catégorie
                     </button>
-                    <button type="button" id="modify_button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" name="category_id">
+                    <button type="button" id="modify_button" class="btn btn-primary mb-3 " data-bs-toggle="modal" data-bs-target="#exampleModal" name="category_id">
                         Modifier la catégorie
                     </button>
                 </div>

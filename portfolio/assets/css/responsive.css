@@ -648,7 +648,7 @@
 
   /* popup */
   .popup_content_area {
-    max-width: 330px;
+    max-width: 80%;
   }
   .popup_modal_img {
     padding: 30px 15px 0 15px;

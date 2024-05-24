@@ -158,7 +158,7 @@
               foreach ($result_get_services as $service) {
                 $counter++;
               ?>
-                <a href="<?= $template_url . "service_view.php?id=" . $service['id']; ?>">
+                <a href="<?= $template_url . "service/" . "service" . "-" . $service['id'] . "-" . str_replace(" ", "", strtolower($service["name"])); ?>">
 
                   <div class="service-item current d-flex flex-wrap align-items-center wow fadeInUp" data-wow-delay=".5s">
                     <div class="left-box d-flex flex-wrap align-items-center">

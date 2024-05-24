@@ -117,8 +117,28 @@ function parse_error($error_code)
             return $error_code = "Erreur lors de l'envoie du mail de contact";
             break;
 
+        case "invalid_service":
+            return $error_code = "Service introuvable";
+            break;
+
+
+
         default:
             return $error_code = "Erreur inconnue";
+            break;
+    }
+}
+
+
+function parse_success($success_code)
+{
+    switch ($success_code) {
+        case 'message_sent';
+            return $success_code = "Message envoyé avec succès !";
+            break;
+
+        default:
+            return $success_code = "Erreur inconnue";
             break;
     }
 }

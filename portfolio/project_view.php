@@ -1,6 +1,9 @@
     <?php
     include "includes/functions.php";
 
+    $ok_project_view = "accueil";
+    $not_ok_project_view = "accueil";
+
     if (!empty($_GET["id"])) {
 
         $project_id = htmlspecialchars($_GET["id"]);
@@ -21,12 +24,12 @@
             $result_get_project = $get_project->fetch(PDO::FETCH_ASSOC);
         } catch (\Throwable $th) {
             var_dump($error_db);
-            header("Location: " . $template_url . "accueil?error=$error_db");
+            header("Location: " . $template_url . "$not_ok_project_view?error=$error_db");
             die();
         };
 
         if (empty($result_get_project["id"])) {
-            header("location: $template_url" . "index.php?error=invalid_project_id");
+            header("location: $template_url" . "$not_ok_project_view?error=invalid_project_id");
             die();
         }
 
@@ -51,21 +54,31 @@
             <div class="project-view-gutter"></div>
 
             <div id="portfolio-wrapper" class="popup_content_area zoom-anim-dialog project_view">
+
+                <div class="col-md-12 text-center ">
+                    <p class="title fs-1 fw-bold  mb-0"><?= strtoupper($result_get_project["title"]) ?></p>
+                </div>
+
                 <div class="popup_modal_img">
                     <img src="<?= $result_get_project["picture"] ?>" alt="photo d'un projet" />
                 </div>
 
                 <div class="popup_modal_content">
                     <div class="portfolio_info">
-                        <div class="portfolio_info_text">
-                            <h2 class="title"></h2>
-                            <div class="desc">
-                                <p>
+                        <?php
+                        if (!empty($result_get_project["link"])) {
+                        ?>
 
-                                </p>
+                            <div class="portfolio_info_text">
+                                <h2 class="title"></h2>
+                                <div class="desc">
+                                    <p>
+
+                                    </p>
+                                </div>
+                                <a href="<?= htmlspecialchars($result_get_project["link"]) ?>" class="btn tj-btn-primary">live preview <i class="fal fa-arrow-right"></i></a>
                             </div>
-                            <a href="<?= htmlspecialchars($result_get_project["link"]) ?>" class="btn tj-btn-primary">live preview <i class="fal fa-arrow-right"></i></a>
-                        </div>
+                        <?php } ?>
                         <div class="portfolio_info_items">
                             <div class="key col-md-12">Catégories :</div>
                             <div class="value categories"><?= htmlspecialchars($result_get_project["GROUP_CONCAT(categories.name)"]); ?></div>
@@ -96,7 +109,6 @@
                             <?php
                             if (!empty($result_get_previous_project["id"])) {
                             ?>
-
                                 <a href="<?= $template_url . "project/" . "project" . "-" . $result_get_previous_project["id"] . "-" . str_replace(" ", "", strtolower($result_get_previous_project["slug"]));  ?>" class="project">
                                     <i class="fal fa-arrow-left"></i>
                                     <div class="nav_project">
@@ -104,7 +116,6 @@
                                         <h3 class="title"><?= $result_get_previous_project["title"]; ?></h3>
                                     </div>
                                 </a>
-
                             <?php } ?>
                         </div>
 

@@ -1,7 +1,7 @@
 /* CSS VARS  */
 :root {
-  --form-width-picture: 150px;
-  --form-height-picture: 150px;
+  --form-width-picture: 250px;
+  --form-height-picture: 250px;
 
   --form-input-color: #2c3e50;
 }
@@ -73,6 +73,10 @@ input::placeholder {
   color: white !important;
 }
 
+img {
+  color: white;
+}
+
 /* HEADER */
 
 header {
@@ -129,6 +133,12 @@ header ul li {
   color: white;
 }
 
+.deleted {
+  background-color: red;
+}
+
+/* RESPONSIVE */
+
 @media (max-width: 768px) {
   .categories_wrapper {
     display: flex;
@@ -137,8 +147,11 @@ header ul li {
   }
 }
 
-.deleted {
-  background-color: red;
+@media (max-width: 991px) and (min-width: 767px) {
+  .project_card_body {
+    padding: 0;
+    padding-top: 10px;
+  }
 }
 
 /* SETTINGS */

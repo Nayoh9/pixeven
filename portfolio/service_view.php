@@ -1,9 +1,17 @@
     <?php
     include "includes/functions.php";
 
+    $ok_service_view = "accueil";
+    $not_ok_service_view = "accueil";
+
     $error = false;
 
-    if (!empty($_GET["id"])) {
+    if (empty($_GET["id"])) {
+        $error = "invalid_service";
+        header("location: $template_url" . "$not_ok_service?error=$error");
+        die();
+    } else {
+
         $service_id = $_GET["id"];
 
         try {
@@ -15,7 +23,7 @@
 
         if (empty($result_get_service)) {
             $error = "cant_find_var";
-            header("location: $template" . "accueil?error=$error");
+            header("location: $template_url" . "$not_ok_service_view?error=$error");
             die();
         }
 
@@ -88,11 +96,11 @@
                 </div>
             </div>
         </div>
+
+
+
+
     <?php
-    } else {
-        $error = "cant_find_var";
-        header("location: $template" . "accueil?error=$error");
-        die();
     }
     include "footer.php";
     ?>

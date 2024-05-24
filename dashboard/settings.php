@@ -58,7 +58,7 @@
         $current_profile_picture = $_POST["settings_values"][0];
         $id = htmlspecialchars($_POST["settings_values"][1]);
         $profile_picture_uid = uniqid("profile_picture_");
-        $profile_title = htmlspecialchars($_POST["profile_title"]);
+        $profile_title = $_POST["profile_title"];
         $meta_title_homepage = htmlspecialchars($_POST["meta_title"]);
         $meta_description_homepage = htmlspecialchars($_POST["meta_description"]);
 
@@ -192,7 +192,7 @@
         <div class="row">
             <form method="POST" action="settings.php" class="col-md-12 d-flex flex-column align-items-center " enctype="multipart/form-data">
 
-                <div class="col-md-6 col-12  mb-3 text-center">
+                <div class="col-lg-8 col-12 mb-3 text-center">
                     <label for="file_to_upload" class="form-label">Ma photo de profil
                         <div id="preview" class="text-center">
                             <img id="preview_child" class="form_asset rounded-1" src="<?= $result_get_settings["profile_picture"]; ?>" alt="Photo de profil">
@@ -203,29 +203,29 @@
                     <p class="fs-6 fw-bold text-center">Taille maximum du fichier : 5 MO</p>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-lg-8 col-12">
                     <label for="textarea" class="form-label">Mon titre principal</label>
                     <textarea name="profile_title" class="form-control" rows="10"><?= htmlspecialchars($result_get_settings["profile_title"]); ?></textarea>
                 </div>
 
-                <div class="col-md-6 col-12 ">
+                <div class="col-lg-8 col-12 ">
                     <label for="meta_title" class="form-label mt-3">Titre du portfolio<b>(sera affiché dans l'onglet du navigateur) </b></label>
                     <input type="text" class="form-control" name="meta_title" id="meta_title" value="<?= $result_get_settings["meta_title_homepage"] ?>" required>
                 </div>
 
-                <div class="col-md-6 col-12 ">
+                <div class="col-lg-8 col-12 ">
                     <label for="projects_to_display" class="form-label mt-3">Nombre de projets à afficher</label>
                     <input type="number" min="0" max="6" class="form-control" name="projects_to_display" id="projects_to_display" value="<?= $result_get_settings["projects_to_display"] ?>" required>
                 </div>
 
 
-                <div class="col-md-6">
+                <div class="col-lg-8 col-12">
                     <label for="meta_description" class="form-label mt-3">Description du portfolio <b>(sera affiché en dessous du nom du site dans le moteur de recherche)</b></label>
                     <input type="text" class="form-control" name="meta_description" id="meta_description" value="<?= $result_get_settings["meta_description_homepage"]; ?>" required>
                 </div>
 
 
-                <div class="col-md-8">
+                <div class="col-lg-8 col-12">
                     <h2 class="text-center mb-4 mt-4">Statistiques</h2>
                     <div class="d-flex justify-content-center">
                         <div class="col-md-4 me-1 text-center">
