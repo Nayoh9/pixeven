@@ -38,15 +38,35 @@
             <div class="wrapper">
                 <header class="row">
                     <h1 class="col-md-12 text-center"><?= $page_title ?></h1>
-                    <nav class="col-md-12">
-                        <ul class="list-group d-flex flex-row flex-wrap justify-content-center ">
-                            <li class="col-auto"> <a href="create_project.php">Ajouter un projet</a></li>
-                            <li class="col-auto"><a href="create_category.php">Ajouter une catégorie</a></li>
-                            <li class="col-auto"> <a href="project.php">Consulter mes projets</a></li>
-                            <li class="col-auto"><a href="category.php">Consulter mes categories</a></li>
-                            <li class="col-auto"><a href="settings.php">Mes paramètres</a></li>
-                        </ul>
+
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <div class="container-fluid">
+                            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse col-md-12 justify-content-center" id="navbarNav">
+                                <ul class="navbar-nav mb-2 mb-lg-0">
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="create_project.php">Ajouter un projet</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="create_category.php">Ajouter une catégorie</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="project.php">Consulter mes projets</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="category.php">Consulter mes categories</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="settings.php">Mes paramètres</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </nav>
+
+
                 </header>
 
                 <?php

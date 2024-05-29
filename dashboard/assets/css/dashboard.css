@@ -89,6 +89,25 @@ header ul li {
   padding: 5px;
 }
 
+.navbar {
+  background-color: transparent;
+}
+.navbar-nav .nav-link {
+  color: white !important;
+}
+
+.navbar-toggler-icon {
+  background-image: url(../images/hamburger-menu.png) !important;
+}
+
+.navbar-light .navbar-toggler {
+  border-color: white !important;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
 /* CREATE_PROJECT */
 
 .project_categories_list {

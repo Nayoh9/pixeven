@@ -212,7 +212,7 @@
         include "header.php";
     ?>
 
-        <div class="row d-flex">
+        <div class="row d-flex justify-content-center">
             <div class="categories_wrapper justify-content-center col-12 d-flex flex-wrap gap-2 ">
                 <?php
                 if (!empty($result_get_categories)) {
